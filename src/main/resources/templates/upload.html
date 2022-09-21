@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!-- beautify ignore:start -->
+<html xmlns:th="http://www.thymeleaf.org"
+  lang="ko"
+  class="light-style layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-static-path="/"
+  data-template="vertical-menu-template-free"
+>
+
+<th:block th:replace="~{./include :: setContent( ~{:: .wrap} ) }"> 
+ 
+ 	<div class="wrap">
+ 	
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y contents-upload">
+              
+
+              <div class="row">
+                <div class="col-md-12">
+                  
+                  <div class="card mb-4">
+                    <h5 class="card-header">업로드</h5>
+                    <!-- Account -->
+                    <div class="card-body">
+                      <div class="d-flex align-items-start align-items-sm-center gap-4">
+                        <div class="profile-img" style="background: url(/img/elements/18.jpg) no-repeat center; background-size: cover;">
+                        </div>
+                        <div class="button-wrapper">
+                          <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                            <span class="d-none d-sm-block"> 업로드</span>
+                            <i class="bx bx-upload d-block d-sm-none"></i>
+                            <input
+                              type="file"
+                              id="upload"
+                              class="account-file-input"
+                              hidden
+                              accept="image/png, image/jpeg"
+                            />
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="d-flex align-items-start align-items-sm-center gap-4">
+                        <div class="profile-img" style="background: url(/img/add_button.png) no-repeat center; background-size: cover;">
+                        </div>
+                        <div class="button-wrapper">
+                          <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                            <span class="d-none d-sm-block"> 업로드</span>
+                            <i class="bx bx-upload d-block d-sm-none"></i>
+                            <input
+                              type="file"
+                              id="upload"
+                              class="account-file-input"
+                              hidden
+                              accept="image/png, image/jpeg"
+                            />
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="d-flex align-items-start align-items-sm-center gap-4">
+                        <div class="profile-img" style="background: url(/img/add_button.png) no-repeat center; background-size: cover;">
+                        </div>
+                        <div class="button-wrapper">
+                          <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                            <span class="d-none d-sm-block"> 업로드</span>
+                            <i class="bx bx-upload d-block d-sm-none"></i>
+                            <input
+                              type="file"
+                              id="upload"
+                              class="account-file-input"
+                              hidden
+                              accept="image/png, image/jpeg"
+                            />
+                          </label>
+                        </div>
+                      </div>
+
+                      
+
+                      
+                    </div>
+                    <hr class="my-0" />
+                    <div class="card-body">
+                      <form id="formAccountSettings" method="POST" onsubmit="return false">
+                        <div class="row">
+                          <div class="mb-3 col-md-12">
+                            <label for="user-id" class="form-label">제목</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              id="user-cont"
+                              name="user-cont"
+                              autofocus
+                              
+                            />
+                          </div>
+                          <!-- <div class="mb-3 col-md-6">
+                            <label for="user-name" class="form-label">위치</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              id="user-map"
+                              name="user-map"
+                              autofocus
+                             
+                            />
+                          </div> -->
+                          
+                          <div class="mb-12 col-md-12">
+                            <label for="user-id" class="form-label">내용</label>
+                            
+                            <textarea class="form-control" type="text" autofocus >
+                          </textarea>
+                          </div>
+                         
+                        </div>
+                        <div class="mt-2">
+                          <button type="submit" class="btn btn-primary me-2" style="margin-top:20px;">업로드</button>
+                          
+                        </div>
+                      </form>
+                    </div>
+                    <!-- /Account -->
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+
+	</div>
