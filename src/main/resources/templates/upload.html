@@ -9,10 +9,16 @@
   data-template="vertical-menu-template-free"
 >
 
-<th:block th:replace="~{./include :: setContent( ~{:: .wrap} ) }"> 
+ <th:block th:replace="~{./include :: setContent( ~{:: .wrap} ) }"> 
  
- 	<div class="wrap">
- 	
+    
+    <div class="wrap">
+    <!-- build:js static/vendor/js/core.js -->
+    <script src="/vendor/libs/jquery/jquery.js"></script>
+    <script src="/vendor/libs/popper/popper.js"></script>
+    <script src="/vendor/js/bootstrap.js"></script>
+    <script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y contents-upload">
@@ -20,64 +26,81 @@
 
               <div class="row">
                 <div class="col-md-12">
-                  
-                  <div class="card mb-4">
+                  <form action="registerPost" method="POST" enctype="multipart/form-data">
+                  <div class="card mb-4 filebox preview-image">
                     <h5 class="card-header">업로드</h5>
                     <!-- Account -->
                     <div class="card-body">
+                     
+                       <!-- 메인 이미지(첫번째 파일) start-->
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
-                        <div class="profile-img" style="background: url(/img/elements/18.jpg) no-repeat center; background-size: cover;">
+                        <div class="profile-img"> 
+                          <label class="upload-display" for="upload1">
+                            <span class="upload-thumb-wrap">
+                                <img class="upload-thumb" src="/img/add_button.png">
+                            </span>
+                          </label>
+                          <!-- <input class="upload-name" value="파일선택" disabled="disabled"> -->
+                          <input type="file" name="file" id="upload1" hidden class="upload-hidden">
+                          
                         </div>
                         <div class="button-wrapper">
-                          <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                          <label for="upload1" class="upload-display btn btn-primary me-2 mb-4" tabindex="0">
                             <span class="d-none d-sm-block"> 업로드</span>
                             <i class="bx bx-upload d-block d-sm-none"></i>
-                            <input
-                              type="file"
-                              id="upload"
-                              class="account-file-input"
-                              hidden
-                              accept="image/png, image/jpeg"
-                            />
+                            <input type="file" id="upload1" class="account-file-input upload-name upload-hidden" hidden accept="image/png, image/jpeg"/>
+                            
                           </label>
                         </div>
                       </div>
+                      <!-- 메인 이미지(첫번째 파일) end-->
 
+                      <!-- 서브 이미지(두번째 파일) start-->
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
-                        <div class="profile-img" style="background: url(/img/add_button.png) no-repeat center; background-size: cover;">
+                        <div class="profile-img"> 
+                          <label class="upload-display" for="upload2">
+                            <span class="upload-thumb-wrap">
+                                <img class="upload-thumb" src="/img/add_button.png">
+                            </span>
+                          </label>
+                          <!-- <input class="upload-name" value="파일선택" disabled="disabled"> -->
+                          <input type="file" name="file" id="upload2" hidden class="upload-hidden">
+                          
                         </div>
                         <div class="button-wrapper">
-                          <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                          <label for="upload2" class="upload-display btn btn-primary me-2 mb-4" tabindex="0">
                             <span class="d-none d-sm-block"> 업로드</span>
                             <i class="bx bx-upload d-block d-sm-none"></i>
-                            <input
-                              type="file"
-                              id="upload"
-                              class="account-file-input"
-                              hidden
-                              accept="image/png, image/jpeg"
-                            />
+                            <input type="file" id="upload2" class="account-file-input upload-name upload-hidden" hidden accept="image/png, image/jpeg"/>
+                            
                           </label>
                         </div>
                       </div>
+                      <!-- 서브 이미지(두번째 파일) end-->
 
-                      <div class="d-flex align-items-start align-items-sm-center gap-4">
-                        <div class="profile-img" style="background: url(/img/add_button.png) no-repeat center; background-size: cover;">
+                       <!-- 서브 이미지(세번째 파일) start-->
+                       <div class="d-flex align-items-start align-items-sm-center gap-4">
+                        <div class="profile-img"> 
+                          <label class="upload-display" for="upload3">
+                            <span class="upload-thumb-wrap">
+                                <img class="upload-thumb" src="/img/add_button.png">
+                            </span>
+                          </label>
+                          <!-- <input class="upload-name" value="파일선택" disabled="disabled"> -->
+                          <input type="file" name="file" id="upload3" hidden class="upload-hidden">
+                          
                         </div>
                         <div class="button-wrapper">
-                          <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                          <label for="upload3" class="upload-display btn btn-primary me-2 mb-4" tabindex="0">
                             <span class="d-none d-sm-block"> 업로드</span>
                             <i class="bx bx-upload d-block d-sm-none"></i>
-                            <input
-                              type="file"
-                              id="upload"
-                              class="account-file-input"
-                              hidden
-                              accept="image/png, image/jpeg"
-                            />
+                            <input type="file" id="upload3" class="account-file-input upload-name upload-hidden" hidden accept="image/png, image/jpeg"/>
+                            
                           </label>
                         </div>
                       </div>
+                      <!-- 서브 이미지(세번째 파일) end-->
+                      
 
                       
 
@@ -85,7 +108,7 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                      <form id="formAccountSettings" method="POST" onsubmit="return false">
+                      
                         <div class="row">
                           <div class="mb-3 col-md-12">
                             <label for="user-id" class="form-label">제목</label>
@@ -93,7 +116,7 @@
                               class="form-control"
                               type="text"
                               id="user-cont"
-                              name="user-cont"
+                              name="post_title"
                               autofocus
                               
                             />
@@ -113,8 +136,7 @@
                           <div class="mb-12 col-md-12">
                             <label for="user-id" class="form-label">내용</label>
                             
-                            <textarea class="form-control" type="text" autofocus >
-                          </textarea>
+                            <textarea class="form-control" name="post_content" type="text" autofocus ></textarea>
                           </div>
                          
                         </div>
@@ -122,14 +144,68 @@
                           <button type="submit" class="btn btn-primary me-2" style="margin-top:20px;">업로드</button>
                           
                         </div>
-                      </form>
                     </div>
                     <!-- /Account -->
                   </div>
-                  
+                  </form>
                 </div>
               </div>
             </div>
             <!-- / Content -->
+    
+       <!-- Main JS -->
+       
+       <!-- Main JS -->
+       
+       <script>
 
-	</div>
+       //파일업로드
+
+       $(document).ready(function() {
+
+          var fileTarget = $('.filebox .upload-hidden'); //jquery는 다중 태그이벤트도 한번에 처리
+          fileTarget.on('change', function(){ //change이벤트
+          if(window.FileReader){ // modern browser 
+             var filename = $(this)[0].files[0].name; } 
+          else { // old IE 
+             var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+          } // 추출한 파일명 삽입 
+          $(this).siblings('.upload-name').val(filename); });
+
+          var imgTarget = $('.preview-image .upload-hidden'); 
+          imgTarget.on('change', function() { 
+             var parent = $(this).parent(); 
+             // parent.children('.upload-display').remove(); 
+             
+             if(window.FileReader){ //image 파일만 
+                if (!$(this)[0].files[0].type.match(/image\//)) return; 
+
+                var reader = new FileReader(); 
+                reader.onload = function(e){ 
+                   var src = e.target.result; 
+                   // parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>'); 
+                   parent.find(".upload-thumb-wrap").children().attr("src", src);
+                } 
+                reader.readAsDataURL($(this)[0].files[0]); 
+             } else { 
+                $(this)[0].select(); 
+                $(this)[0].blur(); 
+                var imgSrc = document.selection.createRange().text; 
+                parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>'); 
+
+                var img = $(this).siblings('.upload-display').find('img'); 
+                img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")"; 
+             } 
+          });
+
+       });
+       </script>
+       
+       
+    <script src="/js/main.js"></script>
+       
+   </div>
+   
+   
+   
+   
