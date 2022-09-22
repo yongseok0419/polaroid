@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class PostDetailDto {
 	private int member_id;
 	 
-	 private Integer pos_id;
 	 private Integer post_id;
 	 private String post_title;
 	 private String post_content;
