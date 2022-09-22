@@ -4,6 +4,40 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.polaroid.app.post.PostMapper">
+	<insert id="registerPost" parameterType="PostDto">
+	<selectKey resultType="int" keyProperty="post_id" order = "AFTER">
+		select max(post_id)
+		from post
+	</selectKey>
+		 insert into post(post_title, 
+						 post_content)
+		values(#{post_title},
+			   #{post_content})
+		
+		</insert>
+		
+ 	
+ 	 <!-- <select id = "selectPostList" resultType="PostListDto">
+    	select * from post as p join upload as u where post_id = #{post_id} order by post_id desc
+    </select>
+    -->
+    
+    <select id = "selectMyPostList" resultType = "PostListDto">
+    	select * from post where member_id = #{member_id} order by post_id desc
+    </select>
 
+	<!--
+	<select id = "selectLikePostList" resultType = "PostListDto">
+		select * from post where postlike_id = #{postlike_id} order by post_id desc
+	</select>
+	
+	<update id="updatePost">
+		update post
+			set post_title = #{post_title},
+				post_content = #{post_content},
+				post_regdate = #{post_regdate},
+				hashtag_id = #{hashtag_id}
+		where member_id = #{member_id}		
+	</update> -->
 
 </mapper>

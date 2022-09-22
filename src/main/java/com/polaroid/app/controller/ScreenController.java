@@ -30,11 +30,11 @@ public class ScreenController {
 		return "forgotPwd";
 	}
 	
-	//메인 화면
-	@GetMapping("index")
-	public String index() {
-		return "index";
-	}
+//	//메인 화면
+//	@GetMapping("index")
+//	public String index() {
+//		return "index";
+//	}
 	
 	//회원가입 화면
 	@GetMapping("join")
