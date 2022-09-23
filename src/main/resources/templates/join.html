@@ -50,8 +50,50 @@
     <!-- Helpers -->
     <script src="/vendor/js/helpers.js"></script>
 
-
     <script src="/js/config.js"></script>
+    
+     <style>
+		.memberEmail_ok{
+		color:green;
+		display: none;
+		}
+		
+		.memberEmail_already{
+		color:red; 
+		display: none;
+		}
+		
+		.memberAuthentication_ok{
+		color:green;
+		display: none;
+		}
+		
+		.memberAuthentication_already{
+		color:red; 
+		display: none;
+		}
+		
+		.memberNick_ok{
+		color:green;
+		display: none;
+		}
+		
+		.memberNick_already{
+		color:red; 
+		display: none;
+		}
+		
+		.memberPhone_ok{
+		color:green;
+		display: none;
+		}
+		
+		.memberPhone_already{
+		color:red; 
+		display: none;
+		}
+	</style>
+    
   </head>
 
   <body>
@@ -72,45 +114,77 @@
               <!-- /Logo -->
              
 
-              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+              <form id="joinForm" class="mb-3" action="/joinForm" method="POST">
                 <div class="mb-3">
                   <label for="user-email" class="form-label">이메일</label>
-                  <button class="email-test btn btn-primary d-grid w-100">인증</button>
+                  <button type="button" class="email-test btn btn-primary d-grid w-100" id="authentication">인증</button>
                   <input
                     type="text"
                     class="form-control"
-                    id="user-email"
-                    name="user-email"
+                    id="memberEmail"
+                    name="memberEmail"
+                    oninput="checkEmail()"
                     placeholder="이메일을 입력해주세요."
                     autofocus
-                    style="width:76%"
-                  />
-                  
+                    style="width:76%" 
+                    />
                 </div>
                 
+                <!-- memberEmail ajax 중복체크 -->
+				<span class="memberEmail_ok">사용 가능한 이메일 입니다.</span>
+				<span class="memberEmail_already">중복된 이메일 입니다.</span>
+				
+                <div class="mb-3">
+                  <label for="user-email" class="form-label">이메일 인증확인</label>
+                  <button type="button" class="email-test btn btn-primary d-grid w-100" id="authentication_confirm">확인</button>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="memberAuthentication"
+                    name="memberAuthentication"
+                    placeholder="인증번호를 입력해주세요."
+                    autofocus
+                    style="width:76%"
+                    maxlength="6"
+                     />
+                </div>
+				
+				<!-- memberAuthentication ajax 일치 여부 -->
+				<span class="memberAuthentication_ok">인증번호가 일치합니다.</span>
+				<span class="memberAuthentication_already">인증번호가 일치하지 않습니다.</span>
                 
                 <div class="mb-3">
                   <label for="nick_name" class="form-label">닉네임</label>
-                  <input type="text" class="form-control" id="nick_name" name="nick_name" placeholder="닉네임을 입력해주세요." />
+                  <input type="text" class="form-control" id="memberNick" name="memberNick" placeholder="닉네임을 입력해주세요."  
+                  			 oninput="checkNick()" maxlength="8" />
                 </div>
+                
+                <!-- memberEmail ajax 중복체크 -->
+				<span class="memberNick_ok">사용 가능한 닉네임 입니다.</span>
+				<span class="memberNick_already">중복된 닉네임 입니다.</span>
+                
                 <div class="mb-3">
                   <label for="email" class="form-label">이름</label>
-                  <input type="text" class="form-control" id="user-name" name="user-name" placeholder="이름을 입력해주세요." />
+                  <input type="text" class="form-control" id="memberName" name="memberName" placeholder="이름을 입력해주세요."  
+                  			 maxlength="15"/>
                 </div>
                 <div class="mb-3">
                   <label for="num" class="form-label">전화번호</label>
-                  <input type="number" class="form-control" id="user-num" name="user-num" placeholder="010-0000-0000" />
+                  <input type="text" class="form-control" id="memberPhone" name="memberPhone" placeholder="(-)을 제외한 숫자 11자로 입력해주세요."  
+                  			 oninput="checkPhone()" maxlength="11" />
                 </div>
+                
+                <!-- memberEmail ajax 중복체크 -->
+				<span class="memberPhone_ok">사용 가능한 전화번호 입니다.</span>
+				<span class="memberPhone_already">중복된 전화번호 입니다.</span>
+                
                 <div class="mb-3 form-password-toggle">
                   <label class="form-label" for="password">비밀번호</label>
                   <div class="input-group input-group-merge">
-                    <input
-                      type="password"
-                      id="password"
-                      class="form-control"
-                      name="password"
+                    <input type="password" id="memberPwd" class="form-control" name="memberPwd"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
+                      maxlength="12"
                     />
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
@@ -120,11 +194,12 @@
                   <div class="input-group input-group-merge">
                     <input
                       type="password"
-                      id="password"
+                      id="memberPwdCheck"
                       class="form-control"
-                      name="password"
+                      name="memberPwdCheck"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
+                      maxlength="12"
                     />
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
@@ -143,12 +218,12 @@
                     </label>
                   </div>
                 </div>
-                <button class="btn btn-primary d-grid w-100">회원 가입</button>
+                <button type="submit" id="addBtn" class="btn btn-primary d-grid w-100">회원 가입</button>
               </form>
 
               <p class="text-center">
                 <span>이미 계정이 있습니까?</span>
-                <a href="login.html">
+                <a th:href=${"login"}>
                   <span>로그인</span>
                 </a>
               </p>
@@ -157,8 +232,6 @@
           <!-- Register Card -->
 
          
-
-
         </div>
       </div>
     </div>
@@ -447,5 +520,229 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    
+    
+    <!-- INCLUDE 해야 할 파일 -->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+	
+	<script>
+	
+			//유효성 검증
+			$(document).ready(function(){
+					
+					$("#joinForm").validate({
+						//규칙
+	    				rules: {
+	    					memberEmail: {
+		    					required : true,
+		    					email : true
+	    					},
+	    					memberAuthentication: {
+	    						required : true,
+		    					rangelength : [6, 6]
+	    					},
+	    					memberNick: {
+	    						required : true,
+		    					rangelength : [2, 8]
+	    					},
+	    					memberName: {
+	    						required : true,
+	    						rangelength : [2, 15]
+	    					},
+	    					memberPhone: {
+	    						required : true,
+	    						rangelength : [11, 11]
+	    					},
+	    					memberPwd: {
+	    						required : true,
+	    						rangelength : [8, 12]
+	    					},
+	    					memberPwdCheck: {
+	    						required : true,
+	    						rangelength : [8, 12],
+		    					equalTo : memberPwd
+	    					}
+	    				},
+	    				//규칙체크 실패시 출력될 메세지
+	    				messages : {
+	    					memberEmail: {
+	    						required : "필수 입력사항 입니다.",
+	    						email : "메일 기재 규칙에 어긋납니다."
+	    					},
+	    					memberAuthentication: {
+	    						required : "필수 입력사항 입니다.",
+	    						rangelength : "숫자 6자로 입력해주세요."
+	    					},
+	    					memberNick: {
+	    						required : "필수 입력사항 입니다.",
+	    						rangelength : "최소 2자 최대 8자 이하로 입력해주세요."
+	    					},
+	    					memberName: {
+	    						required : "필수 입력사항 입니다.",
+	    						rangelength : "최소 2자 최대 15자 이하로 입력해주세요."
+	    					},
+	    					memberPhone: {
+	    						required : "필수 입력사항 입니다.",
+	    						rangelength : "(-)을 제외한 숫자 11자로 입력해주세요."
+	    					},
+	    					memberPwd: {
+	    						required : "필수 입력사항 입니다.",
+	    						rangelength : "최소 8자 최대 12자 이하로 입력해주세요."
+	    					},
+	    					memberPwdCheck: {
+	    						required : "필수 입력사항 입니다.",
+	    						rangelength : "최소 8자 최대 12자 이하로 입력해주세요.",
+	    						equalTo : "암호가 일치하지 않습니다."
+	    					}
+	    				}
+					});
+					
+			});
+			
+			//이메일 인증 전송
+			$("#authentication").click(function(){
+				const memberEmail = $("#memberEmail").val();
+				console.log("memberEmail : " + memberEmail);
+				
+				$.ajax({
+					method: "POST",
+					url: "/authForm",
+					data: JSON.stringify({
+						memberEmail : memberEmail,
+					}),
+					contentType: "application/json",
+					dataType: "json",
+					success: function(data){
+						console.log("data : " + data);
+					},
+					error: function(error){
+						return false;	
+					}
+				});
+			});
+			
+			//이메일 인증번호 일치 여부
+			$("#authentication_confirm").click(function(){
+	    		const memberAuthentication = $("#memberAuthentication").val();
+	    		console.log("memberAuthentication : ", memberAuthentication);
+	    		
+	    		$.ajax({
+	    			method: "POST",
+	    			url: "/checkAuthForm",
+	    			data: JSON.stringify({
+	    				memberAuthentication: memberAuthentication,
+	    			}),
+	    			contentType: "application/json",
+	    			dataType: 'json',
+	    			success: function(data){
+	    				console.log("data : " + data);
+	    				if(data == 1) {
+	    					$('.memberAuthentication_ok').css("display","inline-block"); 
+	                        $('.memberAuthentication_already').css("display", "none");
+	    				} else {
+	    					$('.memberAuthentication_already').css("display","inline-block"); 
+	                        $('.memberAuthentication_ok').css("display", "none");
+	                        $('#memberAuthentication').focus();
+	    				}
+	    			},
+	    			error: function (error){
+	    				console.log("인증번호가 일치하지 않습니다.");
+	    				return false;
+	    			}
+	    		});
+	    	});
+			
+			//이메일 중복체크
+	    	function checkEmail(){
+		        var memberEmail = $('#memberEmail').val(); //memberEmail값이 "memberEmail"인 입력란의 값을 저장
+		        console.log("memberEmail : ", memberEmail);
+			       $.ajax({
+			    	   method: "POST",
+			           url:'./checkEmail', //Controller에서 요청 받을 주소
+			           data: JSON.stringify({
+		    				memberEmail : memberEmail,
+		    			}),
+			           contentType: "application/json",
+		    		   dataType: 'json',
+			           success:function(data){ //컨트롤러에서 넘어온 data값을 받는다 
+			        	   console.log("data : " + data);
+			               if(data == 0){ //data가 0일 경우) -> 사용 가능한 이메일 
+			                   $('.memberEmail_ok').css("display","inline-block"); 
+			                   $('.memberEmail_already').css("display", "none");
+			               } else { // data가 0이 아닐 경우 -> 이미 존재하는 이메일
+			                   $('.memberEmail_already').css("display","inline-block");
+			                   $('.memberEmail_ok').css("display", "none");
+			                   $('#memberEmail').focus();
+			               }
+			           },
+			           error:function(error){
+			               console.log("에러입니다");
+			               return false;
+			           }
+			       });
+		       };
+			
+		       
+		     //닉네임 중복체크
+		    	function checkNick(){
+			        var memberNick = $('#memberNick').val(); //memberNick값이 "memberNick"인 입력란의 값을 저장
+			        console.log("memberNick : ", memberNick);
+				       $.ajax({
+				    	   method: "POST",
+				           url:'./checkNick', //Controller에서 요청 받을 주소
+				           data: JSON.stringify({
+			    				memberNick : memberNick,
+			    			}),
+				           contentType: "application/json",
+			    		   dataType: 'json',
+				           success:function(data){ //컨트롤러에서 넘어온 data값을 받는다 
+				        	   console.log("data : " + data);
+				               if(data == 0){ //data가 0일 경우) -> 사용 가능한 이메일 
+				                   $('.memberNick_ok').css("display","inline-block"); 
+				                   $('.memberNick_already').css("display", "none");
+				               } else { // data가 0이 아닐 경우 -> 이미 존재하는 이메일
+				                   $('.memberNick_already').css("display","inline-block");
+				                   $('.memberNick_ok').css("display", "none");
+				                   $('#memberNick').focus();
+				               }
+				           },
+				           error:function(error){
+				               console.log("에러입니다");
+				               return false
+				           }
+				       });
+			       };
+			       
+			     //전화번호 중복체크
+			    	function checkPhone(){
+				        var memberPhone = $('#memberPhone').val(); //memberPhone값이 "memberPhone"인 입력란의 값을 저장
+				        console.log("memberPhone : ", memberPhone);
+					       $.ajax({
+					    	   method: "POST",
+					           url:'./checkPhone', //Controller에서 요청 받을 주소
+					           data: JSON.stringify({
+				    				memberPhone : memberPhone,
+				    			}),
+					           contentType: "application/json",
+				    		   dataType: 'json',
+					           success:function(data){ //컨트롤러에서 넘어온 data값을 받는다 
+					        	   console.log("data : " + data);
+					               if(data == 0){ //data가 0일 경우) -> 사용 가능한 이메일 
+					                   $('.memberPhone_ok').css("display","inline-block"); 
+					                   $('.memberPhone_already').css("display", "none");
+					               } else { // data가 0이 아닐 경우 -> 이미 존재하는 이메일
+					                   $('.memberPhone_already').css("display","inline-block");
+					                   $('.memberPhone_ok').css("display", "none");
+					                   $('#memberEmail').focus();
+					               }
+					           },
+					           error:function(error){
+					               console.log("에러입니다");
+					               return false
+					           }
+					       });
+				       };
+	</script>
   </body>
 </html>

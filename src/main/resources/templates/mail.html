@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>HTML 템플릿 메일 메시지 예시</title>
+</head>
+<body>
+   <div>
+      <p>
+         안녕하세요 <span th:text="${name}"></span>님
+      </p>
+      <h2 th:text="${message}">메시지</h2>
+   </div>
+</body>
+</html>

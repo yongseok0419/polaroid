@@ -1,6 +1,7 @@
 package com.polaroid.app.member;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,26 +17,42 @@ public class MemberServiceImpl implements MemberService {
 		@Autowired
 		MemberMapper memberMapper;
 		
+		//이메일 인증
+		@Transactional
+		@Override
+		public int registerAuthentication(Map<String, Object> map) {
+			return memberMapper.insertAuthentication(map);
+		}
+		
+		//이메일 인증번호 일치 여부
+		@Override
+		public int checkAuthentication(Integer memberAuthentication) {
+			return memberMapper.selectAuthentication(memberAuthentication);
+		}
+		
+		//이메일 중복 체크
+		@Override
+		public int checkEmail(String memberEmail) {
+			return memberMapper.selectEmail(memberEmail);
+		}
+
+		//닉네임 중복 체크
+		@Override
+		public int checkNick(String memberNick) {
+			return memberMapper.selectNick(memberNick);
+		}
+		
+		//전화번호 중복 체크
+		@Override
+		public int checkPhone(String memberPhone) {
+			return memberMapper.selectPhone(memberPhone);
+		}
+		
 		//회원가입
 		@Transactional
 		@Override
 		public int registerMember(MemberDto MemberDto) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-		
-		//이메일 중복 검사
-		@Override
-		public int checkEmail(String member_email) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		//닉네임 중복 검사
-		@Override
-		public int checkNick(String member_nick) {
-			// TODO Auto-generated method stub
-			return 0;
+			return memberMapper.insertMember(MemberDto);
 		}
 
 		//로그인
