@@ -52,4 +52,18 @@
 							#{memberPhone},
 							#{memberPwd})
 		</insert>
+		
+		<!-- 로그인 -->
+		<select id="selectMember" parameterType="MemberDto" resultType="MemberDto">
+				SELECT member_id AS memberId,
+							member_email AS memberEmail,
+							member_nick AS memberNick,
+							member_name AS memberName,
+							member_phone AS memberPhone,
+							member_pwd AS memberPwd
+				FROM member
+				WHERE member_email = #{memberEmail}
+							AND
+							member_pwd = #{memberPwd}
+		</select>
 </mapper>

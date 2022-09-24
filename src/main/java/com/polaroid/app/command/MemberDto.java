@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberDto {
 	
+	private int memberId;						//번호
 	private String memberEmail;				//이메일
 	private String memberNick;				//닉네임
 	private String memberName;				//이름

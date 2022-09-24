@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.polaroid.app.command.PostDetailDto;
 import com.polaroid.app.command.PostDto;
 import com.polaroid.app.command.PostListDto;
 import com.polaroid.app.command.UploadDto;

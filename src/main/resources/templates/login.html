@@ -53,6 +53,16 @@
 
     
     <script src="/js/config.js"></script>
+    
+    <style>
+			.loginFailure{
+				color:red; 
+				display: none;
+				text-align: center;
+				width: 100%
+			}
+			
+    </style>
   </head>
 
   <body>
@@ -79,14 +89,14 @@
               <h4 class="mb-2"></h4>
               <p class="mb-4"></p>
 
-              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+              <form id="formAuthentication" class="mb-3" action="loginForm" method="POST">
                 <div class="mb-3">
                   <label for="email" class="form-label">이메일</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="email"
-                    name="email-username"
+                    id="memberEmail"
+                    name="memberEmail"
                     placeholder="이메일을 입력해주세요."
                     autofocus
                   />
@@ -94,16 +104,17 @@
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
                     <label class="form-label" for="password">비밀번호</label>
-                    <a href="forgotPwd.html">
+                    
+                    <a th:href=@{forgotPwd}>
                       <small>비밀번호를 잃어버렸나요?</small>
                     </a>
                   </div>
                   <div class="input-group input-group-merge">
                     <input
                       type="password"
-                      id="password"
+                      id="memberPwd"
                       class="form-control"
-                      name="password"
+                      name="memberPwd"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
                     />
@@ -116,8 +127,11 @@
                     <label class="form-check-label" for="remember-me"> 이메일 기억하기 </label>
                   </div>
                 </div>
+                
+                <span class="loginFailure">이메일 또는 비밀번호를 잘못 입력했습니다.<br>입력하신 내용을 다시 확인해주세요.</span>
+                
                 <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">로그인</button>
+                  <button class="btn btn-primary d-grid w-100" type="button" id="loginMsg">로그인</button>
                 </div>
               </form>
 
@@ -158,5 +172,41 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script>
+    
+    		//이메일 또는 비밀번호가 틀렸을 시 비동기 메세지 띄우기
+    		$("#loginMsg").click(function(){
+    			 var memberEmail = $('#memberEmail').val();
+    			 var memberPwd = $('#memberPwd').val();
+    			$.ajax({
+    					method: "POST",
+    					url: "./loginForm",
+    					data: JSON.stringify({
+    						memberEmail : memberEmail,
+    						memberPwd : memberPwd
+    					}),
+    					contentType: "application/json",
+    					dataType: "json",
+    					success: function(data){
+    						console.log("data : ", data);
+    						if(data == "0") {
+    							console.log("absd");
+    							$(".loginFailure").css("display", "inline-block");
+    						} else if(data == "1"){
+    							console.log("dsfsdsd");
+    							location.href="/index";
+    						}
+    					},
+    					error: function(error){
+    						return false;
+    					}
+    			});
+    			
+    		});
+    
+    </script>
+    
   </body>
 </html>
