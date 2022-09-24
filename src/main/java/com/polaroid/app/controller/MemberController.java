@@ -4,18 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.polaroid.app.command.LoginDto;
 import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.SendMailHelper;
 import com.polaroid.app.member.MemberService;
@@ -133,4 +132,14 @@ public class MemberController {
 			}
 			
 		}
+		
+		//로그아웃
+		@GetMapping("/logoutForm")
+		public String logoutForm(HttpSession session) {
+			
+			session.invalidate();
+			
+			return "redirect:/login";
+		}
+		
 }
