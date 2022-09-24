@@ -121,22 +121,22 @@
            <ul class="navbar-nav flex-row align-items-center ms-auto icon-style">
              <!-- Place this tag where you want the button to render. -->
              <li class="nav-item lh-1 me-3">
-              <a href="listAll.html">
+              <a th:href=@{listAll}>
                 <i class='bx bx-home-alt'></i>
               </a>
             </li>
             <li class="nav-item lh-1 me-3 ">
-              <a href="listLike.html">
+              <a th:href=@{listLike}>
                 <i class='bx bx-heart'></i>
               </a>
             </li>
             <li class="nav-item lh-1 me-3">
-             <a href="listFollw.html">
+             <a th:href=@{listFollow}>
                <i class='bx bx-face'></i>
              </a>
            </li>
             <li class="nav-item lh-1 me-3">
-              <a href="upload.html">
+              <a th:href=@{upload}>
                 <i class='bx bx-message-square-add'></i>
               </a>
             </li>
@@ -169,7 +169,7 @@
                    <div class="dropdown-divider"></div>
                  </li>
                  <li>
-                   <a class="dropdown-item" href="index.html">
+                   <a class="dropdown-item" th:href=@{index}>
                      <i class="bx bx-user me-2"></i>
                      <span class="align-middle">프로필</span>
                    </a>
@@ -184,7 +184,7 @@
                    </a>
                  </li> -->
                  <li>
-                   <a class="dropdown-item" href="profile.html">
+                   <a class="dropdown-item" th:href=@{profile}>
                      <i class="bx bx-cog me-2"></i>
                      <span class="align-middle">설정</span>
                    </a>
@@ -194,7 +194,7 @@
                    <div class="dropdown-divider"></div>
                  </li>
                  <li>
-                   <a class="dropdown-item" href="login.html">
+                   <a class="dropdown-item" th:href="@{logoutForm}">
                      <i class="bx bx-power-off me-2"></i>
                      <span class="align-middle">로그아웃</span>
                    </a>
@@ -263,5 +263,6 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    
   </body>
 </html>      
