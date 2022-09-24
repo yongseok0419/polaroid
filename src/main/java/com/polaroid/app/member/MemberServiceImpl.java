@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.polaroid.app.command.LoginDto;
 import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.StateMemberDto;
 
@@ -57,9 +58,8 @@ public class MemberServiceImpl implements MemberService {
 
 		//로그인
 		@Override
-		public int findMember(String member_email, String member_pwd) {
-			// TODO Auto-generated method stub
-			return 0;
+		public MemberDto findMember(MemberDto memberDto) {
+			return memberMapper.selectMember(memberDto);
 		}
 		
 		//회원 상태 변경

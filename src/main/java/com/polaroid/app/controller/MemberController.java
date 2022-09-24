@@ -4,15 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.polaroid.app.command.LoginDto;
 import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.SendMailHelper;
 import com.polaroid.app.member.MemberService;
@@ -114,5 +117,20 @@ public class MemberController {
 			
 			return "redirect:/login";
 		}
+		
+		//로그인
+		@ResponseBody
+		@PostMapping("/loginForm")
+		public String loginForm(@RequestBody MemberDto memberDto, HttpSession session) {
+
+			MemberDto login = memberService.findMember(memberDto);
 			
+			if(login == null) {
+				return "0";
+			} else {
+				session.setAttribute("member", login);
+				return "1";
+			}
+			
+		}
 }

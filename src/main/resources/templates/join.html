@@ -92,6 +92,10 @@
 		color:red; 
 		display: none;
 		}
+		
+		#btnParent{
+			
+		}
 	</style>
     
   </head>
@@ -126,7 +130,7 @@
                     oninput="checkEmail()"
                     placeholder="이메일을 입력해주세요."
                     autofocus
-                    style="width:76%" 
+                    style="width:76%;" 
                     />
                 </div>
                 
@@ -206,18 +210,18 @@
                 </div>
 
                 <div class="mb-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
-                    <label class="form-check-label" for="terms-conditions">
+                  <div class="form-check" style="float:left">
+                    <input class="form-check-input" type="checkbox" id="btnChild" name="btnChild" disabled/>
+                  </div>
+                  <label class="form-check-label" for="terms-conditions">
                       <a
                        type="button"
                        data-bs-toggle="modal"
                        data-bs-target="#modalScrollable"
-                      >개인정보 이용 약관</a>
-                      에 동의 하십니까?
+                      >개인정보 이용 약관에 동의 하십니까?</a>
                     </label>
-                  </div>
                 </div>
+                
                 <button type="submit" id="addBtn" class="btn btn-primary d-grid w-100">회원 가입</button>
               </form>
 
@@ -486,10 +490,16 @@
                       부 칙
                       ① 이 약관은 2022년 9월 15일부터 적용합니다.
                       
-                    
-                      
                       
                     </p>
+                    
+                    <div class="mb-3" style="width:68%; margin: auto;">
+	                  <div class="form-check" style="padding-left:0">
+	                    <button type="button" id="btnParent" name="terms" data-bs-dismiss="modal" aria-label="Close" onclick="pushBtn()"
+	                    class="btn btn-primary d-grid w-100" >
+	                    개인정보 이용 약관에 동의합니다.</button>
+	                  </div>
+	                </div>
                     
                   </div>
 
@@ -527,9 +537,26 @@
 	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
 	
 	<script>
+			
+			//모달창 동의버튼 누를 시 회원가입에 개인정보 이용 약관에 동의 체크박스에 체크되게하기
+			function pushBtn(){
+				if($("#btnParent").on("click")){
+					$("input[name='btnChild']:checkbox").attr("checked", true);
+					$('#addBtn').attr('disabled', false);
+				} else {
+					$("input[name='btnChild']:checkbox").attr("checked", false);
+					$('#addBtn').attr('disabled', true);
+				}
+			}
 	
 			//유효성 검증
 			$(document).ready(function(){
+				
+					if($("input[name='btnChild']:checkbox").attr("checked")){
+						$('#addBtn').attr('disabled', false);
+					} else {
+						$('#addBtn').attr('disabled', true);
+					}
 					
 					$("#joinForm").validate({
 						//규칙
@@ -640,9 +667,11 @@
 	    				if(data == 1) {
 	    					$('.memberAuthentication_ok').css("display","inline-block"); 
 	                        $('.memberAuthentication_already').css("display", "none");
+	                        $('#addBtn').attr('disabled', false);
 	    				} else {
 	    					$('.memberAuthentication_already').css("display","inline-block"); 
 	                        $('.memberAuthentication_ok').css("display", "none");
+	                        $('#addBtn').attr('disabled', true);
 	                        $('#memberAuthentication').focus();
 	    				}
 	    			},
@@ -670,9 +699,11 @@
 			               if(data == 0){ //data가 0일 경우) -> 사용 가능한 이메일 
 			                   $('.memberEmail_ok').css("display","inline-block"); 
 			                   $('.memberEmail_already').css("display", "none");
+			                   $('#addBtn').attr('disabled', false);
 			               } else { // data가 0이 아닐 경우 -> 이미 존재하는 이메일
 			                   $('.memberEmail_already').css("display","inline-block");
 			                   $('.memberEmail_ok').css("display", "none");
+			                   $('#addBtn').attr('disabled', true);
 			                   $('#memberEmail').focus();
 			               }
 			           },
@@ -698,12 +729,14 @@
 			    		   dataType: 'json',
 				           success:function(data){ //컨트롤러에서 넘어온 data값을 받는다 
 				        	   console.log("data : " + data);
-				               if(data == 0){ //data가 0일 경우) -> 사용 가능한 이메일 
+				               if(data == 0){ //data가 0일 경우) -> 사용 가능한 닉네임 
 				                   $('.memberNick_ok').css("display","inline-block"); 
 				                   $('.memberNick_already').css("display", "none");
-				               } else { // data가 0이 아닐 경우 -> 이미 존재하는 이메일
+				                   $('#addBtn').attr('disabled', false);
+				               } else { // data가 0이 아닐 경우 -> 이미 존재하는 닉네임
 				                   $('.memberNick_already').css("display","inline-block");
 				                   $('.memberNick_ok').css("display", "none");
+				                   $('#addBtn').attr('disabled', true);
 				                   $('#memberNick').focus();
 				               }
 				           },
@@ -728,12 +761,14 @@
 				    		   dataType: 'json',
 					           success:function(data){ //컨트롤러에서 넘어온 data값을 받는다 
 					        	   console.log("data : " + data);
-					               if(data == 0){ //data가 0일 경우) -> 사용 가능한 이메일 
+					               if(data == 0){ //data가 0일 경우) -> 사용 가능한 전화번호 
 					                   $('.memberPhone_ok').css("display","inline-block"); 
 					                   $('.memberPhone_already').css("display", "none");
-					               } else { // data가 0이 아닐 경우 -> 이미 존재하는 이메일
+					                   $('#addBtn').attr('disabled', false);
+					               } else { // data가 0이 아닐 경우 -> 이미 존재하는 전화번호
 					                   $('.memberPhone_already').css("display","inline-block");
 					                   $('.memberPhone_ok').css("display", "none");
+					                   $('#addBtn').attr('disabled', true);
 					                   $('#memberEmail').focus();
 					               }
 					           },

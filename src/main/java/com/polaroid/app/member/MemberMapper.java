@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.polaroid.app.command.LoginDto;
 import com.polaroid.app.command.MemberDto;
 
 @Mapper
@@ -26,5 +27,8 @@ public interface MemberMapper {
 	
 	//회원가입
 	public int insertMember(MemberDto memberDto);
+	
+	//로그인
+	public MemberDto selectMember(MemberDto memberDto);
 	
 }

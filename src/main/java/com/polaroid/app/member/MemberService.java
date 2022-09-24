@@ -3,6 +3,7 @@ package com.polaroid.app.member;
 import java.util.List;
 import java.util.Map;
 
+import com.polaroid.app.command.LoginDto;
 import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.StateMemberDto;
 
@@ -27,7 +28,7 @@ public interface MemberService {
 	public int registerMember(MemberDto memberDto);
 	
 	//로그인
-	public int findMember(String member_email, String member_pwd);
+	public MemberDto findMember(MemberDto memberDto);
 	
 	//회원 상태 변경
 	public int modifyStateMember(StateMemberDto stateMemberDto);

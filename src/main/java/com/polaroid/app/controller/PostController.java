@@ -38,7 +38,7 @@ import com.polaroid.app.post.PostService;
 //			return "/listAll";
 //		}
 		
-		@GetMapping("index")
+		@GetMapping("postListMe")
 		//@RequestMapping("/listMe")
 		public String postListMe(Model model) {
 			List<PostListDto> list = postService.retrieveMyPostList();
