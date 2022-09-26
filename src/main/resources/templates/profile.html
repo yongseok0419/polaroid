@@ -24,8 +24,8 @@
                     </li>
                     
                     <li class="nav-item">
-                      <a class="nav-link" href="follow.html"
-                        ><i class="bx bx-user-check me-1"></i> 팔로워</a
+                      <a class="nav-link" th:href=@{follow}
+                        ><i class="bx bx-user-check me-1"></i> 팔로우</a
                       >
                     </li>
                   </ul>
@@ -183,6 +183,8 @@
 
 
             <!-- modals2 start ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
+            <div id="modalClose">
+            <form action="withdrawal" method="POST">
           <div class="modal fade" id="modalScrollable" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable" role="document">
               <div class="modal-content">
@@ -212,31 +214,25 @@
                         탈퇴하실려면 비밀번호를 입력하고 <br> 탈퇴하기 버튼을 선택해주세요.</p>
                     </div>
 
-                    
-
-                    
-
                     <div class="mb-3 col-md-12">
                       <label for="organization" class="form-label">비밀번호</label>
                       <input
                         type="password"
                         class="form-control"
-                        id="user-password"
-                        name="user-password"
-                        value=""
+                        id="memberPwd"
+                        name="memberPwd"
                       />
                     </div>
                  
 
-                    
-
+                <span class="withdrawalFailure" id="FailureMsg">비밀번호를 잘못 입력했습니다.<br>입력하신 내용을 다시 확인해주세요.</span>
 
 
                 </div>
                 </div>
                 <div class="modal-footer content-modal" style="flex-direction: row-reverse">
                  
-                  <button type="button" class="btn btn-primary">탈퇴하기</button>
+                  <button type="button" class="btn btn-primary" id="withdrawalMsg">탈퇴하기</button>
                   <button type="button" class="btn btn-primary"
                     data-bs-dismiss="modal"
                     aria-label="Close"
@@ -251,10 +247,47 @@
            
           </div>
 
-
+			</form>
+			</div>
           <!-- modals2 end ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
 
 
             <!-- / Content -->
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script>
+    
+    		//비밀번호가 틀렸을 시 비동기 메세지 띄우기
+    		$("#withdrawalMsg").click(function(){
+    			 var memberPwd = $('#memberPwd').val();
+    			$.ajax({
+    					method: "POST",
+    					url: "./withdrawalForm",
+    					data: JSON.stringify({
+    						memberPwd : memberPwd
+    					}),
+    					contentType: "application/json",
+    					dataType: "json",
+    					success: function(data){
+    						console.log("data : ", data);
+    						if(data == "0") {
+    							console.log("absd");
+    							$(".withdrawalFailure").css("display", "inline-block");
+    						} else if(data == "1"){
+    							console.log("dsfsdsd");
+    							location.href="/login";
+    						}
+    					},
+    					error: function(error){
+    						return false;
+    					}
+    			});
+    			
+    		});
+    		
+    		//모달창 닫으면 내용 초기화
+    		$('#modalClose').on('hidden.bs.modal', function (e) {
+    			console.log('modal close');
+    			$(this).find('form')[0].reset();
+    		});
+    </script>
 </div>

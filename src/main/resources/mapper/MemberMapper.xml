@@ -66,4 +66,14 @@
 							AND
 							member_pwd = #{memberPwd}
 		</select>
+		
+		<!-- 회원탈퇴 및 비밀번호 일치 여부 -->
+		<delete id="deleteMember" parameterType="String">
+				DELETE FROM member
+				WHERE member_id = (SELECT member_id
+												 FROM (SELECT member_id AS member_id FROM member) AS member
+												 WHERE member_pwd = #{memberPwd})
+				
+		</delete>
+		
 </mapper>

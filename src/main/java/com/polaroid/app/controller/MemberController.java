@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polaroid.app.command.MemberDto;
@@ -140,6 +141,19 @@ public class MemberController {
 			session.invalidate();
 			
 			return "redirect:/login";
+		}
+		
+		//회원탈퇴
+		@ResponseBody
+		@PostMapping("/withdrawalForm")
+		public String withdrawal(@RequestBody MemberDto memberDto) {
+			
+			//비밀번호 체크해서 맞으면 회원탈퇴
+			int cnt = memberService.removeMember(memberDto);
+			
+			
+			return String.valueOf(cnt);
+			
 		}
 		
 }

@@ -37,7 +37,6 @@ public interface MemberService {
 	public List<MemberDto> retrieveStateMember(int member_statuscode);
 	
 	//회원 탈퇴
-	public int removeMember(int member_id);
-	
+	public int removeMember(MemberDto memberDto);
 	
 }

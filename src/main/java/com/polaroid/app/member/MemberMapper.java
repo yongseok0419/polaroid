@@ -31,4 +31,7 @@ public interface MemberMapper {
 	//로그인
 	public MemberDto selectMember(MemberDto memberDto);
 	
+	//회원탈퇴
+	public int deleteMember(MemberDto memberDto);
+	
 }

@@ -33,10 +33,10 @@
                        
                        
                         <div class="button-wrapper profile-btn">
-                          <h5>ADMIN_ID</h5>
+                          <h5>[[${session.member.memberNick}]]</h5>
                           <button type="button" class="btn btn-outline-primary">팔로우</button>
                           
-                          <a type="button" class="btn btn-outline-secondary" href="profile.html"> 프로필 편집</a>
+                          <a type="button" class="btn btn-outline-secondary" th:href=@{profile}> 프로필 편집</a>
 
 
                           <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
