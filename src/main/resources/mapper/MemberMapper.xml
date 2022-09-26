@@ -52,4 +52,10 @@
 							#{memberPhone},
 							#{memberPwd})
 		</insert>
+		<!-- 회원 비밀번호 변경 -->
+		<update id="updatePwd" parameterType="String">
+			update member
+			set member_pwd = #{memberPwd}
+			where member_email = #{memberEmail}
+		</update>
 </mapper>

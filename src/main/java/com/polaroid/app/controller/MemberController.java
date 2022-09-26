@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polaroid.app.command.MemberDto;
@@ -64,6 +65,27 @@ public class MemberController {
 			
 			return String.valueOf(cnt);
 		}
+		
+		//비밀번호 변경 링크 메일전송
+		@ResponseBody
+		@PostMapping("/forgotPwd")
+		public String forgotPwd(@RequestParam(value = "email")  String toAddress) throws Exception {
+			
+			System.out.println("spring.mail.username : " + fromAddress);
+			System.out.println("toAddress : " + toAddress);
+			
+			String fromAddress = "jandaruk08@gmail.com";
+			toAddress = "yongseok0419@gmail.com";
+			
+			String body = "<a href='http://localhost:8282/modifyPwd?email=" + toAddress + "'>비밀번호 변경 링크</a>";			
+			String[] toAddressList = {toAddress};			
+			String subject = "폴라로이드 비밀번호 변경 요청";
+			
+			sendMailHelper.sendMail(fromAddress, toAddressList, subject, body);			
+			
+			return "1";
+		}
+		
 		
 		//인증번호 일치 여부
 		@ResponseBody

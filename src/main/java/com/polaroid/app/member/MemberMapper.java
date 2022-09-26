@@ -27,4 +27,7 @@ public interface MemberMapper {
 	//회원가입
 	public int insertMember(MemberDto memberDto);
 	
+	//회원 비밀번호 변경
+	public int updatePwd(String memberPwd);
+	
 }

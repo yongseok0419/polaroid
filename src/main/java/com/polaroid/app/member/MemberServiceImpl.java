@@ -85,4 +85,9 @@ public class MemberServiceImpl implements MemberService {
 			return 0;
 		}
 
+		@Override
+		public int remakePwd(String memberPwd) {
+			return memberMapper.updatePwd(memberPwd);
+		}
+
 }

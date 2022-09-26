@@ -27,16 +27,18 @@ public interface MemberService {
 	public int registerMember(MemberDto memberDto);
 	
 	//로그인
-	public int findMember(String member_email, String member_pwd);
+	public int findMember(String memberEmail, String memberPwd);
 	
 	//회원 상태 변경
 	public int modifyStateMember(StateMemberDto stateMemberDto);
 	
 	//회원 상태 조회
-	public List<MemberDto> retrieveStateMember(int member_statuscode);
+	public List<MemberDto> retrieveStateMember(int memberStatuscode);
 	
 	//회원 탈퇴
-	public int removeMember(int member_id);
+	public int removeMember(int memberId);
 	
+	//회원 비밀번호 변경
+	public int remakePwd(String memberPwd);
 	
 }
