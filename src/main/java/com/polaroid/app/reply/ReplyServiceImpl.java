@@ -19,31 +19,29 @@ public class ReplyServiceImpl implements ReplyService {
 	@Transactional
 	@Override
 	public void registerReply(ReplyDto replyDto) {
-		// TODO Auto-generated method stub
-		
+		replyMapper.insertReply(replyDto);
 	}
 
 	//댓글 삭제
 	@Transactional
 	@Override
-	public int removeReply(int reply_id) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int removeReply(int replyId) {
+		replyMapper.deleteReply(replyId);
+		return 1;
 	}
 
 	//댓글 수정
 	@Transactional
 	@Override
 	public int modifyReply(ReplyDto replyDto) {
-		// TODO Auto-generated method stub
-		return 0;
+		replyMapper.updateReply(replyDto);
+		return 1;
 	}
 
 	//댓글 조회
 	@Override
-	public List<ReplyDto> retrieveReplyList(int post_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReplyDto> retrieveReplyList(int postId) {
+		return replyMapper.selectReplyList(postId);
 	}
 
 	//댓글 좋아요

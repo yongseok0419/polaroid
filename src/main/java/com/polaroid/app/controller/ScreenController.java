@@ -83,4 +83,9 @@ public class ScreenController {
 	public String upload() {
 		return "upload";
 	}
+	
+	@GetMapping("retrieveMypostList")
+	public String replyLinkError() {
+		return "redirect:/index";
+	}
 }

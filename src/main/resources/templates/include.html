@@ -49,7 +49,8 @@
     <!-- add CSS -->
     <link rel="stylesheet" href="/css/add-style.css">
     <link rel="stylesheet" href="/css/detail-page.css">
-   
+    
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
    <!-- Core JS -->
     <!-- build:js static/vendor/js/core.js -->
     <script src="/vendor/libs/jquery/jquery.js"></script>
@@ -68,6 +69,115 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/js/config.js"></script>
+
+    <script>
+
+      let post_id = 1;
+      let isModified = false;
+      let reply_id = 0;
+      let replyContent = '';
+
+        $(document).ready(function() {
+
+          function getCommentList(data) {
+            //alert("data : " , data);
+            let replyList = data.replyList;
+
+            let htmlStr = "";
+
+          for (let i = 0; i < replyList.length; i++) {
+              htmlStr += "<div class='admin_container' id=" + replyList[i].replyId + ">";
+              htmlStr += "<div class= 'profile-img' style='background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;'></div>";
+              htmlStr += "<div class='comment'>";
+              htmlStr += "<span class='user_id'>Kindtiger</span>" + replyList[i].replyContent;
+              htmlStr += "<div class='time reply-btn' data-id=" + replyList[i].replyId + ">";
+              htmlStr += "<button class='modComment'>수정</button>";
+              htmlStr += "<button class='subComment'>삭제</button>";
+              htmlStr += replyList[i].replyRegdate + "</div>";
+              htmlStr += "<div class='reply_edit'><a href=''></a></div>";
+              htmlStr += "<div class='reply_delete'><a href=''></a></div>";
+              htmlStr += "<div class='reply_heart_btn'>";
+              htmlStr += "<a href='#'><i class='bx bx-heart'></i><span>8</span></a>";
+              htmlStr += "</div></div></div>";
+            }
+            //alert(htmlStr);
+
+            $('#commentList').html("");
+            $('#commentList').append(htmlStr);
+
+          }
+
+          //댓글 조회
+          $.ajax({
+            url: "/posts/" + post_id + "/replies",
+            type: 'GET',
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            success: function (data) {
+              getCommentList(data);
+            },
+            fail: function (ex) {
+              console.log("error : ", ex);
+            }
+          });
+
+
+
+          //댓글 등록
+          $('#addComment').on("click", function () {
+
+            $.ajax({
+              url: "/posts/" + post_id + "/replies",
+              type: 'POST',
+              contentType: 'application/json;charset=utf-8',
+              dataType: 'json',
+              data: JSON.stringify({
+                replyContent: $('#replyContent').val()
+              }),
+
+              success: function (data) {
+                //alert("data 등록:" ,data.replyList.length);
+                getCommentList(data);
+              },
+              fail: function(ex) {
+                console.log("error: ", ex);
+              }
+            });
+
+          });
+
+          //댓글 삭제
+          $('#commentList').on("click", ".subComment", function () {
+
+            let reply_id = $(this).closest("div").data("id");
+
+            //console.log("postid: ", post_id);
+            //console.log("replyid: ", reply_id);
+
+            $.ajax({
+              url: "/posts/" + post_id + "/replies/" + reply_id,
+              type: 'DELETE',
+              contentType: 'application/json;charset=utf-8',
+              dataType: 'json',
+
+              success: function (data) {
+                getCommentList(data);
+              },
+              
+              fail: function(ex) {
+                console.log("error: ", ex);
+              }
+
+            });
+
+          });
+
+          
+        });
+      
+      
+  
+    </script>
   </head>
 
   <body>
