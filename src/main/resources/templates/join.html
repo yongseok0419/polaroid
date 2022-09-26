@@ -641,6 +641,7 @@
 					contentType: "application/json",
 					dataType: "json",
 					success: function(data){
+						alert("인증 메일이 " + memberEmail + " (으)로 전송되었습니다.\n받으신 이메일을 열어 인증번호 일치여부를 확인해주세요.");
 						console.log("data : " + data);
 					},
 					error: function(error){

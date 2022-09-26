@@ -80,9 +80,8 @@ public class MemberServiceImpl implements MemberService {
 		//회원 탈퇴
 		@Transactional
 		@Override
-		public int removeMember(int member_id) {
-			// TODO Auto-generated method stub
-			return 0;
+		public int removeMember(MemberDto memberDto) {
+			return memberMapper.deleteMember(memberDto);
 		}
 
 }

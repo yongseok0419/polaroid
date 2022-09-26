@@ -68,6 +68,18 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/js/config.js"></script>
+    
+    
+    <!-- 회원탈퇴 -->
+    <style>
+		.withdrawalFailure{
+			color:red; 
+			display: none;
+			text-align: center;
+			width: 100%
+		}
+    </style>
+    
   </head>
 
   <body>
@@ -103,7 +115,7 @@
          <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
            <!-- Search -->
 
-           <h1 class="logo"><a href="index.html"><img src="/img/polaroid_logo.png" alt="polaroid logo"></a></h1>
+           <h1 class="logo"><a th:href=@{index}><img src="/img/polaroid_logo.png" alt="polaroid logo"></a></h1>
            <h1 class="logo-m"><a href="index.html"><img src="/img/polaroid_logo_m.png" alt=""></a></h1>
            <div class="navbar-nav align-items-center search-box">
              <div class="nav-item d-flex align-items-center">
