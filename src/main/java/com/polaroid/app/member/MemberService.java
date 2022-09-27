@@ -39,6 +39,6 @@ public interface MemberService {
 	public int removeMember(int memberId);
 	
 	//회원 비밀번호 변경
-	public int remakePwd(String memberPwd);
+	public int modifyPwd(MemberDto memberDto);
 	
 }

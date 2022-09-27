@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.polaroid.app.command.LoginDto;
 import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.SendMailHelper;
 import com.polaroid.app.member.MemberService;
@@ -71,10 +71,10 @@ public class MemberController {
 		@PostMapping("/forgotPwd")
 		public String forgotPwd(@RequestParam(value = "email")  String toAddress) throws Exception {
 			
-			System.out.println("spring.mail.username : " + fromAddress);
-			System.out.println("toAddress : " + toAddress);
+//			System.out.println("spring.mail.username : " + fromAddress);
+//			System.out.println("toAddress : " + toAddress);
 			
-			String fromAddress = "jandaruk08@gmail.com";
+//			String fromAddress = "jandaruk08@gmail.com";
 			toAddress = "yongseok0419@gmail.com";
 			
 			String body = "<a href='http://localhost:8282/modifyPwd?email=" + toAddress + "'>비밀번호 변경 링크</a>";			
@@ -135,6 +135,21 @@ public class MemberController {
 			memberService.registerMember(memberDto);
 			
 			return "redirect:/login";
+		}
+		
+		@PostMapping("/changePwd")
+		public String modifyPwd(@RequestParam(value = "password") MemberDto memberDto) throws Exception{
+			
+			//비밀번호 변경
+			memberService.modifyPwd(memberDto);
+			
+			//비밀번호 변경완료시 메인페이지로 바로 이동
+			return "redirect:/index";
+			
+			
+			
+			
+			
 		}
 			
 }

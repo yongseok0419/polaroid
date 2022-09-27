@@ -85,9 +85,10 @@ public class MemberServiceImpl implements MemberService {
 			return 0;
 		}
 
+		//비밀번호 재설정
 		@Override
-		public int remakePwd(String memberPwd) {
-			return memberMapper.updatePwd(memberPwd);
+		public int modifyPwd(MemberDto memberDto) {
+			return memberMapper.updatePwd(memberDto);
 		}
 
 }

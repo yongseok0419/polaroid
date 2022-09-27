@@ -28,6 +28,6 @@ public interface MemberMapper {
 	public int insertMember(MemberDto memberDto);
 	
 	//회원 비밀번호 변경
-	public int updatePwd(String memberPwd);
+	public int updatePwd(MemberDto memberDto);
 	
 }
