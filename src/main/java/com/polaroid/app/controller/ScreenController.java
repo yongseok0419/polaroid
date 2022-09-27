@@ -1,11 +1,27 @@
 package com.polaroid.app.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.polaroid.app.command.MemberDto;
+import com.polaroid.app.command.PostDto;
+import com.polaroid.app.post.PostService;
+
 
 @Controller
 public class ScreenController {
 
+	@Autowired
+	@Qualifier("postService")
+	PostService postService;
+	
 	//관리자 메인화면
 	@GetMapping("adminIndex")
 	public String adminIndex() {
@@ -31,9 +47,19 @@ public class ScreenController {
 	}
 	
 	//메인 화면
-	@GetMapping("index")
-	public String index() {
-		return "index";
+	@GetMapping("/index")
+	public String index(Model model, HttpSession session) {
+		
+		MemberDto member = (MemberDto)session.getAttribute("member");
+		
+		List <PostDto> list = postService.retrieveMyPostList(member.getMemberId()); //
+		
+		int postCount = postService.selectPostCount(member.getMemberId());
+		
+		model.addAttribute("posts", list);
+		model.addAttribute("postCount", postCount);
+		
+		return "/index";
 	}
 	
 	//회원가입 화면

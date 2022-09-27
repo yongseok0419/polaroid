@@ -30,7 +30,9 @@ public class WebConfig implements WebMvcConfigurer {
 	//업로드 파일처리
         registry
         	.addResourceHandler("/upload/**")
-        	.addResourceLocations("file:///D:\\project\\upload");
+        	.addResourceLocations("file:///D:/project/upload/");
+        
+        
         
 	}
 }

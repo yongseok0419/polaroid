@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.polaroid.app.command.PostDetailDto;
 import com.polaroid.app.command.PostDto;
 import com.polaroid.app.command.PostListDto;
 import com.polaroid.app.command.UploadDto;
@@ -46,8 +47,10 @@ public class PostServiceImpl implements PostService {
 	public boolean registerPost(PostDto postDto, List<MultipartFile> uploadFiles) {
 
 		// 1. 폼데이터 인서트
-		int post_id = postMapper.registerPost(postDto);
-
+		postMapper.registerPost(postDto);
+		
+		System.out.println("post_id" + postDto.getPost_id());
+		
 		// 1. 폼데이터 인서트
 		// uploadMapper.registerUploadFile( uploadFiles);
 
@@ -76,7 +79,7 @@ public class PostServiceImpl implements PostService {
 				File saveFile = new File(saveName);
 				file.transferTo(saveFile); // 파일업로드
 				// 썸네일 생성 업로드
-				Thumbnailator.createThumbnail(saveFile, new File(thumbnailName), 160, 160);
+				Thumbnailator.createThumbnail(saveFile, new File(thumbnailName), 500, 500);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -86,77 +89,69 @@ public class PostServiceImpl implements PostService {
 			// selectKey키방식
 
 			// 3. 파일의경로를 DB인서트
-			uploadMapper.registerUploadFile(UploadDto.builder().post_id(post_id).upload_filename(filename)
+			uploadMapper.registerUploadFile(UploadDto.builder().post_id(postDto.getPost_id()).upload_filename(filename)
 					.upload_filepath(path).upload_fileuuid(uuid).build());
-
+			
 		}
 		return true;
 	}
 
-	/*
-	 * @Override public List<UploadDto> getList(Criteria cri) {
-	 * 
-	 * return postMapper.getList(cri); }
-	 */
 
-//	@Override
-//	public int getTotal(Criteria cri) {
-//		
-//		return postMapper.getTotal(cri);
-//	}
-
-//	@Override
-//	public List<PostListDto> retrievePostList() { // 목록조회
-//
-//		return postMapper.selectPostList();
-//	}
-//
+	// 전체 게시글 보기
 	@Override
-	public List<PostListDto> retrieveMyPostList() { // 내 게시글 조회
+	public List<PostListDto> retrievePostList() { // 목록조회
 
-		return postMapper.selectMyPostList();
+		return postMapper.selectPostList();
 	}
-//
-//	@Override
-//	public List<PostListDto> retrieveLikePostList() {
-//
-//		return postMapper.selectLikePostList();
-//	}
-//
-//	@Override
-//	public PostDto retrivePostDetail(Integer post_id) {
-//
-//		return null;
-//	}
+	
+	// 내 게시글 리스트
+	@Override
+	public List<PostDto> retrieveMyPostList(int member_id) { // 내 게시글 조회
+
+		return postMapper.selectMyPostList(member_id);
+	}
+	
+	// 내 게시글 갯수
+	@Override
+	public int selectPostCount(int member_id) { //
+		
+		return postMapper.selectPostCount(member_id); //
+	}
+	
+	// 게시글 상세보기
+	@Override
+	public List<PostDetailDto> retrivePostDetail(int post_id) {
+		
+		return postMapper.selectPostDetail(post_id);
+	}	
+	
+	//게시글 좋아요 리스트 조회
+	@Override
+	public List<PostListDto> retrieveLikePostList() {
+
+		return postMapper.selectLikePostList();
+	}
 
 	
-//	 @Override public List<PostDetailDto> retriveDetailImg(int post_id) {
+//	 @Override 
+//	 public List<PostDetailDto> retriveDetailImg(int post_id) {
 //	  
-//	 return postMapper.retriveDetailImg(post_id); }
+//	 return postMapper.retriveDetailImg(post_id); 
 //	 
-//
-//	@Override
-//	public boolean modifyPost(PostDto postDto) {
-//
-//		return postMapper.updatePost(postDto);
-//	}
-//
-//	@Override
-//	public boolean removePost() {
-//
-//		return false;
-//	}
-//
-////	@Override
-////	public List<PostListDto> getList(Criteria cri) {
-////		// TODO Auto-generated method stub
-////		return null;
-////	}
-//
-//	@Override
-//	public List<PostDetailDto> retriveDetailImg(Integer post_id) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+//	 }
+	 
+	
+	//게시글 수정
+	@Override
+	public boolean modifyPost(PostDto postDto) {
+
+		return postMapper.updatePost(postDto);
+	}
+
+	@Override
+	public boolean removePost(int post_id) {
+
+		return postMapper.deletePost(post_id);
+	}
 
 }
