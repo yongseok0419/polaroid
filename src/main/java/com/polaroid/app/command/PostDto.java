@@ -1,6 +1,8 @@
 package com.polaroid.app.command;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 
@@ -27,6 +29,7 @@ public class PostDto {
 	private Integer member_id; //회원 아이디
 	private Integer hashtag_id; //해시태그 아이디
 	private Integer upload_id;//업로드 아이디
+	private List<UploadDto> uploads = new ArrayList < > ();
 	
 	
 
