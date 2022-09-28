@@ -32,6 +32,6 @@ public interface MemberService {
 	public int modifyStateMember(StateMemberDto stateMemberDto);
 	
 	//회원 탈퇴
-	public int removeMember(MemberDto memberDto);
+	public int modifyMember(MemberDto memberDto);
 	
 }
