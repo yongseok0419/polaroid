@@ -32,6 +32,10 @@
                   <div class="card mb-4">
                     <h5 class="card-header">Profile Details</h5>
                     <!-- Account -->
+                    
+                    
+                    <form action="profileForm" method="POST" enctype="multipart/form-data">
+                    
                     <div class="card-body profile-box">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
                         <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
@@ -43,6 +47,7 @@
                             <input
                               type="file"
                               id="upload"
+                              name="upload"
                               class="account-file-input"
                               hidden
                               accept="image/png, image/jpeg"
@@ -57,16 +62,16 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                      <form id="formAccountSettings" method="POST" onsubmit="return false">
+                      
                         <div class="row">
                           <div class="mb-3 col-md-6">
                             <label for="user-id" class="form-label">이메일</label>
                             <input
                               class="form-control"
                               type="text"
-                              id="user-id"
-                              name="user-id"
-                              value="admin_id@naver.com"
+                              id="memberEmail"
+                              name="memberEmail"
+                              th:value="${session.member.memberEmail}"
                               autofocus
                               disabled
                             />
@@ -76,19 +81,19 @@
                             <input
                               class="form-control"
                               type="text"
-                              id="user-name"
-                              name="user-name"
-                              value="홍길동"
+                              id="memberName"
+                              name="memberName"
+                              th:value="${session.member.memberName}"
                               autofocus
                               disabled
                             />
                           </div>
                           <div class="mb-3 col-md-6">
                             <label for="language" class="form-label">계정 공개 여부</label>
-                            <select id="language" class="select2 form-select">
-                              <option value="en">전체 공개</option>
-                              <option value="fr">팔로우만 공개</option>
-                              <option value="de">비공개</option>
+                            <select id="profileAccount" name="profileAccount" class="select2 form-select">
+                              <option value="1">전체 공개</option>
+                              <option value="2">팔로우만 공개</option>
+                              <option value="3">비공개</option>
                             </select>
                           </div>
                           <div class="mb-3 col-md-6">
@@ -96,9 +101,9 @@
                             <input
                               class="form-control"
                               type="text"
-                              id="user-name"
-                              name="user-name"
-                              value="ADMIN_ID"
+                              id="memberNick"
+                              name="memberNick"
+                              th:value="${session.member.memberNick}"
                               autofocus
                              
                             />
@@ -108,8 +113,8 @@
                             <input
                               class="form-control"
                               type="text"
-                              id="user-site"
-                              name="user-site"
+                              id="profileWebsite"
+                              name="profileWebsite"
                               value="https://www.naver.com/"
                               autofocus
                              
@@ -120,9 +125,9 @@
                             <input
                               class="form-control"
                               type="text"
-                              id="user-num"
-                              name="user-num"
-                              value="010-1234-5678"
+                              id="memberPhone"
+                              name="memberPhone"
+                              th:value="${session.member.memberPhone}"
                               autofocus
                              
                             />
@@ -133,8 +138,8 @@
                             <input
                               type="password"
                               class="form-control"
-                              id="user-password"
-                              name="user-password"
+                              id="memberPwd"
+                              name="memberPwd"
                               value=""
                             />
                           </div>
@@ -143,28 +148,30 @@
                             <input
                               type="password"
                               class="form-control"
-                              id="user-password"
-                              name="user-password"
+                              id="memberPwd_ck"
+                              name="memberPwd_ck"
                               value=""
                             />
                           </div>
                           <div class="mb-12 col-md-12">
                             
-                            
+                            <label for="organization" class="form-label">자기소개</label>
                             <textarea
                               class="form-control"
                               type="text"
-                              id="user-id"
-                              name="user-id"
-                              
+                              id="profileAboutMe"
+                              name="profileAboutMe"
                               autofocus
-                            >
-                          </textarea>
+                            ></textarea>
                           </div>
+                         
                          
                         </div>
                         <div class="mt-2">
                           <button type="submit" class="btn btn-primary me-2">저장</button>
+                          
+                          </form>
+                          
                           <span class="delete-member"><a 
                              href="#" type="button"
                             data-bs-toggle="modal"
@@ -172,7 +179,6 @@
                             >회원탈퇴</a></span>
                           
                         </div>
-                      </form>
                     </div>
                     <!-- /Account -->
                   </div>
@@ -289,5 +295,6 @@
     			console.log('modal close');
     			$(this).find('form')[0].reset();
     		});
+    		
     </script>
 </div>

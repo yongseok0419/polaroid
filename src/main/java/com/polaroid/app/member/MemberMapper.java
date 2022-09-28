@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.polaroid.app.command.LoginDto;
 import com.polaroid.app.command.MemberDto;
 
 @Mapper

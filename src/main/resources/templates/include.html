@@ -152,6 +152,15 @@
                 <i class='bx bx-message-square-add'></i>
               </a>
             </li>
+            <span th:if="${session.member.memberEmail.equals('admin')}">
+            		<li class="nav-item lh-1 me-3">
+		              <a th:href=@{adminIndex}>
+		                <i class='bx bxs-user-account'></i>
+		              </a>
+		            </li>
+            </span>
+            <span th:unless="${session.member.memberEmail.equals('admin')}"></span>
+            
              <!-- User -->
              <li class="nav-item navbar-dropdown dropdown-user dropdown">
                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">

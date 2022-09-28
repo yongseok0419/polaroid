@@ -3,10 +3,12 @@ package com.polaroid.app.command;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class MemberDto {
 	
 	private int memberId;						//번호
