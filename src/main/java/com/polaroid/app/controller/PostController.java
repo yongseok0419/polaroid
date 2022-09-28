@@ -120,8 +120,8 @@ public class PostController {
 	@GetMapping("/selectPostDetail")
 	public String selectPostDetail(@RequestParam("post_id") int post_id, Model model) {
 		System.out.println("post_id" + post_id);
-		List <PostDetailDto> list = postService.retrivePostDetail(post_id);
-		model.addAttribute("list", list);
+		PostDto post = postService.retrivePostDetail(post_id);
+		model.addAttribute("post", post);
 		
 		return "redirect:/listAll";
 	}

@@ -53,18 +53,14 @@
 		select count(post_id) from post where member_id = #{member_id}
 	</select>
 
-	<select id="selectPostDetail" resultType="PostDetailDto">
-		select *
-		from post as p left join upload as u on p.post_id = u.post_id
-		left join
-		member as m on m.post_id
-		left join reply as r on r.post_id
-		left join
-		posthashtag as h on h.post_id
-		left join postmembertag as t on t.post_id
-		left join postlike as l on l.post_id;
-		order by p.post_id desc
-	</select>
+	<select id="selectPostDetail" resultMap="selectMyPostListMap" parameterType="int">
+      select p.post_id, p.post_title, p.post_content, u.upload_id,
+            u.upload_filename, u.upload_fileuuid, u.upload_filepath, u.upload_type
+      from post as p INNER JOIN upload as u 
+      on p.post_id = u.post_id
+      where p.post_id = #{post_id} 
+      order by p.post_id desc
+   </select>
 
 
 	<select id="selectLikePostList" resultType="PostListDto">
