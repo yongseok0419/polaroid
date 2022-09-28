@@ -22,11 +22,11 @@
                 <div class="col-md-12">
                   <ul class="nav nav-pills flex-column flex-md-row mb-3">
                     <li class="nav-item">
-                      <a class="nav-link active" href="adminIndex.html"><i class="bx bx-user me-1"></i>일반 사용자</a>
+                      <a class="nav-link active" th:href=@{adminIndex}><i class="bx bx-user me-1"></i>일반 사용자</a>
                     </li>
                     
                     <li class="nav-item">
-                      <a class="nav-link" href="adminStop.html"
+                      <a class="nav-link" th:href=@{adminStop}
                         ><i class="bx bx-user-check me-1"></i>정지된 사용자</a
                       >
                     </li>
@@ -51,15 +51,15 @@
                             <!-- follow-item start -->
                             <div class="bs-toast toast fade show user-item " role="alert" aria-live="assertive" aria-atomic="true">                             
                               <div class="toast-header">
-                                <a href="index.html">
+                                <a th:href="index.html">
                                   <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
                                   </div>
                                 </a>
                                 <div class="me-auto fw-semibold"><a href="index.html">이길동</a></div>
-                                  <select id="language" class="select2 form-select"style="width:50%;margin-right:12px;">
-                                    <option value="en">7일</option>
-                                    <option value="fr">30일</option>
-                                    <option value="de">영구</option>
+                                  <select id="language" class="select2 form-select" style="width:50%;margin-right:12px;">
+                                    <option value="1">7일</option>
+                                    <option value="2">30일</option>
+                                    <option value="3">영구</option>
                                   </select>
 
                                 

@@ -5,5 +5,29 @@
   
 <mapper namespace="com.polaroid.app.profile.ProfileMapper">
 
+		<update id="updateMember" parameterType="MemberDto">
+				UPDATE member
+				SET member_nick = #{memberNick}
+				WHERE member_id = #{memberId}
+		</update>
+
+		<insert id="insertProfileFile" parameterType="ProfileDto">
+				insert into profile(profile_filename,
+									      profile_filepath,
+									      profile_fileuuid,
+									      profile_account,
+										  profile_website,
+										  profile_aboutme,
+									      member_id
+									     )
+		 		values(#{profileFileName},
+		 			      #{profileFilePath},
+		 			      #{profileFileUuid},
+		 			      #{profileAccount},
+						  #{profileWebsite},
+						  #{profileAboutMe},
+		 			      #{memberId}
+		 			      )	   
+ 	    </insert>
 
 </mapper>

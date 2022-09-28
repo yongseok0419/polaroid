@@ -158,7 +158,7 @@
 
        $(document).ready(function() {
 
-          var fileTarget = $('.filebox .upload-hidden'); //jquery는 다중 태그이벤트도 한번에 처리
+          var fileTarget = $('.filebox .upload-hidden'); 
           fileTarget.on('change', function(){ //change이벤트
           if(window.FileReader){ // modern browser 
              var filename = $(this)[0].files[0].name; } 

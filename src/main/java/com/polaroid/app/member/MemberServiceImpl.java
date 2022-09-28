@@ -1,13 +1,11 @@
 package com.polaroid.app.member;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.polaroid.app.command.LoginDto;
 import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.StateMemberDto;
 
@@ -70,13 +68,6 @@ public class MemberServiceImpl implements MemberService {
 			return 0;
 		}
 		
-		//회원 상태 조회
-		@Override
-		public List<MemberDto> retrieveStateMember(int member_statuscode) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
 		//회원 탈퇴
 		@Transactional
 		@Override

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polaroid.app.command.MemberDto;
@@ -48,8 +47,6 @@ public class MemberController {
 			
 			HashMap<String, Object> map = new HashMap<String, Object>(); 
 			map.put("authCode", authCode); 			
-			String template = "mail";
-			//String body = sendMailHelper.getMailBody(template, map); 
 			String body = "인증번호 : " + authCode;
 			
 			String[] toAddress = {memberDto.getMemberEmail()};
@@ -151,9 +148,7 @@ public class MemberController {
 			//비밀번호 체크해서 맞으면 회원탈퇴
 			int cnt = memberService.removeMember(memberDto);
 			
-			
 			return String.valueOf(cnt);
-			
 		}
 		
 }
