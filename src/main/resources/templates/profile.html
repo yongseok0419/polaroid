@@ -33,8 +33,10 @@
                     <h5 class="card-header">Profile Details</h5>
                     <!-- Account -->
                     
+                    
                     <div class="card-body">
                       <form action="profileForm" method="POST" enctype="multipart/form-data">
+
                     
                     <div class="card-body profile-box">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
@@ -61,7 +63,7 @@
                       </div>
                     </div>
                     <hr class="my-0" />
-                    
+
                         <div class="row">
                           <div class="mb-3 col-md-6">
                             <label for="memberEmail" class="form-label">이메일</label>
@@ -175,7 +177,7 @@
                             >회원탈퇴</a></span>
                           
                         </div>
-                        
+
                       </form>
                     </div>
                     <!-- /Account -->
@@ -274,9 +276,11 @@
                    success: function(data){
                       console.log("data : ", data);
                       if(data == "0") {
+
                          $(".withdrawalFailure").css("display", "inline-block");
                       } else if(data == "1"){
                     	  event()
+
                       }
                    },
                    error: function(error){
@@ -290,8 +294,7 @@
           $('#modalClose').on('hidden.bs.modal', function (e) {
              console.log('modal close');
              $(this).find('form')[0].reset();
-          });
-          
+          });      
           
          //탈퇴 재질문
          function event(){
