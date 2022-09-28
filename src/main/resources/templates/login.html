@@ -62,6 +62,13 @@
 				width: 100%
 			}
 			
+			.loginWithdrawal{
+				color:red; 
+				display: none;
+				text-align: center;
+				width: 100%
+			}
+			
     </style>
   </head>
 
@@ -129,6 +136,7 @@
                 </div>
                 
                 <span class="loginFailure">이메일 또는 비밀번호를 잘못 입력했습니다.<br>입력하신 내용을 다시 확인해주세요.</span>
+                <span class="loginWithdrawal">이미 탈퇴한 회원입니다.</span>
                 
                 <div class="mb-3">
                   <button class="btn btn-primary d-grid w-100" type="button" id="loginMsg">로그인</button>
@@ -194,7 +202,9 @@
     						if(data == "0") {
     							console.log("absd");
     							$(".loginFailure").css("display", "inline-block");
-    						} else if(data == "1"){
+    						} else if(data == "2"){
+    							$(".loginWithdrawal").css("display", "inline-block");
+    						} else {
     							console.log("dsfsdsd");
     							location.href="/index";
     						}
