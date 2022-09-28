@@ -33,7 +33,8 @@
                     <h5 class="card-header">Profile Details</h5>
                     <!-- Account -->
                     
-                    <form action="profileForm" method="POST" enctype="multipart/form-data">
+                    <div class="card-body">
+                      <form action="profileForm" method="POST" enctype="multipart/form-data">
                     
                     <div class="card-body profile-box">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
@@ -60,11 +61,10 @@
                       </div>
                     </div>
                     <hr class="my-0" />
-                    <div class="card-body">
-                      <form id="formAccountSettings" method="POST" onsubmit="return false">
+                    
                         <div class="row">
                           <div class="mb-3 col-md-6">
-                            <label for="user-id" class="form-label">이메일</label>
+                            <label for="memberEmail" class="form-label">이메일</label>
                             <input
                               class="form-control"
                               type="text"
@@ -76,7 +76,7 @@
                             />
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label for="user-name" class="form-label">이름</label>
+                            <label for="memberName" class="form-label">이름</label>
                             <input
                               class="form-control"
                               type="text"
@@ -88,7 +88,7 @@
                             />
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label for="language" class="form-label">계정 공개 여부</label>
+                            <label for="profileAccount" class="form-label">계정 공개 여부</label>
                             <select id="profileAccount" name="profileAccount" class="select2 form-select">
                               <option value="1">전체 공개</option>
                               <option value="2">팔로우만 공개</option>
@@ -96,7 +96,7 @@
                             </select>
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label for="user-name" class="form-label">닉네임</label>
+                            <label for="memberNick" class="form-label">닉네임</label>
                             <input
                               class="form-control"
                               type="text"
@@ -108,7 +108,7 @@
                             />
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label for="user-name" class="form-label">웹사이트</label>
+                            <label for="profileWebsite" class="form-label">웹사이트</label>
                             <input
                               class="form-control"
                               type="text"
@@ -120,41 +120,41 @@
                             />
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label for="user-name" class="form-label">휴대폰</label>
+                            <label for="memberPhone" class="form-label">휴대폰</label>
                             <input
                               class="form-control"
                               type="text"
                               id="memberPhone"
                               name="memberPhone"
-                              value="010-1234-5678"
+                              value="01012345678"
                               autofocus
                              
                             />
                           </div>
 
                           <div class="mb-3 col-md-6">
-                            <label for="organization" class="form-label">비밀번호</label>
+                            <label for="memberPwdCheck" class="form-label">비밀번호</label>
                             <input
                               type="password"
                               class="form-control"
-                              id="memberPwd"
-                              name="memberPwd"
+                              id="memberPwdCheck"
+                              name="memberPwdCheck"
                               value=""
                             />
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label for="organization" class="form-label">비밀번호 확인</label>
+                            <label for="memberPwdCheck_ck" class="form-label">비밀번호 확인</label>
                             <input
                               type="password"
                               class="form-control"
-                              id="memberPwd_ck"
-                              name="memberPwd_ck"
+                              id="memberPwdCheck_ck"
+                              name="memberPwdCheck_ck"
                               value=""
                             />
                           </div>
                           <div class="mb-12 col-md-12">
                             
-                            <label for="organization" class="form-label">자기소개</label>
+                            <label for="profileAboutMe" class="form-label">자기소개</label>
                             <textarea
                               class="form-control"
                               type="text"
@@ -168,8 +168,6 @@
                         <div class="mt-2">
                           <button type="submit" class="btn btn-primary me-2">저장</button>
                           
-                          </form>
-                          
                           <span class="delete-member"><a 
                              href="#" type="button"
                             data-bs-toggle="modal"
@@ -177,6 +175,7 @@
                             >회원탈퇴</a></span>
                           
                         </div>
+                        
                       </form>
                     </div>
                     <!-- /Account -->
@@ -275,11 +274,9 @@
                    success: function(data){
                       console.log("data : ", data);
                       if(data == "0") {
-                         console.log("absd");
                          $(".withdrawalFailure").css("display", "inline-block");
                       } else if(data == "1"){
-                         console.log("dsfsdsd");
-                         location.href="/login";
+                    	  event()
                       }
                    },
                    error: function(error){
@@ -294,5 +291,17 @@
              console.log('modal close');
              $(this).find('form')[0].reset();
           });
+          
+          
+         //탈퇴 재질문
+         function event(){
+			if (confirm("정말 탈퇴 하시겠습니까?") == true){//확인
+				alert("탈퇴가 완료되었습니다.");
+				location.href="/login";
+			}else{//취소
+				return false;
+			}
+		 }
+
     </script>
 </div>
