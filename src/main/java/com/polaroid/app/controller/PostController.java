@@ -1,7 +1,9 @@
 package com.polaroid.app.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
@@ -14,8 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -117,13 +121,17 @@ public class PostController {
 	}
 	
 	//게시글 상세조회
-	@GetMapping("/selectPostDetail")
-	public String selectPostDetail(@RequestParam("post_id") int post_id, Model model) {
-		System.out.println("post_id" + post_id);
-		PostDto post = postService.retrivePostDetail(post_id);
-		model.addAttribute("post", post);
+	@GetMapping("/posts/{post_id}")
+	public @ResponseBody Map<String, Object> PostDetail(@PathVariable("post_id") int post_id) {
 		
-		return "redirect:/listAll";
+		//System.out.println("post_id" + post_id);
+		PostDetailDto post = postService.retrivePostDetail(post_id);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("post", post);
+		
+		return map;
 	}
 	
 	

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class PostDetailDto {
-	private int member_id;
+	 private int member_id;
 	 private String member_nick;
 	 	 
 	 private Integer post_id;
