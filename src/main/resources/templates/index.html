@@ -31,20 +31,20 @@
               //console.log('post_id : ', post_id );              
               
               //게시글조회
-              $.ajax({
-                url: "/posts/" + post_id,
-                type: 'GET',
-                contentType: 'application/json;charset=utf-8',
-                dataType: 'json',
-                success: function (data) {      
+              // $.ajax({
+              //   url: "/posts/" + post_id,
+              //   type: 'GET',
+              //   contentType: 'application/json;charset=utf-8',
+              //   dataType: 'json',
+              //   success: function (data) {      
                   
-                  getPostDetail(data);
-                },
-                fail: function(ex){
-                  console.log("error: ", ex);
-                }
+              //     getPostDetail(data);
+              //   },
+              //   fail: function(ex){
+              //     console.log("error: ", ex);
+              //   }
 
-              });
+              // });
 
 
               //댓글 조회
@@ -54,7 +54,6 @@
                 contentType: 'application/json;charset=utf-8',
                 dataType: 'json',
                 success: function (data) {      
-                  
                   getCommentList(data);
                 },
                 fail: function (ex) {
@@ -67,16 +66,15 @@
          });
 
         function getCommentList(data) {
-          //alert("data : " , data);
+ 
           let replyList = data.replyList;
-
           let htmlStr = "";
 
         for (let i = 0; i < replyList.length; i++) {
             htmlStr += "<div class='admin_container' id=" + replyList[i].replyId + ">";
             htmlStr += "<div class= 'profile-img' style='background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;'></div>";
             htmlStr += "<div class='comment'>";
-            htmlStr += "<span class='user_id'>Kindtiger</span>" + replyList[i].replyContent;
+            htmlStr += "<span class='user_id'>" + replyList[i].memberNick + "</span>" + replyList[i].replyContent;
             htmlStr += "<div class='time reply-btn' data-id=" + replyList[i].replyId + ">";
             htmlStr += "<button class='modComment'>수정</button>";
             htmlStr += "<button class='subComment'>삭제</button>";
@@ -108,7 +106,6 @@
             }),
 
             success: function (data) {
-              //alert("data 등록:" ,data.replyList.length);
               getCommentList(data);
             },
             fail: function(ex) {

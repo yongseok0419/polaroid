@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.polaroid.app.command.MemberDto;
+import com.polaroid.app.command.MemberReplyDto;
 import com.polaroid.app.command.ReplyDto;
 import com.polaroid.app.reply.ReplyService;
 
@@ -29,8 +33,8 @@ public class ReplyController {
 	@GetMapping(value = "/posts/{post_id}/replies")
 	public @ResponseBody Map<String, Object> getReplyList(@PathVariable("post_id") Integer postId){
 		
-		List<ReplyDto> replyDtoList = replyService.retrieveReplyList(postId);
-
+		List<MemberReplyDto> replyDtoList = replyService.retrieveReplyList(postId);
+	
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("replyList", replyDtoList);
@@ -41,14 +45,17 @@ public class ReplyController {
 	//댓글 등록
 	@PostMapping(value = "/posts/{post_id}/replies")
 	public @ResponseBody Map<String, Object> regReply(@RequestBody ReplyDto replyDto,
-										@PathVariable("post_id") Integer postId){
-		
-		System.out.println("replyDto: call ");
+										@PathVariable("post_id") Integer postId, HttpSession session){
 		
 		replyDto.setPostId(postId);
+		
+		MemberDto member = (MemberDto)session.getAttribute("member");
+		int memberId = member.getMemberId();		
+		replyDto.setMemberId(memberId);
+		
 		replyService.registerReply(replyDto);
 		
-		List<ReplyDto> replyDtoList = replyService.retrieveReplyList(postId);
+		List<MemberReplyDto> replyDtoList = replyService.retrieveReplyList(postId);
 		
 		System.out.println("size" + replyDtoList.size());
 		Map<String, Object> map = new HashMap<>();		
@@ -66,7 +73,7 @@ public class ReplyController {
 		
 		replyService.removeReply(replyId);
 		
-		List<ReplyDto> replyDtoList = replyService.retrieveReplyList(postId);
+		List<MemberReplyDto> replyDtoList = replyService.retrieveReplyList(postId);
 		
 		Map<String, Object> map = new HashMap<>();		
 		
@@ -85,7 +92,7 @@ public class ReplyController {
 		
 		replyService.modifyReply(replyDto);
 		
-		List<ReplyDto> replyDtoList = replyService.retrieveReplyList(postId);
+		List<MemberReplyDto> replyDtoList = replyService.retrieveReplyList(postId);
 		
 		Map<String, Object> map = new HashMap<>();		
 		

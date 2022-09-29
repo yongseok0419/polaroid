@@ -99,7 +99,7 @@ public class PostServiceImpl implements PostService {
 
 	// 전체 게시글 보기
 	@Override
-	public List<PostListDto> retrievePostList() { // 목록조회
+	public List<PostDto> retrievePostList() {
 
 		return postMapper.selectPostList();
 	}

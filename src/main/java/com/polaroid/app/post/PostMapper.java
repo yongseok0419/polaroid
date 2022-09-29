@@ -16,7 +16,7 @@ public interface PostMapper {
 	
 	
 	
-	public List<PostListDto> selectPostList(); //조회
+	public List<PostDto> selectPostList(); //전체 게시글 조회
 	public List<PostDto> selectMyPostList(int member_id); //내 게시글 조회
 	public List<PostListDto> selectLikePostList(); //좋아요조회
 

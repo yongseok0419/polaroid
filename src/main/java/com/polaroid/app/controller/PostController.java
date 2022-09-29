@@ -39,7 +39,7 @@ public class PostController {
 	// 전체 게시글 조회
 	@GetMapping("postListAll")
 	public String postListAll(Model model) {
-		List <PostListDto> list = postService.retrievePostList();
+		List <PostDto> list = postService.retrievePostList();
 		model.addAttribute("list", list);
 		return "/listAll";
 	}

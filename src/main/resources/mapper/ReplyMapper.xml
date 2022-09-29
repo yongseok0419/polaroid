@@ -5,24 +5,27 @@
   
 <mapper namespace="com.polaroid.app.reply.ReplyMapper">
 
-	<resultMap type="com.polaroid.app.command.ReplyDto" id="replyInfo">
+	<resultMap type="com.polaroid.app.command.MemberReplyDto" id="MemberReplyInfo">
 		<result column="reply_id" property="replyId"/>
 		<result column="reply_content" property="replyContent"/>
 		<result column="reply_regdate" property="replyRegdate"/>
 		<result column="post_id" property="postId"/>
+		<result column="member_id" property="memberId"/>
+		<result column="member_nick" property="memberNick"/>
 	</resultMap>
 	
-	<select id="selectReplyList" parameterType="int" resultType="ReplyDto" resultMap="replyInfo">
-		select reply_id, reply_content, reply_regdate 
-		from reply
-		<!-- from member LEFT JOIN reply UNION member RIGHT JOIN reply -->
+	<!-- 게시글 댓글 조회 -->
+	<select id="selectReplyList" parameterType="int" resultMap="MemberReplyInfo">
+		select reply_id, reply_content, reply_regdate, member_nick
+		from reply NATURAL JOIN member
 		where post_id = #{postId}
 		order by reply_regdate desc
 	</select>
 
+	<!-- 게시글 댓글 등록 -->
 	<insert id="insertReply" parameterType="ReplyDto">
 		insert into reply
-		values(default, #{replyContent}, now(), #{postId})
+		values(default, #{replyContent}, now(), #{postId}, #{memberId})
 	</insert>
 
 	<delete id="deleteReply" parameterType="int">
