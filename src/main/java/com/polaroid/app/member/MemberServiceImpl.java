@@ -71,8 +71,8 @@ public class MemberServiceImpl implements MemberService {
 		//회원 탈퇴
 		@Transactional
 		@Override
-		public int removeMember(MemberDto memberDto) {
-			return memberMapper.deleteMember(memberDto);
+		public int modifyMember(MemberDto memberDto) {
+			return memberMapper.updateMember(memberDto);
 		}
 
 }

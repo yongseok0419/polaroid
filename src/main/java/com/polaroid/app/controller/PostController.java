@@ -115,17 +115,19 @@ public class PostController {
 
 	}
 
-//	// 게시글 상세조회
-//	@GetMapping("/selectPostDetail")
-//	public String selectPostDetail(@RequestParam("post_id") int post_id, Model model) {
-//		System.out.println("post_id" + post_id);
-//		List<PostDetailDto> list = postService.retrivePostDetail(post_id);
-//		model.addAttribute("list", list);
-//
-//		return "redirect:/listAll";
-//	}
-
-	// 게시글 수정
+	//게시글 상세조회
+	@GetMapping("/selectPostDetail")
+	public String selectPostDetail(@RequestParam("post_id") int post_id, Model model) {
+		System.out.println("post_id" + post_id);
+		PostDto post = postService.retrivePostDetail(post_id);
+		model.addAttribute("post", post);
+		
+		return "redirect:/listAll";
+	}
+	
+	
+	
+	//게시글 수정
 	@PostMapping("/updatePost")
 	public String updatePost(@Valid PostDto postDto, Errors errors, Model model,
 			@RequestParam("file") List<MultipartFile> uploadFiles, HttpSession session) {
@@ -179,12 +181,6 @@ public class PostController {
 //				}
 //				
 
-		// 게시글 새로 등록
-		
-//		PostDto post = 
-//		int post_id = post.getPost_id();
-//		PostDto.setPost_id(post_id);
-		
 		
 		
 

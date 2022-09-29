@@ -23,7 +23,8 @@ public interface PostMapper {
 
 	public int selectPostCount(int member_id); //내 게시글 수
 	 
-	public PostDto selectPostDetail(int post_id);// 데이터 불러오기 조회
+
+	public PostDto selectPostDetail(int post_id);// 상세조회
 	//public List<UploadDto> retriveDetailImg(Integer post_id);//상세이미지 조회
 	public boolean updatePost(PostDto postDto);//수정
 	public boolean deletePost(int post_id);//삭제

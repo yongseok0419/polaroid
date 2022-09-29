@@ -124,7 +124,9 @@ public class MemberController {
 			
 			if(login == null) {
 				return "0";
-			} else {
+			} else if(login.getMemberStatusCode().equals("1")) {	//탈퇴한 회원인 경우
+				return "2";
+		    } else {
 				session.setAttribute("member", login);
 				return "1";
 			}
@@ -146,7 +148,8 @@ public class MemberController {
 		public String withdrawal(@RequestBody MemberDto memberDto) {
 			
 			//비밀번호 체크해서 맞으면 회원탈퇴
-			int cnt = memberService.removeMember(memberDto);
+			int cnt = memberService.modifyMember(memberDto);
+			System.out.println("cnt : " + cnt);
 			
 			return String.valueOf(cnt);
 		}

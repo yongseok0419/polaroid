@@ -66,6 +66,22 @@ public class ScreenController {
 		return "/index";
 	}
 	
+	//메인 화면_test
+		@GetMapping("/index_test")
+		public String index_test(Model model, HttpSession session) {
+			
+			MemberDto member = (MemberDto)session.getAttribute("member");
+			
+			List <PostDto> list = postService.retrieveMyPostList(member.getMemberId()); //
+			
+			int postCount = postService.selectPostCount(member.getMemberId());
+			
+			model.addAttribute("posts", list);
+			model.addAttribute("postCount", postCount);
+			
+			return "/index_test";
+		}
+	
 	//회원가입 화면
 	@GetMapping("join")
 	public String Join() {

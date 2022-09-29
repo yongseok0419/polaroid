@@ -119,13 +119,13 @@ public class PostServiceImpl implements PostService {
 		return postMapper.selectPostCount(member_id); //
 	}
 	
-	
-//	// 게시글 상세보기
-//	@Override
-//	public List<PostDetailDto> retrivePostDetail(int post_id) {
-//		
-//		return postMapper.selectPostDetail(post_id);
-//	}	
+
+	// 게시글 상세보기
+	@Override
+	public PostDto retrivePostDetail(int post_id) {
+		
+		return postMapper.selectPostDetail(post_id);
+	}	
 	
 	//게시글 좋아요 리스트 조회
 	@Override
