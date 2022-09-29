@@ -1,6 +1,7 @@
 package com.polaroid.app.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -10,14 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polaroid.app.command.MemberDto;
+import com.polaroid.app.command.PostDto;
 import com.polaroid.app.command.SendMailHelper;
 import com.polaroid.app.member.MemberService;
+import com.polaroid.app.post.PostService;
 
 @Controller
 public class MemberController {
