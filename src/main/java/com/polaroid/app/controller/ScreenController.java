@@ -50,9 +50,11 @@ public class ScreenController {
 	@GetMapping("/index")
 	public String index(Model model, HttpSession session) {
 		
+		System.out.println("indexController : ");
+		
 		MemberDto member = (MemberDto)session.getAttribute("member");
 		
-		List <PostDto> list = postService.retrieveMyPostList(member.getMemberId()); //
+		List <PostDto> list = postService.retrieveMyPostList(member.getMemberId());
 		
 		int postCount = postService.selectPostCount(member.getMemberId());
 		
@@ -64,7 +66,7 @@ public class ScreenController {
 	
 	//메인 화면_test
 		@GetMapping("/index_test")
-		public String index_test(Model model, HttpSession session) {
+			public String index_test(Model model, HttpSession session) {
 			
 			MemberDto member = (MemberDto)session.getAttribute("member");
 			
@@ -112,12 +114,6 @@ public class ScreenController {
 	@GetMapping("modifyPwd")
 	public String modifyPwd() {
 		return "modifyPwd";
-	}
-
-	//프로필 수정 화면
-	@GetMapping("profile")
-	public String profile() {
-		return "profile";
 	}
 	
 	//업로드 화면
