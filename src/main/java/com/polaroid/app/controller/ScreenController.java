@@ -1,5 +1,7 @@
 package com.polaroid.app.controller;
 
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -9,9 +11,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.PostDto;
+import com.polaroid.app.command.UploadDto;
 import com.polaroid.app.post.PostService;
 
 
@@ -124,5 +128,17 @@ public class ScreenController {
 	@GetMapping("upload")
 	public String upload() {
 		return "upload";
+	}
+	
+	//게시글 수정 
+	@GetMapping("updateForm")
+	public String updateForm(Model model, @RequestParam(value = "post_id", defaultValue = "32") int post_id) {
+		//post_id = 30;
+		
+		PostDto postDto = postService.retrievePostDetail(post_id); //
+
+		model.addAttribute("postDto", postDto);
+		
+		return "update";
 	}
 }

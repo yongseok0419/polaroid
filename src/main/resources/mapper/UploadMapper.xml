@@ -20,8 +20,11 @@
  	 </insert>
 	
 	
-	<delete id="deletUploadFile">
-	delete from upload where upload_id = #{upload_id}
+	<delete id="deleteUploadFile" parameterType="int">
+		delete 
+		from upload 
+		where post_id = #{post_id}
 	</delete>
+	
 
 </mapper>
