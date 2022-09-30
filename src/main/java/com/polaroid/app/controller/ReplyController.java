@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.MemberReplyDto;
@@ -57,7 +56,6 @@ public class ReplyController {
 		
 		List<MemberReplyDto> replyDtoList = replyService.retrieveReplyList(postId);
 		
-		System.out.println("size" + replyDtoList.size());
 		Map<String, Object> map = new HashMap<>();		
 		
 		map.put("replyList", replyDtoList);

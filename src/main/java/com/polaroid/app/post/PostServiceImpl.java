@@ -143,9 +143,9 @@ public class PostServiceImpl implements PostService {
 	
 	//게시글 수정
 	@Override
-	public boolean modifyPost(PostDto postDto) {
+	public boolean modifyPost(PostDto postDto, List <MultipartFile> uploadFiles) {
 
-		return postMapper.updatePost(postDto);
+		return postMapper.updatePost(postDto, uploadFiles);
 	}
 
 	@Override

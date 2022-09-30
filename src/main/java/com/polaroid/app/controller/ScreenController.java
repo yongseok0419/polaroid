@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.PostDto;
 import com.polaroid.app.post.PostService;
+import com.polaroid.app.reply.ReplyService;
 
 
 @Controller
@@ -21,6 +22,7 @@ public class ScreenController {
 	@Autowired
 	@Qualifier("postService")
 	PostService postService;
+	
 	
 	//관리자 메인화면
 	@GetMapping("adminIndex")
@@ -62,21 +64,18 @@ public class ScreenController {
 		return "/index";
 	}
 	
-	//메인 화면_test
-		@GetMapping("/index_test")
-		public String index_test(Model model, HttpSession session) {
-			
-			MemberDto member = (MemberDto)session.getAttribute("member");
-			
-			List <PostDto> list = postService.retrieveMyPostList(member.getMemberId()); //
-			
-			int postCount = postService.selectPostCount(member.getMemberId());
-			
-			model.addAttribute("posts", list);
-			model.addAttribute("postCount", postCount);
-			
-			return "/index_test";
-		}
+	//게시글 수정 
+//	@GetMapping("updateForm")
+//	public String updateForm(Model model, @RequestParam(value = "post_id", defaultValue = "11") int post_id) {
+//		//post_id = 30;
+//
+//		PostDto postDto = postService.retrievePostDetail(post_id); //
+//
+//		model.addAttribute("postDto", postDto);
+//
+//		return "update";
+//	}
+
 	
 	//회원가입 화면
 	@GetMapping("join")
@@ -86,8 +85,10 @@ public class ScreenController {
 	
 	//전체 게시글 화면
 	@GetMapping("listAll")
-	public String listAll() {
-		return "listAll";
+	public String listAll(Model model) {
+		List <PostDto> list = postService.retrievePostList();
+		model.addAttribute("posts", list);
+		return "/listAll";
 	}
 	
 	//팔로우 게시글 화면

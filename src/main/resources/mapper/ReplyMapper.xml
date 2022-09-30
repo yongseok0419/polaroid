@@ -28,17 +28,20 @@
 		values(default, #{replyContent}, now(), #{postId}, #{memberId})
 	</insert>
 
+	<!-- 게시글 댓글 삭제 -->
 	<delete id="deleteReply" parameterType="int">
 		delete from reply
 		where reply_id = #{replyId}
 	</delete>
 	
+	<!-- 게시글 댓글 수정 -->
 	<update id="updateReply" parameterType="ReplyDto">
 		update reply
 		set reply_content = #{replyContent}, reply_regdate = now()
 		where reply_id = #{replyId}
 	</update>
 	
+	<!-- 게시글 댓글 개수 -->
 	<select id="replyCount" resultType="int">
 		select count(*) from reply
 		where post_id = #{postId}

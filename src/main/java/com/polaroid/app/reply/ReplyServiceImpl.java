@@ -45,6 +45,11 @@ public class ReplyServiceImpl implements ReplyService {
 		return replyMapper.selectReplyList(postId);
 	}
 
+	//댓글 개수
+	public int selectReplyCount() {
+		return replyMapper.replyCount();
+	}
+	
 	//댓글 좋아요
 	@Transactional
 	@Override

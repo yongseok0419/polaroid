@@ -19,6 +19,9 @@ public interface ReplyService {
 	//댓글 조회
 	public List<MemberReplyDto> retrieveReplyList(int post_id);
 	
+	//댓글 개수
+	public int selectReplyCount();
+	
 	//댓글 좋아요
 	public void likeReply(int user_id, int reply_id);
 	

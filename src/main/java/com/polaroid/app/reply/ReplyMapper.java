@@ -14,5 +14,6 @@ public interface ReplyMapper {
 	public void insertReply(ReplyDto replyDto);
 	public int deleteReply(int replyId);
 	public void updateReply(ReplyDto replyDto);
+	public int replyCount();
 
 }

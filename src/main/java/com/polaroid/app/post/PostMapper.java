@@ -3,6 +3,7 @@ package com.polaroid.app.post;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.polaroid.app.command.PostDetailDto;
 import com.polaroid.app.command.PostDto;
@@ -24,6 +25,6 @@ public interface PostMapper {
 	 
 	public PostDetailDto selectPostDetail(int post_id);// 상세조회
 	//public List<UploadDto> retriveDetailImg(Integer post_id);//상세이미지 조회
-	public boolean updatePost(PostDto postDto);//수정
+	public boolean updatePost(PostDto postDto, List <MultipartFile> uploadFiles);//수정
 	public boolean deletePost(int post_id);//삭제
 }

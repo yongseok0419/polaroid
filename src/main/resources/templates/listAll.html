@@ -11,126 +11,228 @@
 
 <th:block th:replace="~{./include :: setContent( ~{:: .wrap} ) }"> 
  
- 	<div class="wrap">
+    <div class="wrap">
 
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+  	<script th:inline="javascript">
+
+    let post_id = 0;
+    //let isModified = false;
+    let reply_id = 0;
+    let replyContent = '';
+    let modifyForm_reply_id = 0;
+    let memberNick = /*[[${session.member.memberNick}]]*/;
+
+      $(document).ready(function() {
+    	  
+    	 $('#contents').on('click', 'a', function(e) {
+              e.preventDefault();
+              post_id = $(this).data('id');
+              console.log('post_id : ', post_id );              
+              
+              //게시글조회
+              // $.ajax({
+              //   url: "/posts/" + post_id,
+              //   type: 'GET',
+              //   contentType: 'application/json;charset=utf-8',
+              //   dataType: 'json',
+              //   success: function (data) {      
+                  
+              //     getPostDetail(data);
+              //   },
+              //   fail: function(ex){
+              //     console.log("error: ", ex);
+              //   }
+
+              // });
+
+
+              //댓글 조회
+              $.ajax({
+                url: "/posts/" + post_id + "/replies",
+                type: 'GET',
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'json',
+                success: function (data) {      
+                  getCommentList(data);
+                },
+                fail: function (ex) {
+                  console.log("error : ", ex);
+                }
+              });
+
+              $('#modalScrollable').modal('show');
+
+         });
+
+        function getCommentList(data) {
+ 
+          let replyList = data.replyList;
+          let htmlStr = "";
+
+        for (let i = 0; i < replyList.length; i++) {
+            htmlStr += "<div class='admin_container' id=" + replyList[i].replyId + ">";
+            htmlStr += "<div class= 'profile-img' style='background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;'></div>";
+            htmlStr += "<div class='comment'>";
+            htmlStr += "<span class='user_id'>" + replyList[i].memberNick + "</span>" + replyList[i].replyContent;
+            htmlStr += "<div class='time reply-btn' data-id=" + replyList[i].replyId + ">";
+            if (replyList[i].memberNick == memberNick) {
+              htmlStr += "<button class='modComment'>수정</button>";
+              htmlStr += "<button class='subComment'>삭제</button>";
+            }
+            htmlStr += replyList[i].replyRegdate + "</div>";
+            htmlStr += "<div class='reply_edit'><a href='#n'></a></div>";
+            htmlStr += "<div class='reply_delete'><a href='#n'></a></div>";
+            htmlStr += "<div class='reply_heart_btn'>";
+            htmlStr += "<a href='#'><i class='bx bx-heart'></i><span>8</span></a>";
+            htmlStr += "</div></div></div>";
+          }
+          //alert(htmlStr);
+
+          $('#commentList').html("");
+          $('#commentList').append(htmlStr);
+
+        }
+
+       
+        //댓글 등록
+        $('#addComment').on("click", function () {
+
+          $.ajax({
+            url: "/posts/" + post_id + "/replies",
+            type: 'POST',
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({
+              replyContent: $('#replyContent').val()
+            }),
+
+            success: function (data) {
+              getCommentList(data);
+            },
+            fail: function(ex) {
+              console.log("error: ", ex);
+            }
+          });
+
+        });
+
+        //댓글 삭제
+        $('#commentList').on("click", ".subComment", function () {
+
+          let reply_id = $(this).closest("div").data("id");
+
+          //console.log("postid: ", post_id);
+          //console.log("replyid: ", reply_id);
+
+          $.ajax({
+            url: "/posts/" + post_id + "/replies/" + reply_id,
+            type: 'DELETE',
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+
+            success: function (data) {
+              getCommentList(data);
+            },
+            
+            fail: function(ex) {
+              console.log("error: ", ex);
+            }
+
+          });
+
+        });
+
+        
+        //댓글 수정 폼 생성
+        $('#commentList').on("click", ".modComment", function(){
+
+          modifyForm_reply_id = $(this).closest("div").data("id");
+          console.log("modifyReply: ", modifyForm_reply_id );
+
+          $('#addForm').hide();
+          $('#modifyForm').show();
+
+
+        });
+
+        //댓글 수정
+        $('#modifyForm').on("click",'#ok', function(){
+          let reply_id = modifyForm_reply_id;
+          console.log("reply_id:" ,modifyForm_reply_id);
+          
+          $.ajax({
+            url: "posts/" + post_id + "/replies/" + reply_id,
+            type: 'PUT',
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({
+              replyContent: $('#modContent').val()
+            }),
+
+            success: function(data){
+
+              getCommentList(data);
+            },
+            error: function(ex){
+              console.log(ex);
+            }
+            
+          });
+
+
+
+        });
+        
+      });
+
+  </script>
+          
             <!-- Content -->
-
             <div class=" container-xxl flex-grow-1 container-p-y">
-              <div class="row" >
-               
-                
-                  <div class="row contents-list">
+              <div class="row">
+          
+          
+                <div class="row contents-list" id="contents">
 
-                    <!-- contents-item  start-->
-                    <div class="col-lg-4 col-md-4 col-4 mb-4">
-                      <div class="card">
-                        <a href="#" type="button"
-                        class=" "
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalScrollable">
-                          <div class="card-body contents-card">    
-                              <div class="contents-img" style="background: url(/img/elements/13.jpg) no-repeat center; background-size: cover;">
-                                <div class="hover-box">
-                                  <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;
-                                  <i class='bx bxs-chat'><span>123</span></i>
-                                </div>
+                  <!-- contents-item  start-->
+                  <style>
+                    .contents-img:nth-child(2),.contents-img:nth-child(2) {display:none;}
+                  </style>
+                  <th:block th:each="post: ${posts}"  >
+                  <div class="col-lg-4 col-md-4 col-4 mb-4">
+                    <div class="card">
+                      <a href="#" type="button" class="" th:attr="data-id=${post.post_id}">
+                        <div class="card-body contents-card">    
+                        <!-- <span th:style="'background-image:url('+ @{/images/sample-visual01.jpg} +');'"></span> -->
+                          <th:block th:each="upload : ${post.uploads}">
+                            <div class="contents-img" th:style="'background:url('+ @{'/upload/'+ ${upload.upload_filepath} + '/' + ${upload.upload_fileuuid} + '_' + ${upload.upload_filename}} +')no-repeat center; background-size: cover;'" >
 
+                          
+                      
+                           <!--  <img th:src="'/upload/'+ ${upload.upload_filepath} + '/' + ${upload.upload_fileuuid} + '_' + ${upload.upload_filename}" > -->
+                            <!-- img th:src="'/upload/main_' + ${file.uuid} + '_' + ${file.filename}" -->
+                           <!--  th:src="@{../display(r_path=${dto2.r_path}, r_image=${dto2.r_image})}" -->
+                              <div class="hover-box">
+                                <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;
+                                <i class='bx bxs-chat'><span>123</span></i>
                               </div>
-                          </div>
-                        </a>
-                      </div>
+              
+                            </div>
+                            </th:block>
+                        </div>
+                      </a>
                     </div>
-                    <!-- contents-item  end-->
-
-                     <!-- contents-item  start-->
-                     <div class="col-lg-4 col-md-4 col-4 mb-4">
-                      <div class="card">
-                        <a href="#" type="button"
-                        class=" "
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalScrollable">
-                          <div class="card-body contents-card">    
-                              <div class="contents-img" style="background: url(/img/elements/13.jpg) no-repeat center; background-size: cover;">
-                                <div class="hover-box">
-                                  <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;
-                                  <i class='bx bxs-chat'><span>123</span></i>
-                                </div>
-
-                              </div>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-                    <!-- contents-item  end-->
-
-                     <!-- contents-item  start-->
-                     <div class="col-lg-4 col-md-4 col-4 mb-4">
-                      <div class="card">
-                        <a href="#" type="button"
-                        class=" "
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalScrollable">
-                          <div class="card-body contents-card">    
-                              <div class="contents-img" style="background: url(/img/elements/13.jpg) no-repeat center; background-size: cover;">
-                                <div class="hover-box">
-                                  <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;
-                                  <i class='bx bxs-chat'><span>123</span></i>
-                                </div>
-
-                              </div>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-                    <!-- contents-item  end-->
-
-                     <!-- contents-item  start-->
-                     <div class="col-lg-4 col-md-4 col-4 mb-4">
-                      <div class="card">
-                        <a href="#" type="button"
-                        class=" "
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalScrollable">
-                          <div class="card-body contents-card">    
-                              <div class="contents-img" style="background: url(/img/elements/13.jpg) no-repeat center; background-size: cover;">
-                                <div class="hover-box">
-                                  <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;
-                                  <i class='bx bxs-chat'><span>123</span></i>
-                                </div>
-
-                              </div>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-                    <!-- contents-item  end-->
-
-                     <!-- contents-item  start-->
-                     <div class="col-lg-4 col-md-4 col-4 mb-4">
-                      <div class="card">
-                        <a href="#" type="button"
-                        class=" "
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalScrollable">
-                          <div class="card-body contents-card">    
-                              <div class="contents-img" style="background: url(/img/elements/13.jpg) no-repeat center; background-size: cover;">
-                                <div class="hover-box">
-                                  <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;
-                                  <i class='bx bxs-chat'><span>123</span></i>
-                                </div>
-
-                              </div>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-                    <!-- contents-item  end-->
-
                   </div>
-               
+                  </th:block>
+                  <!-- contents-item  end-->
+                  
+                </div>
+          
               </div>
-             
+          
             </div>
+
             <!-- modals2 start ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
           <div class="modal fade" id="modalScrollable" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -237,105 +339,38 @@
                     </div>
 
                   
-
-                    <section class="scroll_section">
-                      
-                        <div class="admin_container">
-                          <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-                          </div>
-                            <div class="comment">
-                                <span class="user_id">Kindtiger</span>구경하고 가요~
-                                
-                                <div class="time reply-btn">
-                                  <a href="#">수정</a>
-                                  <a href="#">삭제</a>
-                                  2시간
-                                </div>
-                                <div class="reply_heart_btn">
-                                  <a href="#">
-                                    <i class='bx bx-heart'></i>
-                                    <span>8</span>
-                                  </a>
-                                  
-                                </div>
-                            </div>
-                        </div>
-                        <div class="admin_container">
-                          <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-                          </div>
-                            <div class="comment">
-                                <span class="user_id">Kindtiger</span>구경하고 가요~
-                                
-                                <div class="time">2시간</div>
-                                <div class="reply_heart_btn">
-                                  <a href="#">
-                                    <i class='bx bx-heart'></i>
-                                    <span>8</span>
-                                  </a>
-                                  
-                                </div>
-                            </div>
-                        </div>
-                        <div class="admin_container">
-                          <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-                          </div>
-                            <div class="comment">
-                                <span class="user_id">Kindtiger</span>구경하고 가요~
-                                
-                                <div class="time">2시간</div>
-                                <div class="reply_heart_btn">
-                                  <a href="#">
-                                    <i class='bx bx-heart'></i>
-                                    <span>8</span>
-                                  </a>
-                                  
-                                </div>
-                            </div>
-                        </div>
-                        <div class="admin_container">
-                          <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-                          </div>
-                            <div class="comment">
-                                <span class="user_id">Kindtiger</span>구경하고 가요~
-                                
-                                <div class="time">2시간</div>
-                                <div class="reply_heart_btn">
-                                  <a href="#">
-                                    <i class='bx bx-heart'></i>
-                                    <span>8</span>
-                                  </a>
-                                  
-                                </div>
-                            </div>
-                        </div>
-                        
-                        
-                       
-                        
-                      
-
-                       
-
-                    </section>
+						          <!-- 댓글 리스트 -->
+	                    <section class="scroll_section"  id="commentList">
+	                     
+			
+	                    </section>
 
 
-                 
+                    <div class="modal-footer content-modal" id="addForm">
+                      <div class="commit_field">
+                        <input type="text" id="replyContent" placeholder="댓글 등록">
+                      </div>
+                      <button type="button" id="addComment" class="btn btn-primary">게시</button>
+                            
+                    </div>
 
+                    <!-- 수정폼 -->
+                    <div class="modal-footer content-modal" id="modifyForm" style="display: none;">
                     
+                      <div class="commit_field">
+                        <input type="text" id="modContent" placeholder="댓글 수정">
+                      </div>
+                      <button type="button" id="ok" class="btn btn-primary">수정</button>
+                    
+                    </div>
 
-
-
+                  </div>
                 </div>
-                </div>
-                <div class="modal-footer content-modal">
-                  <div class="commit_field">
-                    <input type="text" placeholder="댓글달기..">
-                   </div>
-                  <button type="button" class="btn btn-primary">게시</button>
-                </div>
+         
+                
               </div>
             </div>
-          </div>
+          
           <div class="demo-inline-spacing">
             <!-- Button trigger modal -->
             
