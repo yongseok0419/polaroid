@@ -76,6 +76,7 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		//비밀번호 재설정
+		@Transactional
 		@Override
 		public int modifyPwd(MemberDto memberDto) {
 					

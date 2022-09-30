@@ -1,5 +1,6 @@
 package com.polaroid.app.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -69,35 +70,27 @@ public class MemberController {
 	// 비밀번호 변경 링크 메일전송
 	@ResponseBody
 	@PostMapping("/forgotPwd")
-	public String forgotPwd(@RequestParam(value = "email") String toAddress) throws Exception {
+	public String forgotPwd(@RequestBody Map<String, String> map) throws Exception {
 
-		System.out.println("toAddress : " + toAddress);
-
-		int cnt = memberService.retrieveMemberEmail(toAddress);
+		String memberEmail =  map.get("memberEmail");
+		
+		int cnt = memberService.retrieveMemberEmail(memberEmail);
 
 		if (cnt == 1) {
-			toAddress = "yongseok0419@gmail.com";
 
-			String body = "<a href='http://localhost:8282/modifyPwdForm?memberEmail=" + toAddress + "'>비밀번호 변경 링크</a>";
-			String[] toAddressList = { toAddress };
+			String body = "<a href='http://localhost:8282/modifyPwdForm?memberEmail=" + memberEmail + "'>비밀번호 변경 링크</a>";
+			String[] toAddressList = { memberEmail };
 			String subject = "폴라로이드 비밀번호 변경 요청";
 
 			sendMailHelper.sendMail(fromAddress, toAddressList, subject, body);
-			return "/modifyPwd";
+			return "1";
 
 		} else {
-
-//					System.out.println("spring.mail.username : " + fromAddress);
-//					System.out.println("toAddress : " + toAddress);
-//					
-//					String fromAddress = "jandaruk08@gmail.com";
-
-			return "redirect:/forgotPwd";
+			return "0";
 		}
 	}
 
 	// 비밀번호 변경 화면
-	@ResponseBody
 	@GetMapping("/modifyPwdForm")
 	public String modifyPwdForm(@RequestParam(value = "memberEmail") String memberEmail) throws Exception {
 
@@ -194,16 +187,28 @@ public class MemberController {
 	}
 
 	// 비밀번호 변경
+	@ResponseBody
 	@PostMapping("/changePwd")
-	public String changePwd(MemberDto memberDto) throws Exception {
-
+	public String changePwd(@RequestBody HashMap<String, Object> map) throws Exception {
+		
+		String memberPwd  = (String)map.get("memberPwd");		
+		String memberEmail = ((ArrayList<String>)map.get("memberEmail")).get(0);	
+		
+		System.out.println("memberEmail : " + memberEmail);
+		System.out.println("memberPwd : " + memberPwd);
+		
+		MemberDto memberDto = new MemberDto();
+		memberDto.setMemberEmail(memberEmail);
+		memberDto.setMemberPwd(memberPwd);
+		
+		
 		int result = memberService.modifyPwd(memberDto);
-		System.out.println("result : " + result);
 
 		if (result == 1) {
-			return "redirect:/login";
+			
+			return "1";
 		} else {
-			return "/modifyPwd";
+			return "0";
 		}
 	}
 
