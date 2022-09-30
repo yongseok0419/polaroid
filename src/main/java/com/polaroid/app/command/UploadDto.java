@@ -14,5 +14,6 @@ public class UploadDto {
 	private String upload_filename;
 	private String upload_filepath;
 	private String upload_fileuuid;
+	private String upload_type;
 	private Integer post_id; //fk;
 }

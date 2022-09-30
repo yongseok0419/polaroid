@@ -62,6 +62,7 @@ public class ScreenController {
 		//메인 화면 회원 정보 조회
 		MemberDto member = (MemberDto)session.getAttribute("member");
 		
+
 		memberProfileDto.setMemberId(member.getMemberId());
 				
 		MemberProfileDto mpd = profileService.retrieveMemberList(memberProfileDto);
@@ -70,6 +71,7 @@ public class ScreenController {
 		
 		
 		//내 게시글 조회
+
 		List <PostDto> list = postService.retrieveMyPostList(member.getMemberId());
 		
 		int postCount = postService.selectPostCount(member.getMemberId());
@@ -80,21 +82,7 @@ public class ScreenController {
 		return "/index";
 	}
 	
-	//메인 화면_test
-		@GetMapping("/index_test")
-			public String index_test(Model model, HttpSession session) {
-			
-			MemberDto member = (MemberDto)session.getAttribute("member");
-			
-			List <PostDto> list = postService.retrieveMyPostList(member.getMemberId()); //
-			
-			int postCount = postService.selectPostCount(member.getMemberId());
-			
-			model.addAttribute("posts", list);
-			model.addAttribute("postCount", postCount);
-			
-			return "/index_test";
-		}
+
 	
 	//회원가입 화면
 	@GetMapping("join")
@@ -140,7 +128,7 @@ public class ScreenController {
 	
 	//게시글 수정 
 	@GetMapping("updateForm")
-	public String updateForm(Model model, @RequestParam(value = "post_id", defaultValue = "32") int post_id) {
+	public String updateForm(Model model, @RequestParam(value = "post_id", defaultValue = "15") int post_id) {
 		//post_id = 30;
 		
 		PostDto postDto = postService.retrievePostDetail(post_id); //

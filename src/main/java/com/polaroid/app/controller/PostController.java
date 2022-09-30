@@ -188,8 +188,8 @@ public class PostController {
 	}
 
 	// 게시글 삭제
-	@PostMapping("/deletePost")
-	public String deletePost(@RequestParam("post_id") int post_id, HttpSession session, RedirectAttributes RA) {
+	@GetMapping("/deletePost")
+	public String deletePost(@RequestParam(value = "post_id", defaultValue = "15") int post_id, RedirectAttributes RA) {
 		boolean result = postService.removePost(post_id);
 
 		if (result) {

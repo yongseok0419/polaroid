@@ -13,11 +13,7 @@ import com.polaroid.app.command.UploadDto;
 @Mapper
 public interface PostMapper {
 	public int registerPost(PostDto postDto); //등록
-	//public boolean registerFile(UploadDto uploadDto); //파일등록
 	
-	
-	
-	//public List<UploadDto> selectPostList(int post_id); //조회
 	public List<PostDto> selectMyPostList(int member_id); //내 게시글 조회
 	public List<PostListDto> selectLikePostList(); //좋아요조회
 

@@ -71,14 +71,11 @@
 	</select>
 
 
-
 	<select id="selectLikePostList" resultType="PostListDto">
 		select *
-		from post as
-		p
+		from post as p
 		LEFT JOIN postlike as l on p.post_id = l.post_id
-		where post_id =
-		#{post_id}
+		where post_id = #{post_id}
 		order by post_id desc
 	</select>
 
@@ -92,7 +89,7 @@
 	</update>
 
 
-	<delete id="deletePost">
+	<delete id="deletePost" parameterType="int" >
 		delete from post where post_id = #{post_id}
 	</delete>
 
