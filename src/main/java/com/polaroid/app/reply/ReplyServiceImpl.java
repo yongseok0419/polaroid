@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.polaroid.app.command.MemberReplyDto;
 import com.polaroid.app.command.ReplyDto;
 
 @Transactional(readOnly = true)
@@ -40,8 +41,8 @@ public class ReplyServiceImpl implements ReplyService {
 
 	//댓글 조회
 	@Override
-	public List<ReplyDto> retrieveReplyList(int postId) {
-		return replyMapper.selectReplyList(postId);
+	public List<MemberReplyDto> retrieveReplyList(int post_id) {
+		return replyMapper.selectReplyList(post_id);
 	}
 
 	//댓글 좋아요

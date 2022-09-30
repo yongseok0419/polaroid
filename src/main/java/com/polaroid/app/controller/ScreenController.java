@@ -1,5 +1,7 @@
 package com.polaroid.app.controller;
 
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -9,10 +11,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.polaroid.app.command.MemberDto;
+import com.polaroid.app.command.MemberProfileDto;
 import com.polaroid.app.command.PostDto;
 import com.polaroid.app.post.PostService;
+import com.polaroid.app.profile.ProfileService;
 
 
 @Controller
@@ -21,6 +26,10 @@ public class ScreenController {
 	@Autowired
 	@Qualifier("postService")
 	PostService postService;
+	
+	@Autowired
+	@Qualifier("profileService")
+	ProfileService profileService;
 	
 	//관리자 메인화면
 	@GetMapping("adminIndex")
@@ -48,11 +57,22 @@ public class ScreenController {
 	
 	//메인 화면
 	@GetMapping("/index")
-	public String index(Model model, HttpSession session) {
+	public String index(Model model, HttpSession session, MemberProfileDto memberProfileDto) {
 		
+		//메인 화면 회원 정보 조회
 		MemberDto member = (MemberDto)session.getAttribute("member");
 		
-		List <PostDto> list = postService.retrieveMyPostList(member.getMemberId()); //
+
+		memberProfileDto.setMemberId(member.getMemberId());
+				
+		MemberProfileDto mpd = profileService.retrieveMemberList(memberProfileDto);
+				
+		model.addAttribute("mpd", mpd);
+		
+		
+		//내 게시글 조회
+
+		List <PostDto> list = postService.retrieveMyPostList(member.getMemberId());
 		
 		int postCount = postService.selectPostCount(member.getMemberId());
 		
@@ -62,6 +82,7 @@ public class ScreenController {
 		return "/index";
 	}
 	
+
 	
 	//회원가입 화면
 	@GetMapping("join")
@@ -98,16 +119,22 @@ public class ScreenController {
 	public String modifyPwd() {
 		return "modifyPwd";
 	}
-
-	//프로필 수정 화면
-	@GetMapping("profile")
-	public String profile() {
-		return "profile";
-	}
 	
 	//업로드 화면
 	@GetMapping("upload")
 	public String upload() {
 		return "upload";
+	}
+	
+	//게시글 수정 
+	@GetMapping("updateForm")
+	public String updateForm(Model model, @RequestParam(value = "post_id", defaultValue = "15") int post_id) {
+		//post_id = 30;
+		
+		PostDto postDto = postService.retrievePostDetail(post_id); //
+
+		model.addAttribute("postDto", postDto);
+		
+		return "update";
 	}
 }

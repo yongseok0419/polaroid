@@ -11,8 +11,8 @@
 
 <th:block th:replace="~{./include :: setContent( ~{:: .wrap} ) }"> 
  
- 	<div class="wrap">
- 	
+    <div class="wrap">
+    
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
@@ -32,9 +32,17 @@
                   <div class="card mb-4">
                     <h5 class="card-header">Profile Details</h5>
                     <!-- Account -->
+
+                    
+                    <div class="card-body">
+                      <form id="form" action="profileForm" method="POST" enctype="multipart/form-data">
+                    
+
                     <div class="card-body profile-box">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
-                        <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
+                       <div class="profile-img">
+                      <img class="profile-img" th:src="'/upload/'+ ${mpd.profileFilePath} + '/' + ${mpd.profileFileUuid} + '_' + ${mpd.profileFileName}" 
+                      style="width:100%;">
                         </div>
                         <div class="button-wrapper">
                           <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
@@ -48,122 +56,154 @@
                               accept="image/png, image/jpeg"
                             />
                           </label>
-                          
 
-                          <p class="text-muted mb-0">자기 소개 내용의 짧은 글이 들어가는 텍스트입니다.</p>
+                          <p class="text-muted mb-0">[[${mpd.profileAboutMe}]]</p>
                           
                         </div>
                       </div>
                     </div>
                     <hr class="my-0" />
+
                     <div class="card-body">
                       <form id="formAccountSettings" method="POST" onsubmit="return false">
+
+                    
+
                         <div class="row">
                           <div class="mb-3 col-md-6">
-                            <label for="user-id" class="form-label">이메일</label>
+                            <label for="memberEmail" class="form-label">이메일</label>
                             <input
                               class="form-control"
                               type="text"
-                              id="user-id"
-                              name="user-id"
-                              value="admin_id@naver.com"
+
+                              id="memberEmail"
+                              name="memberEmail"
+                              th:value="${mpd.memberEmail}"
+
                               autofocus
                               disabled
                             />
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label for="user-name" class="form-label">이름</label>
+                            <label for="memberName" class="form-label">이름</label>
                             <input
                               class="form-control"
                               type="text"
-                              id="user-name"
-                              name="user-name"
-                              value="홍길동"
+
+                              id="memberName"
+                              name="memberName"
+                              maxlength="15"
+                              th:value="${mpd.memberName}"
+
                               autofocus
                               disabled
                             />
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label for="language" class="form-label">계정 공개 여부</label>
-                            <select id="language" class="select2 form-select">
-                              <option value="en">전체 공개</option>
-                              <option value="fr">팔로우만 공개</option>
-                              <option value="de">비공개</option>
+
+                            <label for="profileAccount" class="form-label">계정 공개 여부</label>
+                            <select id="profileAccount" name="profileAccount" class="select2 form-select">
+                              <option th:value="1">전체 공개</option>
+                              <option th:value="2">팔로우만 공개</option>
+                              <option th:value="3">비공개</option>
+
                             </select>
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label for="user-name" class="form-label">닉네임</label>
+                            <label for="memberNick" class="form-label">닉네임</label>
                             <input
                               class="form-control"
                               type="text"
-                              id="user-name"
-                              name="user-name"
-                              value="ADMIN_ID"
+
+                              id="memberNick"
+                              name="memberNick"
+                              maxlength="8"
+                              th:value="${mpd.memberNick}"
+
                               autofocus
                              
                             />
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label for="user-name" class="form-label">웹사이트</label>
+                            <label for="profileWebsite" class="form-label">웹사이트</label>
                             <input
                               class="form-control"
                               type="text"
-                              id="user-site"
-                              name="user-site"
-                              value="https://www.naver.com/"
+
+                              id="profileWebsite"
+                              name="profileWebsite"
+                              maxlength="30"
+                              th:value="${mpd.profileWebsite}"
                               autofocus
-                             
                             />
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label for="user-name" class="form-label">휴대폰</label>
+                            <label for="memberPhone" class="form-label">휴대폰</label>
                             <input
                               class="form-control"
                               type="text"
-                              id="user-num"
-                              name="user-num"
-                              value="010-1234-5678"
+
+                              id="memberPhone"
+                              name="memberPhone"
+                              maxlength="11"
+                              th:value="${mpd.memberPhone}"
+
                               autofocus
                              
                             />
                           </div>
 
                           <div class="mb-3 col-md-6">
-                            <label for="organization" class="form-label">비밀번호</label>
+                            <label for="memberPwdCheck" class="form-label">비밀번호</label>
                             <input
                               type="password"
+                              placeholder="최소 8자 최대 12자 이하로 입력해주세요."
                               class="form-control"
-                              id="user-password"
-                              name="user-password"
-                              value=""
+
+                              id="memberPwdCheck"
+                              name="memberPwdCheck"
+                              maxlength="12"
+                              th:value="${mpd.memberPwd}"
+
                             />
                           </div>
+                          
                           <div class="mb-3 col-md-6">
-                            <label for="organization" class="form-label">비밀번호 확인</label>
+                            <label for="memberPwdCheck_ck" class="form-label">비밀번호 확인</label>
                             <input
                               type="password"
+                              placeholder="동일한 비밀번호로 입력해주세요."
                               class="form-control"
-                              id="user-password"
-                              name="user-password"
-                              value=""
+
+                              id="memberPwdCheck_ck"
+                              name="memberPwdCheck_ck"
+                              maxlength="12"
+                              th:value="${mpd.memberPwd}"
+
                             />
                           </div>
+                          
                           <div class="mb-12 col-md-12">
                             
-                            
+
+                            <label for="profileAboutMe" class="form-label">자기소개</label>
                             <textarea
                               class="form-control"
                               type="text"
-                              id="user-id"
-                              name="user-id"
-                              cols="20" rows="2"
+                              id="profileAboutMe"
+                              name="profileAboutMe"
+                              maxlength="25"
+
                               autofocus
-                            ></textarea>
+                            >[[${mpd.profileAboutMe}]]</textarea>
                           </div>
                          
                         </div>
                         <div class="mt-2">
-                          <button type="submit" class="btn btn-primary me-2">저장</button>
+
+                          <button type="button" id="sendBtn" class="btn btn-primary me-2">저장</button>
+                          
+
                           <span class="delete-member"><a 
                              href="#" type="button"
                             data-bs-toggle="modal"
@@ -171,6 +211,7 @@
                             >회원탈퇴</a></span>
                           
                         </div>
+
                       </form>
                     </div>
                     <!-- /Account -->
@@ -246,47 +287,88 @@
            
           </div>
 
-			</form>
-			</div>
+         </form>
+         </div>
           <!-- modals2 end ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
 
 
             <!-- / Content -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script>
     
-    		//비밀번호가 틀렸을 시 비동기 메세지 띄우기
-    		$("#withdrawalMsg").click(function(){
-    			 var memberPwd = $('#memberPwd').val();
-    			$.ajax({
-    					method: "POST",
-    					url: "./withdrawalForm",
-    					data: JSON.stringify({
-    						memberPwd : memberPwd
-    					}),
-    					contentType: "application/json",
-    					dataType: "json",
-    					success: function(data){
-    						console.log("data : ", data);
-    						if(data == "0") {
-    							console.log("absd");
-    							$(".withdrawalFailure").css("display", "inline-block");
-    						} else if(data == "1"){
-    							console.log("dsfsdsd");
-    							location.href="/login";
-    						}
-    					},
-    					error: function(error){
-    						return false;
-    					}
-    			});
-    			
-    		});
-    		
-    		//모달창 닫으면 내용 초기화
-    		$('#modalClose').on('hidden.bs.modal', function (e) {
-    			console.log('modal close');
-    			$(this).find('form')[0].reset();
-    		});
+
+  		  //프로필 화면 비밀번호 일치 여부
+    	  let 	isCorrespond = true;
+    	  
+    	  $('#sendBtn').on('click', function(){
+    		  
+    		  if(isCorrespond) {
+    			  $('#form').submit();
+    		  } else {
+    			  alert("동일한 비밀번호를 입력하세요."); 
+    		  } 
+    		  
+    	  });
+    	  
+    	  $("#memberPwdCheck_ck").blur(function(){
+				if($("#memberPwdCheck_ck").val() == $("#memberPwdCheck").val()){
+					isCorrespond = true;
+				}else{
+					isCorrespond = false;
+				}
+			});
+    	  
+    	  $("#memberPwdCheck").blur(function(){
+				if($("#memberPwdCheck").val() == $("#memberPwdCheck_ck").val()){
+					isCorrespond = true;
+				}else{
+					isCorrespond = false;
+				}
+			});
+    
+          //모달창 비밀번호가 틀렸을 시 비동기 메세지 띄우기
+          $("#withdrawalMsg").click(function(){
+              var memberPwd = $('#memberPwd').val();
+             $.ajax({
+                   method: "POST",
+                   url: "./withdrawalForm",
+                   data: JSON.stringify({
+                      memberPwd : memberPwd
+                   }),
+                   contentType: "application/json",
+                   dataType: "json",
+                   success: function(data){
+                      console.log("data : ", data);
+                      if(data == "0") {
+                         $(".withdrawalFailure").css("display", "inline-block");
+                      } else if(data == "1"){
+                    	  event()
+                      }
+                   },
+                   error: function(error){
+                      return false;
+                   }
+             });
+             
+          });
+          
+          //모달창 닫으면 내용 초기화
+          $('#modalClose').on('hidden.bs.modal', function (e) {
+             console.log('modal close');
+             $(this).find('form')[0].reset();
+          });
+          
+          
+         //탈퇴 재질문
+         function event(){
+			if (confirm("정말 탈퇴 하시겠습니까?") == true){//확인
+				alert("탈퇴가 완료되었습니다.");
+				location.href="/login";
+			}else{//취소
+				return false;
+			}
+		 }
+
+
     </script>
 </div>

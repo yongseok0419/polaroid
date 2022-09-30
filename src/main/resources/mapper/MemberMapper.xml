@@ -60,7 +60,8 @@
 							member_nick AS memberNick,
 							member_name AS memberName,
 							member_phone AS memberPhone,
-							member_pwd AS memberPwd
+							member_pwd AS memberPwd,
+							member_statuscode AS memberStatusCode
 				FROM member
 				WHERE member_email = #{memberEmail}
 							AND
@@ -68,12 +69,24 @@
 		</select>
 		
 		<!-- 회원탈퇴 및 비밀번호 일치 여부 -->
-		<delete id="deleteMember" parameterType="String">
-				DELETE FROM member
-				WHERE member_id = (SELECT member_id
-												 FROM (SELECT member_id AS member_id FROM member) AS member
-												 WHERE member_pwd = #{memberPwd})
-				
-		</delete>
+		<update id="updateMember" parameterType="String">
+				UPDATE member
+				SET member_statuscode = '1'
+				WHERE member_pwd = #{memberPwd}
+		</update>
+		
+		<!-- 이메일 전송시 회원가입된 이메일인지 확인 -->
+		<select id="selectMemberEmail" parameterType="string" resultType="int">
+			SELECT COUNT(member_email)
+			FROM member
+			WHERE member_email = #{memberEmail}
+		</select>
+		
+		<!-- 비밀번호 변경 -->
+		<update id="updatePwd" parameterType="MemberDto">
+			update member
+			set member_pwd = #{memberPwd}
+			where member_email = #{memberEmail}
+		</update>
 		
 </mapper>

@@ -8,5 +8,6 @@ import com.polaroid.app.command.UploadDto;
 public interface UploadMapper {
 	public boolean registerUploadFile(UploadDto uploadFiles);
 	
-	public void deletUploadFile(UploadDto upload_id);
+	public void deleteUploadFile(int post_id);
+	
 }

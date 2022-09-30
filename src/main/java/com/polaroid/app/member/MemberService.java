@@ -32,6 +32,15 @@ public interface MemberService {
 	public int modifyStateMember(StateMemberDto stateMemberDto);
 	
 	//회원 탈퇴
-	public int removeMember(MemberDto memberDto);
+	public int modifyMember(MemberDto memberDto);
+	
+	//회원 비밀번호 변경
+	public int modifyPwd(MemberDto memberDto);
+		
+	//회원 비밀번호 변경폼
+	public int modifyForm(String memberEmail);
+		
+	//비밀번호 변경 시 DB에 회원이 있는지 유무
+	public int retrieveMemberEmail(String toAddress);
 	
 }
