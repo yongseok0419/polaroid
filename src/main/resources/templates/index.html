@@ -11,23 +11,19 @@
   data-template="vertical-menu-template-free"
 >
 
-
-
-
 <th:block th:replace="~{./include :: setContent( ~{:: .wrap} ) }"> 
- 
- 	<div class="wrap">
+ <div class="wrap">
 
-		<script src="/vendor/libs/jquery/jquery.js"></script>
+		<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
-		<script>
+ 		<script>
 
 			$(document).ready(function() {
 
 				$('#contents').on('click', '.btn btn-primary edit-btn', function() {
-					console.log('call');
+					alert('call');
 					let post_id = $(this).data('id')
-					console.log('post_id : ', post_id);
+					//console.log('post_id : ', post_id);
 				});
 
 
@@ -35,6 +31,182 @@
 
 
 		</script>
+		
+		     <script th:inline="javascript">
+
+    let post_id = 0;
+    let isModified = false;
+    let reply_id = 0;
+    let replyContent = '';
+    let modifyForm_reply_id = 0;
+
+      $(document).ready(function() {
+         
+        $('#contents').on('click', 'a', function(e) {
+              e.preventDefault();
+              post_id = $(this).data('id');
+              //console.log('post_id : ', post_id );              
+              
+              //게시글조회
+              // $.ajax({
+              //   url: "/posts/" + post_id,
+              //   type: 'GET',
+              //   contentType: 'application/json;charset=utf-8',
+              //   dataType: 'json',
+              //   success: function (data) {      
+                  
+              //     getPostDetail(data);
+              //   },
+              //   fail: function(ex){
+              //     console.log("error: ", ex);
+              //   }
+
+              // });
+
+
+              //댓글 조회
+              $.ajax({
+                url: "/posts/" + post_id + "/replies",
+                type: 'GET',
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'json',
+                success: function (data) {      
+                  getCommentList(data);
+                },
+                fail: function (ex) {
+                  console.log("error : ", ex);
+                }
+              });
+
+              $('#modalScrollable').modal('show');
+
+         });
+
+        function getCommentList(data) {
+ 
+          let replyList = data.replyList;
+          let htmlStr = "";
+
+        for (let i = 0; i < replyList.length; i++) {
+            htmlStr += "<div class='admin_container' id=" + replyList[i].replyId + ">";
+            htmlStr += "<div class= 'profile-img' style='background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;'></div>";
+            htmlStr += "<div class='comment'>";
+            htmlStr += "<span class='user_id'>" + replyList[i].memberNick + "</span>" + replyList[i].replyContent;
+            htmlStr += "<div class='time reply-btn' data-id=" + replyList[i].replyId + ">";
+            htmlStr += "<button class='modComment'>수정</button>";
+            htmlStr += "<button class='subComment'>삭제</button>";
+            htmlStr += replyList[i].replyRegdate + "</div>";
+            htmlStr += "<div class='reply_edit'><a href='#n'></a></div>";
+            htmlStr += "<div class='reply_delete'><a href='#n'></a></div>";
+            htmlStr += "<div class='reply_heart_btn'>";
+            htmlStr += "<a href='#'><i class='bx bx-heart'></i><span>8</span></a>";
+            htmlStr += "</div></div></div>";
+          }
+          //alert(htmlStr);
+
+          $('#commentList').html("");
+          $('#commentList').append(htmlStr);
+
+        }
+
+       
+        //댓글 등록
+        $('#addComment').on("click", function () {
+
+          $.ajax({
+            url: "/posts/" + post_id + "/replies",
+            type: 'POST',
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({
+              replyContent: $('#replyContent').val()
+            }),
+
+            success: function (data) {
+              getCommentList(data);
+            },
+            fail: function(ex) {
+              console.log("error: ", ex);
+            }
+          });
+
+        });
+
+        //댓글 삭제
+        $('#commentList').on("click", ".subComment", function () {
+
+          let reply_id = $(this).closest("div").data("id");
+
+          //console.log("postid: ", post_id);
+          //console.log("replyid: ", reply_id);
+
+          $.ajax({
+            url: "/posts/" + post_id + "/replies/" + reply_id,
+            type: 'DELETE',
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+
+            success: function (data) {
+              getCommentList(data);
+            },
+            
+            fail: function(ex) {
+              console.log("error: ", ex);
+            }
+
+          });
+
+        });
+
+        
+        //댓글 수정 폼 생성
+        $('#commentList').on("click", ".modComment", function(){
+
+          modifyForm_reply_id = $(this).closest("div").data("id");
+          console.log("modifyReply: ", modifyForm_reply_id );
+
+          $('#addForm').hide();
+          $('#modifyForm').show();
+
+
+        });
+
+        //댓글 수정
+        $('#modifyForm').on("click",'#ok', function(){
+          let reply_id = modifyForm_reply_id;
+          console.log("reply_id:" ,modifyForm_reply_id);
+          
+          $.ajax({
+            url: "posts/" + post_id + "/replies/" + reply_id,
+            type: 'PUT',
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({
+              replyContent: $('#modContent').val()
+            }),
+
+            success: function(data){
+
+              getCommentList(data);
+            },
+            error: function(ex){
+              console.log(ex);
+            }
+            
+          });
+
+
+
+        });
+        
+      });
+    
+    
+
+  </script>
+		
+		
+		
  	
             <!-- Content -->
 			 <form action="index" method="GET" enctype="multipart/form-data"> 
@@ -117,7 +289,7 @@
                         <a href="#" type="button"
                         class=" "
                         data-bs-toggle="modal"
-                        data-bs-target="#modalScrollable">
+                        data-bs-target="#modalScrollable" th:attr="data-id=${post.post_id}">
                           <div class="card-body contents-card">    
                           <!-- <span th:style="'background-image:url('+ @{/images/sample-visual01.jpg} +');'"></span> -->
                             <th:block th:each="upload : ${post.uploads}">
@@ -160,7 +332,7 @@
             <div class="modal-dialog modal-dialog-scrollable" role="document">
               <div class="modal-content">
 	                <div class="modal-header">
-	                  <h5 class="modal-title" id="modalScrollableTitle">도너츠와 사진들</h5>
+	                  <h5 class="modal-title" id="modalScrollableTitle">[]</h5>
 	                  <button
 	                    type="button"
 	                    class="btn-close"
@@ -208,7 +380,7 @@
 	                <!-- Bootstrap crossfade carousel -->
 	                </div>
 	
-	                  <div class="detail--right_box ">
+	                  <div class="detail--right_box">
 	
 	                    <header class="top">
 	                      <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
@@ -239,9 +411,9 @@
 							
 	                      <button type="button" class="btn btn-primary edit-btn"><a th:href=@{updateForm} style="color:white">수정</a></button>                     
 	                      
-	                       <form action="deletePost" method="GET" >
-	                      <button type="button" class="btn btn-primary delete-btn">삭제</button>	                     
-	                     </form>	                     
+	                       
+	                      <button type="button" class="btn btn-primary delete-btn"><a th:href=@{deletePost} style="color:white">삭제</a></button>	                     
+	                                         
 	                    </div>
 	                    
 	                    <div class="bottom_icons content-modal">
@@ -273,114 +445,51 @@
 	
 	                  
 	
-	                    <section class="scroll_section">
-	                      
-	                        <div class="admin_container">
-	                          <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-	                          </div>
-	                            <div class="comment">
-	                                <span class="user_id">Kindtiger</span>구경하고 가요~
-	                                
-	                                
-	                                <div class="time reply-btn">
-	                                  <a href="#">수정</a>
-	                                  <a href="#">삭제</a>
-	                                  2시간
-	                                </div>
-	                                <div class="reply_edit"><a href=""></a></div>
-	                                <div class="reply_delete"><a href=""></a></div>
-	                                <div class="reply_heart_btn">
-	                                  <a href="#">
-	                                    <i class='bx bx-heart'></i>
-	                                    <span>8</span>
-	                                  </a>
-	                                  
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="admin_container">
-	                          <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-	                          </div>
-	                            <div class="comment">
-	                                <span class="user_id">Kindtiger</span>구경하고 가요~
-	                                
-	                                <div class="time">2시간</div>
-	                                <div class="reply_heart_btn">
-	                                  <a href="#">
-	                                    <i class='bx bx-heart'></i>
-	                                    <span>8</span>
-	                                  </a>
-	                                  
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="admin_container">
-	                          <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-	                          </div>
-	                            <div class="comment">
-	                                <span class="user_id">Kindtiger</span>구경하고 가요~
-	                                
-	                                <div class="time">2시간</div>
-	                                <div class="reply_heart_btn">
-	                                  <a href="#">
-	                                    <i class='bx bx-heart'></i>
-	                                    <span>8</span>
-	                                  </a>
-	                                  
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <div class="admin_container">
-	                          <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-	                          </div>
-	                            <div class="comment">
-	                                <span class="user_id">Kindtiger</span>구경하고 가요~
-	                                
-	                                <div class="time">2시간</div>
-	                                <div class="reply_heart_btn">
-	                                  <a href="#">
-	                                    <i class='bx bx-heart'></i>
-	                                    <span>8</span>
-	                                  </a>
-	                                  
-	                                </div>
-	                            </div>
-	                        </div>
-	                        
-	                        
-	                       </div>
-	                        
-	                      
-	
-	                       
+	                    <!-- 댓글 리스트 -->
+                       <section class="scroll_section"  id="commentList">
+ 
 	
 	                    </section>
-	
-	
-	                 
-	
-	                    
 	
 	
 	
 	                </div>
 	                
-	                <div class="modal-footer content-modal">
-	                  <div class="commit_field">
-	                    <input type="text" placeholder="댓글달기..">
-	                   </div>
-	                  <button type="button" class="btn btn-primary">게시</button>
-	                </div>
+	                
+	                <div class="modal-footer content-modal" id="addForm">
+                    <div class="commit_field">
+                      <input type="text" id="replyContent" placeholder="댓글 등록">
+                    </div>
+                    <button type="button" id="addComment" class="btn btn-primary">게시</button>
+                          
+                  </div>
+
+                <div class="modal-footer content-modal" id="modifyForm" style="display: none;">
+                    <!-- 수정폼 -->
+                   <div class="commit_field">
+                      <input type="text" id="modContent" placeholder="댓글 수정">
+                    </div>
+                    <button type="button" id="ok" class="btn btn-primary">수정</button>
+                  
+                  </div>
+
+                  
+
+                
+                
+                </div>
                 </div>
                 
               </div>
             </div>
           </div>
+
           <div class="demo-inline-spacing">
             <!-- Button trigger modal -->
             
            
           </div>
+
 
 
           <!-- modals2 end ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->

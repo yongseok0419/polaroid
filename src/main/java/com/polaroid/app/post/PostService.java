@@ -27,8 +27,7 @@ public interface PostService {
 	public boolean removePost(int post_id);// 게시글 전체 삭제 
 	
 	public PostDto retrievePostDetail(int post_id); //수정 전 데이터 불러오기
-	//public boolean registerPost(PostDto postDto, List<MultipartFile> uploadFiles);//등록
-	//public boolean registerUploadFile(UploadDto upload_file); //파일등록
+	
 	public boolean registerPost(PostDto postDto, List<MultipartFile> uploadFiles);//등록
 	
 }
