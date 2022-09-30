@@ -221,20 +221,24 @@
                     <!-- Account -->
                     <div class="card-body profile-box" >
                       <div class="d-flex align-items-start align-items-sm-center gap-5 ">
-                        <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-							          </div>
+                        <div class="profile-img">
+                        	<img class="profile-img" th:src="'/upload/'+ ${mpd.profileFilePath} + '/' + ${mpd.profileFileUuid} + '_' + ${mpd.profileFileName}" 
+                      			style="width:100%;">
+						</div>
                        
                        
                         <div class="button-wrapper profile-btn">    
-                          <p>[[${session.member.memberNick}]]</p>                    
+                          <p>[[${mpd.memberNick}]]</p>                    
                           
                           <button type="button" class="btn btn-outline-primary">팔로우</button>
+                          
+                          
                           
                           <a type="button" class="btn btn-outline-secondary" th:href=@{profile}> 프로필 편집</a>
 
 
-                          <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
-                          <a href="https://www.naver.com/">https://www.naver.com/</a>
+                          <p class="text-muted mb-0">[[${mpd.profileAboutMe}]]</p>
+                          <a href="https://www.naver.com/">[[${mpd.profileWebsite}]]</a>
                           
                         </div>
 
