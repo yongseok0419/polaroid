@@ -27,4 +27,7 @@ public interface ProfileMapper {
 	//프로필 수정(이미지를 선택하지 않은 경우)
 	public void updateProfileExcludeImage(ProfileDto profileDto);
 	
+	//메인 화면 회원 정보 조회
+	public MemberProfileDto selectMemberList(MemberProfileDto memberDto);
+
 }

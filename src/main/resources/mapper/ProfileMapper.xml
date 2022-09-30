@@ -80,4 +80,17 @@
  	   		WHERE m.member_id = #{memberId}
  	   </select>
  	   
+ 	   <!-- 메인화면 회원 정보 조회 -->
+ 	   <select id="selectMemberList" parameterType="MemberProfileDto" resultType="MemberProfileDto">
+ 	   			SELECT m.member_nick AS memberNick,
+ 	   						p.profile_filename AS profileFileName,
+ 	   						p.profile_filepath AS profileFilePath,
+ 	   						p.profile_fileuuid AS profileFileUuid,
+ 	   						p.profile_aboutme AS profileAboutMe,
+ 	   						p.profile_website AS profileWebsite
+ 	   			FROM member m INNER JOIN profile p 
+ 	   			ON m.member_id = p.member_id
+ 	   			WHERE m.member_id = #{memberId}
+ 	   </select>
+ 	   
 </mapper>

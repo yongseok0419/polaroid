@@ -177,4 +177,10 @@ public class ProfileServiceImpl implements ProfileService {
 							.build());
 	}
 	
+	//메인 화면 회원 정보 조회
+	@Override
+	public MemberProfileDto retrieveMemberList(MemberProfileDto memberProfileDto) {
+		return profileMapper.selectMemberList(memberProfileDto);
+	}
+	
 }
