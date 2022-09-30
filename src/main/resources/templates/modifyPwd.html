@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- beautify ignore:start -->
-<html xmlns:th="http://www.thymeleaf.org"
-  lang="en"
+<html
+  lang="ko"
   class="light-style customizer-hide"
   dir="ltr"
   data-theme="theme-default"
@@ -79,8 +79,7 @@
               <h4 class="mb-2"></h4>
               <p class="mb-4"></p>
 
-              <form id="formAuthentication" class="mb-3" action="changePwd" method="POST">
-              <input type="hidden" name="memberEmail" th:value="${param.email}">
+              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
                 <br>
                 <h5 class="text-align weight">비밀번호 재설정</h5>
                 <p class="mb-4 text-align">
@@ -95,7 +94,7 @@
                       type="password"
                       id="password"
                       class="form-control"
-                      name="memberPwd"
+                      name="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
                     />

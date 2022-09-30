@@ -74,24 +74,5 @@ public class MemberServiceImpl implements MemberService {
 		public int modifyMember(MemberDto memberDto) {
 			return memberMapper.updateMember(memberDto);
 		}
-		
-		//비밀번호 재설정
-		@Override
-		public int modifyPwd(MemberDto memberDto) {
-					
-			return memberMapper.updatePwd(memberDto);
-		}
-				
-		@Override
-		public int modifyForm(String memberEmail) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-				
-		//비밀번호 변경 시 DB에 회원이 있는지 유무
-		@Override
-		public int retrieveMemberEmail(String toAddress) {
-			return memberMapper.selectMemberEmail(toAddress);
-		}
 
 }

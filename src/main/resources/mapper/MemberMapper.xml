@@ -75,18 +75,4 @@
 				WHERE member_pwd = #{memberPwd}
 		</update>
 		
-		<!-- 이메일 전송시 회원가입된 이메일인지 확인 -->
-		<select id="selectMemberEmail" parameterType="string" resultType="int">
-			SELECT COUNT(member_email)
-			FROM member
-			WHERE member_email = #{memberEmail}
-		</select>
-		
-		<!-- 비밀번호 변경 -->
-		<update id="updatePwd" parameterType="MemberDto">
-			update member
-			set member_pwd = #{memberPwd}
-			where member_email = #{memberEmail}
-		</update>
-		
 </mapper>
