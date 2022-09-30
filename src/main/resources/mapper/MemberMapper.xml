@@ -53,9 +53,40 @@
 							#{memberPwd})
 		</insert>
 		<!-- 회원 비밀번호 변경 -->
-		<update id="updatePwd" parameterType="String">
+		<update id="updatePwd" parameterType="MemberDto">
 			update member
 			set member_pwd = #{memberPwd}
 			where member_email = #{memberEmail}
 		</update>
+		
+		
+		<select id="selectMemberEmail" parameterType="string" resultType="int">
+			SELECT COUNT(member_email)
+			FROM member
+			WHERE member_email = #{memberEmail}
+		</select>
+		
+		
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

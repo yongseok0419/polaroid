@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.polaroid.app.command.LoginDto;
 import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.SendMailHelper;
 import com.polaroid.app.member.MemberService;
@@ -66,24 +66,46 @@ public class MemberController {
 			return String.valueOf(cnt);
 		}
 		
+		
 		//비밀번호 변경 링크 메일전송
 		@ResponseBody
 		@PostMapping("/forgotPwd")
-		public String forgotPwd(@RequestParam(value = "email")  String toAddress) throws Exception {
+		public String forgotPwd(@RequestParam(value = "email") String toAddress) throws Exception {
+			
+			System.out.println("toAddress : " + toAddress);
+			
+			int cnt = memberService.retrieveMemberEmail(toAddress);
+			
+			
+			if(cnt == 1) {
+				toAddress = "yongseok0419@gmail.com";
+				
+				String body = "<a href='http://localhost:8282/modifyPwdForm?memberEmail=" + toAddress + "'>비밀번호 변경 링크</a>";			
+				String[] toAddressList = {toAddress};			
+				String subject = "폴라로이드 비밀번호 변경 요청";
+				
+				sendMailHelper.sendMail(fromAddress, toAddressList, subject, body);
+				return "/modifyPwd";
+				
+			} else {
 			
 //			System.out.println("spring.mail.username : " + fromAddress);
 //			System.out.println("toAddress : " + toAddress);
-			
+//			
 //			String fromAddress = "jandaruk08@gmail.com";
-			toAddress = "yongseok0419@gmail.com";
+						
 			
-			String body = "<a href='http://localhost:8282/modifyPwd?email=" + toAddress + "'>비밀번호 변경 링크</a>";			
-			String[] toAddressList = {toAddress};			
-			String subject = "폴라로이드 비밀번호 변경 요청";
-			
-			sendMailHelper.sendMail(fromAddress, toAddressList, subject, body);			
-			
-			return "1";
+			return "redirect:/forgotPwd";
+		}
+	}
+		
+		
+		//비밀번호 변경 화면
+		@ResponseBody
+		@GetMapping("/modifyPwdForm")
+		public String modifyPwdForm(@RequestParam(value = "memberEmail") String memberEmail) throws Exception {
+
+			return "/modifyPwd";
 		}
 		
 		
@@ -137,19 +159,29 @@ public class MemberController {
 			return "redirect:/login";
 		}
 		
+		//비밀번호 변경
 		@PostMapping("/changePwd")
-		public String modifyPwd(@RequestParam(value = "password") MemberDto memberDto) throws Exception{
+		public String changePwd(MemberDto memberDto) throws Exception {
 			
-			//비밀번호 변경
-			memberService.modifyPwd(memberDto);
+			int result = memberService.modifyPwd(memberDto);
+			System.out.println("result : " + result);
 			
-			//비밀번호 변경완료시 메인페이지로 바로 이동
-			return "redirect:/index";
-			
-			
-			
+			if (result == 1) {
+				return "redirect:/login";
+			} else {
+				return "/modifyPwd";
+			}
 			
 			
 		}
 			
 }
+
+
+
+
+
+
+
+
+

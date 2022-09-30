@@ -3,6 +3,7 @@ package com.polaroid.app.member;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.polaroid.app.command.MemberDto;
 
@@ -29,5 +30,8 @@ public interface MemberMapper {
 	
 	//회원 비밀번호 변경
 	public int updatePwd(MemberDto memberDto);
+	
+	//비밀번호 변경 시 DB에 회원이 있는지 유무
+	public int selectMemberEmail(String toAddress);
 	
 }
