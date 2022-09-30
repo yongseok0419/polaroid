@@ -32,12 +32,10 @@
                   <div class="card mb-4">
                     <h5 class="card-header">Profile Details</h5>
                     <!-- Account -->
-
                     
                     <div class="card-body">
                       <form id="form" action="profileForm" method="POST" enctype="multipart/form-data">
                     
-
                     <div class="card-body profile-box">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
                        <div class="profile-img">
@@ -51,6 +49,7 @@
                             <input
                               type="file"
                               id="upload"
+                              name="upload"
                               class="account-file-input"
                               hidden
                               accept="image/png, image/jpeg"
@@ -63,23 +62,16 @@
                       </div>
                     </div>
                     <hr class="my-0" />
-
-                    <div class="card-body">
-                      <form id="formAccountSettings" method="POST" onsubmit="return false">
-
                     
-
                         <div class="row">
                           <div class="mb-3 col-md-6">
                             <label for="memberEmail" class="form-label">이메일</label>
                             <input
                               class="form-control"
                               type="text"
-
                               id="memberEmail"
                               name="memberEmail"
                               th:value="${mpd.memberEmail}"
-
                               autofocus
                               disabled
                             />
@@ -89,24 +81,20 @@
                             <input
                               class="form-control"
                               type="text"
-
                               id="memberName"
                               name="memberName"
                               maxlength="15"
                               th:value="${mpd.memberName}"
-
                               autofocus
                               disabled
                             />
                           </div>
                           <div class="mb-3 col-md-6">
-
                             <label for="profileAccount" class="form-label">계정 공개 여부</label>
                             <select id="profileAccount" name="profileAccount" class="select2 form-select">
                               <option th:value="1">전체 공개</option>
                               <option th:value="2">팔로우만 공개</option>
                               <option th:value="3">비공개</option>
-
                             </select>
                           </div>
                           <div class="mb-3 col-md-6">
@@ -114,12 +102,10 @@
                             <input
                               class="form-control"
                               type="text"
-
                               id="memberNick"
                               name="memberNick"
                               maxlength="8"
                               th:value="${mpd.memberNick}"
-
                               autofocus
                              
                             />
@@ -129,7 +115,6 @@
                             <input
                               class="form-control"
                               type="text"
-
                               id="profileWebsite"
                               name="profileWebsite"
                               maxlength="30"
@@ -142,12 +127,10 @@
                             <input
                               class="form-control"
                               type="text"
-
                               id="memberPhone"
                               name="memberPhone"
                               maxlength="11"
                               th:value="${mpd.memberPhone}"
-
                               autofocus
                              
                             />
@@ -159,12 +142,10 @@
                               type="password"
                               placeholder="최소 8자 최대 12자 이하로 입력해주세요."
                               class="form-control"
-
                               id="memberPwdCheck"
                               name="memberPwdCheck"
                               maxlength="12"
                               th:value="${mpd.memberPwd}"
-
                             />
                           </div>
                           
@@ -174,18 +155,15 @@
                               type="password"
                               placeholder="동일한 비밀번호로 입력해주세요."
                               class="form-control"
-
                               id="memberPwdCheck_ck"
                               name="memberPwdCheck_ck"
                               maxlength="12"
                               th:value="${mpd.memberPwd}"
-
                             />
                           </div>
                           
                           <div class="mb-12 col-md-12">
                             
-
                             <label for="profileAboutMe" class="form-label">자기소개</label>
                             <textarea
                               class="form-control"
@@ -193,17 +171,14 @@
                               id="profileAboutMe"
                               name="profileAboutMe"
                               maxlength="25"
-
                               autofocus
                             >[[${mpd.profileAboutMe}]]</textarea>
                           </div>
                          
                         </div>
                         <div class="mt-2">
-
                           <button type="button" id="sendBtn" class="btn btn-primary me-2">저장</button>
                           
-
                           <span class="delete-member"><a 
                              href="#" type="button"
                             data-bs-toggle="modal"
@@ -211,7 +186,7 @@
                             >회원탈퇴</a></span>
                           
                         </div>
-
+                        
                       </form>
                     </div>
                     <!-- /Account -->
@@ -296,7 +271,6 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script>
     
-
   		  //프로필 화면 비밀번호 일치 여부
     	  let 	isCorrespond = true;
     	  
@@ -368,7 +342,6 @@
 				return false;
 			}
 		 }
-
 
     </script>
 </div>

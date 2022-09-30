@@ -1,8 +1,6 @@
 package com.polaroid.app.command;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,10 +22,9 @@ public class PostDetailDto {
 	 private Integer postlike_id;
 	 
 	 private Integer upload_id;
-//	 private String upload_filename;
-//	 private String upload_filepath;
-//	 private String upload_fileuuid;
-	 private List<UploadDto> uploads = new ArrayList < > ();
+	 private String upload_filename;
+	 private String upload_filepath;
+	 private String upload_fileuuid;
 	 private String upload_type;
 	 
 	 private Integer reply_id;

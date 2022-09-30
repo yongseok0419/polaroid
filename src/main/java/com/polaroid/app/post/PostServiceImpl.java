@@ -119,7 +119,7 @@ public class PostServiceImpl implements PostService {
 	// 게시글 상세보기
 	@Transactional
 	@Override
-	public PostDetailDto retrivePostDetail(int post_id) {
+	public PostDto retrivePostDetail(int post_id) {
 		
 		return postMapper.selectPostDetail(post_id);
 	}	
