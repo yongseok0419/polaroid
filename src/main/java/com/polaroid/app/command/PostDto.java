@@ -19,6 +19,7 @@ public class PostDto {
 	
 
 	private Integer post_id; //PK
+	private String member_nick;
 	private LocalDateTime post_regdate; // 날짜
 	
 	@NotBlank(message = "제목은 필수 입니다")
