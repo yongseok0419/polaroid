@@ -23,4 +23,7 @@ public interface ProfileService {
 	//프로필 수정(이미지를 선택하지 않은 경우)
 	public void modifyProfileExcludeImage(ProfileDto profileDto, MemberDto memberDto);
 	
+	//메인 화면 회원 정보 조회
+	public MemberProfileDto retrieveMemberList(MemberProfileDto memberProfileDto);
+	
 }
