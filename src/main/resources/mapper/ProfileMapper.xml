@@ -5,7 +5,14 @@
   
 <mapper namespace="com.polaroid.app.profile.ProfileMapper">
 		
-		<!-- 닉네임, 비밀번호 변경 -->
+		<!-- 프로필 등록 시 닉네임 변경 -->
+		<update id="updateMemberNick" parameterType="MemberDto">
+				UPDATE member
+				SET member_nick = #{memberNick}
+				WHERE member_id = #{memberId}
+		</update>
+		
+		<!-- 프로필 수정 시 닉네임, 비밀번호 변경 -->
 		<update id="updateMember" parameterType="MemberDto">
 				UPDATE member
 				SET member_nick = #{memberNick},
@@ -15,8 +22,8 @@
 		
 		<!-- 프로필 존재 유무 -->
 		<select id="isProfile" parameterType="int" resultType="int">
-				SELECT COUNT(member_id)
-				FROM member
+				SELECT COUNT(*)
+				FROM profile
 				WHERE member_id = #{memberId}
 		</select>
 		

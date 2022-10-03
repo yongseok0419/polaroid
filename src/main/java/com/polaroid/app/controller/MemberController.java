@@ -130,8 +130,13 @@ public class MemberController {
 				return "0";
 			} else if(login.getMemberStatusCode().equals("1")) {	//탈퇴한 회원인 경우
 				return "2";
+		    } else if(memberDto.getMemberEmail().startsWith("admin")){
+		    	session.setAttribute("member", login);
+		    	session.setMaxInactiveInterval(30*60);
+				return "3";
 		    } else {
 				session.setAttribute("member", login);
+				session.setMaxInactiveInterval(30*60);
 				return "1";
 			}
 			

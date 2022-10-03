@@ -18,23 +18,25 @@
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row">
                 <div class="col-md-12">
+                  
                   <ul class="nav nav-pills flex-column flex-md-row mb-3">
+                  
                     <li class="nav-item">
-                      <a class="nav-link active" href="profile.html"><i class="bx bx-user me-1"></i> 프로필</a>
+                      <a class="nav-link active" th:href=@{profile}><i class="bx bx-user me-1"></i> 프로필</a>
                     </li>
                     
                     <li class="nav-item">
-                      <a class="nav-link" th:href=@{follow}
-                        ><i class="bx bx-user-check me-1"></i> 팔로우</a
-                      >
+                      <a class="nav-link" th:href=@{follow}><i class="bx bx-user-check me-1"></i> 팔로우</a>
                     </li>
+                  
                   </ul>
+                  
                   <div class="card mb-4">
-                    <h5 class="card-header">Profile Details</h5>
+                    <h5 class="card-header">Edit Your Profile</h5>
                     <!-- Account -->
                     
                     <div class="card-body">
-                      <form id="form" action="profileForm" method="POST" enctype="multipart/form-data">
+                      <form id="form" action="updateProfile" method="POST" enctype="multipart/form-data">
                     
                     <div class="card-body profile-box">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
@@ -177,7 +179,7 @@
                          
                         </div>
                         <div class="mt-2">
-                          <button type="button" id="sendBtn" class="btn btn-primary me-2">저장</button>
+                          <button type="button" id="sendBtn" class="btn btn-primary me-2">변경</button>
                           
                           <span class="delete-member"><a 
                              href="#" type="button"

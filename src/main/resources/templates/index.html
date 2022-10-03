@@ -49,24 +49,35 @@
                     <!-- Account -->
                     <div class="card-body profile-box" >
                       <div class="d-flex align-items-start align-items-sm-center gap-5 ">
-                        <div class="profile-img">
-                        	<img class="profile-img" th:src="'/upload/'+ ${mpd.profileFilePath} + '/' + ${mpd.profileFileUuid} + '_' + ${mpd.profileFileName}" 
-                      			style="width:100%;">
-						</div>
+                        <!-- <div class="profile-img">
+	                        	<img class="profile-img" th:src="'/upload/'+ ${mpd.profileFilePath} + '/' + ${mpd.profileFileUuid} + '_' + ${mpd.profileFileName}" 
+	                      			style="width:100%;">
+						</div> -->
+						<div class="profile-img" style="background: url(/static/img/avatars/1.jpg) no-repeat center; background-size: cover;">
+							          </div>
                        
                        
                         <div class="button-wrapper profile-btn">    
-                          <p>[[${mpd.memberNick}]]</p>                    
+                        <p>[[${session.member.memberNick}]]</p>
+                                
                           
                           <button type="button" class="btn btn-outline-primary">팔로우</button>
                           
                           
+                          <th:block th:if="${isProfile == 0}">
+                          		<a type="button" class="btn btn-outline-secondary" th:href=@{registProfile}>프로필 등록</a>
+                          </th:block>
+                          <th:block th:unless="${isProfile == 0}">
+                          		<a type="button" class="btn btn-outline-secondary" th:href=@{updateProfileForm}>프로필 편집</a>
+                          </th:block>
                           
-                          <a type="button" class="btn btn-outline-secondary" th:href=@{profile}> 프로필 편집</a>
-
-
-                          <p class="text-muted mb-0">[[${mpd.profileAboutMe}]]</p>
-                          <a href="https://www.naver.com/">[[${mpd.profileWebsite}]]</a>
+                          <br>
+                          
+						<!-- <th:block th:text="${mpd.profileAboutMe == null} ? '한문장으로 자신을 표현해보세요.' : ${mpd.profileAboutMe}"></th:block>
+						
+						<a th:href=@{mpd.profilwWebsite} th:text="${mpd.profileWebsite == null} ? '공유하고 싶은 웹사이트를 적어주세요.' : ${mpd.profileWebsite}"></a> -->
+                        <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                        <a href="https://www.naver.com/">https://www.naver.com/</a>
                           
                         </div>
 
