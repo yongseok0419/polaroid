@@ -20,7 +20,7 @@ import com.polaroid.app.upload.UploadMapper;
 
 import net.coobird.thumbnailator.Thumbnailator;
 
-@Transactional(readOnly = true)
+/*@Transactional(readOnly = true)*/
 @Service("postService")
 public class PostServiceImpl implements PostService {
 
@@ -33,6 +33,7 @@ public class PostServiceImpl implements PostService {
 	private String upload_filepath;
 
 	// 폴더생성함수
+	@Transactional
 	public String makeFolder() {
 		String path = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
 		File file = new File(upload_filepath + "\\" + path);
@@ -97,50 +98,39 @@ public class PostServiceImpl implements PostService {
 		return true;
 	}
 
-
-//	// 전체 게시글 보기
-//	@Override
-//	public List<PostListDto> retrievePostList() { // 목록조회
-//
-//		return postMapper.selectPostList();
-//	}
 	
 	// 내 게시글 리스트
+	@Transactional
 	@Override
-	public List<PostDto> retrieveMyPostList(int member_id) { // 내 게시글 조회
+	public List<PostDto> retrieveMyPostList(int member_id) {
 
 		return postMapper.selectMyPostList(member_id);
 	}
 	
 	// 내 게시글 갯수
+	@Transactional
 	@Override
-	public int selectPostCount(int member_id) { //
+	public int selectPostCount(int member_id) { 
 		
-		return postMapper.selectPostCount(member_id); //
+		return postMapper.selectPostCount(member_id); 
 	}
 	
 
 	// 게시글 상세보기
+	@Transactional
 	@Override
-	public PostDto retrivePostDetail(int post_id) {
+	public PostDetailDto retrivePostDetail(int post_id) {
 		
 		return postMapper.selectPostDetail(post_id);
 	}	
 	
 	//게시글 좋아요 리스트 조회
+	@Transactional
 	@Override
 	public List<PostListDto> retrieveLikePostList() {
 
 		return postMapper.selectLikePostList();
 	}
-
-	
-//	 @Override 
-//	 public List<PostDetailDto> retriveDetailImg(int post_id) {
-//	  
-//	 return postMapper.retriveDetailImg(post_id); 
-//	 
-//	 }
 	 
 	
 	//게시글 수정
@@ -212,6 +202,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	//수정할 때 등록된 데이터 불러오기
+	@Transactional
 	@Override
 	public PostDto retrievePostDetail(int post_id) {
 		

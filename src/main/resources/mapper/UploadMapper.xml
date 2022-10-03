@@ -8,11 +8,13 @@
 		insert into upload(upload_filename,
 						   upload_filepath,
 						   upload_fileuuid,
+						   upload_type,
 						   post_id
 						   )
  		values(#{upload_filename},
  			   #{upload_filepath},
  			   #{upload_fileuuid},
+ 			   #{upload_type},
  			   #{post_id}
  			 
  			  )	   
