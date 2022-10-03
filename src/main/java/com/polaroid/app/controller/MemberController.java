@@ -147,22 +147,27 @@ public class MemberController {
 		return "redirect:/login";
 	}
 
-	// 로그인
+	//로그인
 	@ResponseBody
 	@PostMapping("/loginForm")
 	public String loginForm(@RequestBody MemberDto memberDto, HttpSession session) {
 
 		MemberDto login = memberService.findMember(memberDto);
-
-		if (login == null) {
+			
+		if(login == null) {
 			return "0";
-		} else if (login.getMemberStatusCode().equals("1")) { // 탈퇴한 회원인 경우
+		} else if(login.getMemberStatusCode().equals("1")) {	//탈퇴한 회원인 경우
 			return "2";
+		} else if(memberDto.getMemberEmail().startsWith("admin")){
+		  	session.setAttribute("member", login);
+			session.setMaxInactiveInterval(30*60);
+			return "3";
 		} else {
 			session.setAttribute("member", login);
+			session.setMaxInactiveInterval(30*60);
 			return "1";
 		}
-
+			
 	}
 
 	// 로그아웃
