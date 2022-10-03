@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.polaroid.app.command.MemberDto;
-import com.polaroid.app.command.StateMemberDto;
 
 @Transactional(readOnly = true)
 @Service("memberService")
@@ -58,14 +57,6 @@ public class MemberServiceImpl implements MemberService {
 		@Override
 		public MemberDto findMember(MemberDto memberDto) {
 			return memberMapper.selectMember(memberDto);
-		}
-		
-		//회원 상태 변경
-		@Transactional
-		@Override
-		public int modifyStateMember(StateMemberDto stateMemberDto) {
-			// TODO Auto-generated method stub
-			return 0;
 		}
 		
 		//회원 탈퇴

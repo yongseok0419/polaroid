@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!-- beautify ignore:start -->
+<html xmlns:th="http://www.thymeleaf.org"
+  lang="ko"
+  class="light-style layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-static-path="/"
+  data-template="vertical-menu-template-free"
+>
+
+<th:block th:replace="~{./include :: setContent( ~{:: .wrap} ) }"> 
+ 
+    <div class="wrap">
+    
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <div class="col-md-12">
+
+                  <ul class="nav nav-pills flex-column flex-md-row mb-3">
+                  
+                    <li class="nav-item">
+                      <a class="nav-link active" th:href=@{profile}><i class="bx bx-user me-1"></i> 프로필</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                      <a class="nav-link" th:href=@{follow}><i class="bx bx-user-check me-1"></i> 팔로우</a>
+                    </li>
+
+                  </ul>
+
+                  <div class="card mb-4">
+                    <h5 class="card-header">Register Your Profile</h5>
+                    <!-- Account -->
+                    <div class="card-body">
+                    <form id="form" action="registProfile" method="POST" enctype="multipart/form-data">
+                    
+                    <div class="card-body profile-box">
+                    
+                      <div class="d-flex align-items-start align-items-sm-center gap-4">
+                        <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
+                        </div>
+                        <div class="button-wrapper">
+                          <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                            <span class="d-none d-sm-block">사진 업로드</span>
+                            <i class="bx bx-upload d-block d-sm-none"></i>
+                            <input
+                              type="file"
+                              id="upload"
+                              name="upload"
+                              class="account-file-input"
+                              hidden
+                              accept="image/png, image/jpeg"
+                            />
+                          </label>
+                          
+
+                          <p class="text-muted mb-0">자기 소개 내용의 짧은 글이 들어가는 텍스트입니다.</p>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="my-0" />
+                    
+                      
+                        <div class="row">
+                          <div class="mb-3 col-md-6">
+                            <label for="user-id" class="form-label">이메일</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              id="memberEmail"
+                              name="memberEmail"
+                              th:value="${session.member.MemberEmail}"
+                              autofocus
+                              disabled
+                            />
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="user-name" class="form-label">이름</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              id="memberName"
+                              name="memberName"
+                              maxlength="15"
+                              th:value="${session.member.MemberName}"
+                              autofocus
+                              disabled
+                            />
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="profileAccount" class="form-label">계정 공개 여부</label>
+                            <select id="profileAccount" name="profileAccount" class="select2 form-select">
+                              <option value="1">전체 공개</option>
+                              <option value="2">팔로우만 공개</option>
+                              <option value="3">비공개</option>
+                            </select>
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="user-name" class="form-label">닉네임</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              id="memberNick"
+                              name="memberNick"
+                              maxlength="8"
+                              placeholder="ADMIN_ID"
+                              autofocus
+                             
+                            />
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="profileWebsite" class="form-label">웹사이트</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              id="profileWebsite"
+                              name="profileWebsite"
+                              maxlength="30"
+                              placeholder="https://www.google.com/"
+                              autofocus
+                            />
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="user-name" class="form-label">휴대폰</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              id="memberPhone"
+                              name="memberPhone"
+                              maxlength="11"
+                              placeholder="01012345678"
+                              autofocus
+                            />
+                          </div>
+
+                          <div class="mb-12 col-md-12">
+                            
+                            <label for="profileAboutMe" class="form-label">자기소개</label>
+                            <textarea
+                              class="form-control"
+                              type="text"
+                              id="profileAboutMe"
+                              name="profileAboutMe"
+                              maxlength="25"
+                              autofocus
+                            ></textarea>
+                          </div>
+                         
+                        </div>
+                        <div class="mt-2">
+                          <button type="submit" class="btn btn-primary me-2">등록</button>
+                        </div>
+                        
+                      </form>
+                    </div>
+                    <!-- /Account -->
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+
+
+            <!-- / Content -->
+		
+</div>

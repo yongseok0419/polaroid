@@ -147,29 +147,6 @@ public class MemberController {
 		return "redirect:/login";
 	}
 
-	//로그인
-	@ResponseBody
-	@PostMapping("/loginForm")
-	public String loginForm(@RequestBody MemberDto memberDto, HttpSession session) {
-
-		MemberDto login = memberService.findMember(memberDto);
-			
-		if(login == null) {
-			return "0";
-		} else if(login.getMemberStatusCode().equals("1")) {	//탈퇴한 회원인 경우
-			return "2";
-		} else if(memberDto.getMemberEmail().startsWith("admin")){
-		  	session.setAttribute("member", login);
-			session.setMaxInactiveInterval(30*60);
-			return "3";
-		} else {
-			session.setAttribute("member", login);
-			session.setMaxInactiveInterval(30*60);
-			return "1";
-		}
-			
-	}
-
 	// 로그아웃
 	@GetMapping("/logoutForm")
 	public String logoutForm(HttpSession session) {
@@ -202,10 +179,32 @@ public class MemberController {
 		System.out.println("memberEmail : " + memberEmail);
 		System.out.println("memberPwd : " + memberPwd);
 		
+		//로그인
+		@ResponseBody
+		@PostMapping("/loginForm")
+		public String loginForm(@RequestBody MemberDto memberDto, HttpSession session) {
+
+			MemberDto login = memberService.findMember(memberDto);
+			
+			if(login == null) {
+				return "0";
+			} else if(login.getMemberStatusCode().equals("1")) {	//탈퇴한 회원인 경우
+				return "2";
+		    } else if(memberDto.getMemberEmail().startsWith("admin")){
+		    	session.setAttribute("member", login);
+		    	session.setMaxInactiveInterval(30*60);
+				return "3";
+		    } else {
+				session.setAttribute("member", login);
+				session.setMaxInactiveInterval(30*60);
+				return "1";
+			}
+			
+		}
+
 		MemberDto memberDto = new MemberDto();
 		memberDto.setMemberEmail(memberEmail);
 		memberDto.setMemberPwd(memberPwd);
-		
 		
 		int result = memberService.modifyPwd(memberDto);
 

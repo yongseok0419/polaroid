@@ -69,7 +69,6 @@ public class ScreenController {
 				
 		model.addAttribute("mpd", mpd);
 		
-		
 		//내 게시글 조회
 
 		List <PostDto> list = postService.retrieveMyPostList(member.getMemberId());
@@ -78,6 +77,11 @@ public class ScreenController {
 		
 		model.addAttribute("posts", list);
 		model.addAttribute("postCount", postCount);
+		
+		//프로필 존재 유무
+		int cnt = profileService.isProfile(member.getMemberId());
+		
+		model.addAttribute("isProfile", cnt);
 		
 		return "/index";
 	}
@@ -118,6 +122,12 @@ public class ScreenController {
 	@GetMapping("modifyPwd")
 	public String modifyPwd() {
 		return "modifyPwd";
+	}
+	
+	//프로필 등록 화면
+	@GetMapping("registProfile")
+	public String registProfile() {
+		return "registProfile";
 	}
 	
 	//업로드 화면

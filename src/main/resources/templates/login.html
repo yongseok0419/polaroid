@@ -200,12 +200,12 @@
     					success: function(data){
     						console.log("data : ", data);
     						if(data == "0") {
-    							console.log("absd");
     							$(".loginFailure").css("display", "inline-block");
     						} else if(data == "2"){
     							$(".loginWithdrawal").css("display", "inline-block");
+    						} else if(data == "3"){
+								location.href="/adminIndex";						
     						} else {
-    							console.log("dsfsdsd");
     							location.href="/index";
     						}
     					},

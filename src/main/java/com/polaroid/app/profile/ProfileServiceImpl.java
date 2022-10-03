@@ -77,8 +77,8 @@ public class ProfileServiceImpl implements ProfileService {
 				System.out.println("업로드중 에러 발생");
 			}
 			
-			//2. 닉네임, 비밀번호 변경
-			profileMapper.updateMember(memberDto);
+			//2. 닉네임만 변경
+			profileMapper.updateMemberNick(memberDto);
 			
 			// 3. 프로필 등록
 			profileMapper.insertProfileFile(profileDto.builder()

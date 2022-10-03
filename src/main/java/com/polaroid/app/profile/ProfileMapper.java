@@ -9,7 +9,10 @@ import com.polaroid.app.command.ProfileDto;
 @Mapper
 public interface ProfileMapper {
 
-	//프로필 화면에 닉네임, 비밀번호 수정
+	//프로필 등록 시 닉네임만 수정
+	public void updateMemberNick(MemberDto membetDto);
+	
+	//프로필 수정 시 닉네임, 비밀번호 수정
 	public boolean updateMember(MemberDto memberDto);
 	
 	//프로필 등록
