@@ -36,38 +36,21 @@ public class PostController {
 	@Qualifier("postService")
 	PostService postService;
 
-//	// 전체 게시글 조회
-//	@GetMapping("postListAll")
-//	public String postListAll(Model model) {
-//		List<PostListDto> list = postService.retrievePostList();
+
+	
+	// 전체 게시글 조회
+		@GetMapping("postListAll")
+		public String postListAll() {
+			return "/listAll";
+		}
+	
+//	@GetMapping("postLikeList")
+//	public String postLikeList(Model model) {
+//		List<PostListDto> list = postService.retrieveLikePostList();
 //		model.addAttribute("list", list);
-//		return "/listAll";
+//		return "/listLike";
+//
 //	}
-
-	// 내 게시글 조회
-//	@GetMapping("postListMe")
-//	public String postListMe(Model model, HttpSession session) {
-//		
-//		int member_id = (int)session.getAttribute("member_id");
-//		
-//		List<PostListDto> list = postService.retrieveMyPostList(member_id); //
-//		
-//		int postCount = postService.selectPostCount(member_id);
-//		
-//		model.addAttribute("list", list);
-//		model.addAttribute("postCount", postCount);
-//		
-//		return "/index";
-
-//	}
-
-	@GetMapping("postLikeList")
-	public String postLikeList(Model model) {
-		List<PostListDto> list = postService.retrieveLikePostList();
-		model.addAttribute("list", list);
-		return "/listLike";
-
-	}
 
 	@GetMapping("postUpload")
 	// @RequestMapping("/upload")

@@ -141,7 +141,7 @@ public class ScreenController {
 	public String updateForm(Model model, @RequestParam(value = "post_id", defaultValue = "15") int post_id) {
 		//post_id = 30;
 		
-		PostDto postDto = postService.retrievePostDetail(post_id); //
+		PostDto postDto = postService.modifyPostDetail(post_id); //
 
 		model.addAttribute("postDto", postDto);
 		
