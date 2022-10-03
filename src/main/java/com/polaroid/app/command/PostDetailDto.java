@@ -24,9 +24,6 @@ public class PostDetailDto {
 	 private Integer postlike_id;
 	 
 	 private Integer upload_id;
-//	 private String upload_filename;
-//	 private String upload_filepath;
-//	 private String upload_fileuuid;
 	 private List<UploadDto> uploads = new ArrayList < > ();
 	 private String upload_type;
 	 

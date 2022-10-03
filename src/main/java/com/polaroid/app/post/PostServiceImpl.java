@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.polaroid.app.command.PostDetailDto;
 import com.polaroid.app.command.PostDto;
-import com.polaroid.app.command.PostListDto;
 import com.polaroid.app.command.UploadDto;
 import com.polaroid.app.upload.UploadMapper;
 
@@ -97,7 +96,14 @@ public class PostServiceImpl implements PostService {
 		}
 		return true;
 	}
+	
+	
+	// 전체 게시글 보기
+		@Override
+		public List<PostDto> retrievePostList() {
 
+			return postMapper.selectPostList();
+		}
 	
 	// 내 게시글 리스트
 	@Transactional
@@ -124,13 +130,13 @@ public class PostServiceImpl implements PostService {
 		return postMapper.selectPostDetail(post_id);
 	}	
 	
-	//게시글 좋아요 리스트 조회
-	@Transactional
-	@Override
-	public List<PostListDto> retrieveLikePostList() {
-
-		return postMapper.selectLikePostList();
-	}
+//	//게시글 좋아요 리스트 조회
+//	@Transactional
+//	@Override
+//	public List<PostListDto> retrieveLikePostList() {
+//
+//		return postMapper.selectLikePostList();
+//	}
 	 
 	
 	//게시글 수정
@@ -204,10 +210,11 @@ public class PostServiceImpl implements PostService {
 	//수정할 때 등록된 데이터 불러오기
 	@Transactional
 	@Override
-	public PostDto retrievePostDetail(int post_id) {
+	public PostDto modifyPostDetail(int post_id) {
 		
-		return postMapper.selectPostDetail(post_id);
+		return postMapper.updatePostDetail(post_id);
 	}
+
 
 
 }
