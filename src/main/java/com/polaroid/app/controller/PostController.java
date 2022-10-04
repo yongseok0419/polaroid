@@ -39,10 +39,10 @@ public class PostController {
 
 	
 	// 전체 게시글 조회
-		@GetMapping("postListAll")
-		public String postListAll() {
-			return "/listAll";
-		}
+	   @GetMapping("postListAll")
+	   public String postListAll() {
+	      return "/listAll";
+	   }
 	
 //	@GetMapping("postLikeList")
 //	public String postLikeList(Model model) {
