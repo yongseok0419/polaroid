@@ -1,5 +1,6 @@
 package com.polaroid.app.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polaroid.app.command.MemberDto;
@@ -51,7 +53,7 @@ public class MemberController {
 			
 			String[] toAddress = {memberDto.getMemberEmail()};
 			System.out.println("toAddress : " + toAddress);
-			String subject = "폴라로이드에서 요청하신 인증번호를 발송해드립니다.";
+			String subject = "polaroid에서 요청하신 인증번호를 발송해드립니다";
 			sendMailHelper.sendMail(fromAddress, toAddress, subject, body);
 			
 			//DB에 인증번호 저장 (이메일, 인증번호)
@@ -64,6 +66,61 @@ public class MemberController {
 			
 			return String.valueOf(cnt);
 		}
+		
+		// 비밀번호 변경 링크 메일전송
+        @ResponseBody
+        @PostMapping("/forgotPwd")
+        public String forgotPwd(@RequestBody Map<String, String> map) throws Exception {
+
+           String memberEmail =  map.get("memberEmail");
+           
+           int cnt = memberService.retrieveMemberEmail(memberEmail);
+
+           if (cnt == 1) {
+
+              String body = "<a href='http://localhost:8282/modifyPwdForm?memberEmail=" + memberEmail + "'>비밀번호 변경 링크</a>";
+              String[] toAddress = { memberEmail };
+              String subject = "더욱 간편하게 polaroid에 다시 로그인해보세요";
+
+              sendMailHelper.sendMail(fromAddress, toAddress, subject, body);
+              return "1";
+
+           } else {
+              return "0";
+           }
+        }
+        
+    	// 비밀번호 변경 화면
+        @GetMapping("/modifyPwdForm")
+        public String modifyPwdForm(@RequestParam(value = "memberEmail") String memberEmail) throws Exception {
+
+           return "/modifyPwd";
+        }
+        
+        // 비밀번호 변경
+        @ResponseBody
+        @PostMapping("/changePwd")
+        public String changePwd(@RequestBody HashMap<String, Object> map) throws Exception {
+           
+           String memberPwd  = (String)map.get("memberPwd");      
+           String memberEmail = ((ArrayList<String>)map.get("memberEmail")).get(0);   
+           
+           System.out.println("memberEmail : " + memberEmail);
+           System.out.println("memberPwd : " + memberPwd);
+           
+           MemberDto memberDto = new MemberDto();
+           memberDto.setMemberEmail(memberEmail);
+           memberDto.setMemberPwd(memberPwd);
+           
+           int result = memberService.modifyPwd(memberDto);
+
+           if (result == 1) {
+              
+              return "1";
+           } else {
+              return "0";
+           }
+        }
 
 		//인증번호 일치 여부
 		@ResponseBody
