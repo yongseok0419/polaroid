@@ -94,11 +94,12 @@ public class ScreenController {
 		return "join";
 	}
 	
-	//전체 게시글 화면
 	@GetMapping("listAll")
-	public String listAll() {
-		return "listAll";
-	}
+	   public String listAll(Model model) {
+	      List <PostDto> list = postService.retrievePostList();
+	      model.addAttribute("posts", list);
+	      return "/listAll";
+	   }
 	
 	//팔로우 게시글 화면
 	@GetMapping("listFollow")
