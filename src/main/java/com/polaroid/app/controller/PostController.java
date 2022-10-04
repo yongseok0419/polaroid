@@ -103,16 +103,16 @@ public class PostController {
 	}
 
 	//게시글 상세조회
-	@GetMapping(value="/posts/{post_id}")
-	public @ResponseBody Map<String, Object> selectPostDetail(@PathVariable("post_id") int post_id) {
-		System.out.println("post_id" + post_id);
-		PostDetailDto post = postService.retrivePostDetail(post_id);
-		//List<UploadDto> uploads = postService.retrivePostDetail(post_id);
-		Map<String, Object> map = new HashMap<>();
-		//model.addAttribute("post", post);
-		map.put("post", post);
-		return map;
-	}
+//	@GetMapping(value="/posts/{post_id}")
+//	public @ResponseBody Map<String, Object> selectPostDetail(@PathVariable("post_id") int post_id) {
+//		System.out.println("post_id" + post_id);
+//		PostDetailDto post = postService.retrivePostDetail(post_id);
+//		//List<UploadDto> uploads = postService.retrivePostDetail(post_id);
+//		Map<String, Object> map = new HashMap<>();
+//		//model.addAttribute("post", post);
+//		map.put("post", post);
+//		return map;
+//	}
 	
 	
 	
@@ -132,6 +132,9 @@ public class PostController {
 			}
 			model.addAttribute("postDto", postDto);
 			// model.addAttribute("uploadFiles", uploadFiles);
+			
+			
+			
 			return "/update";
 		}
 		
@@ -178,7 +181,7 @@ public class PostController {
 
 	// 게시글 삭제
 	@GetMapping("/deletePost")
-	public String deletePost(@RequestParam(value = "post_id", defaultValue = "15") int post_id, RedirectAttributes RA) {
+	public String deletePost(@RequestParam(value = "post_id") int post_id, RedirectAttributes RA) {
 		boolean result = postService.removePost(post_id);
 
 		if (result) {

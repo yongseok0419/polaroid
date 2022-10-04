@@ -1,8 +1,11 @@
 package com.polaroid.app.controller;
 
+import java.util.HashMap;
+
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,10 +14,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.MemberProfileDto;
+import com.polaroid.app.command.PostDetailDto;
 import com.polaroid.app.command.PostDto;
 import com.polaroid.app.post.PostService;
 import com.polaroid.app.profile.ProfileService;
@@ -136,10 +142,22 @@ public class ScreenController {
 	public String upload() {
 		return "upload";
 	}
+	@GetMapping(value="/posts/{post_id}")
+	public @ResponseBody Map<String, Object> selectPostDetail(@PathVariable("post_id") int post_id) {
+		System.out.println("post_id" + post_id);
+		PostDetailDto post = postService.retrivePostDetail(post_id);
+		//List<UploadDto> uploads = postService.retrivePostDetail(post_id);
+		Map<String, Object> map = new HashMap<>();
+		//model.addAttribute("post", post);
+		map.put("post", post);
+		return map;
+	}
+	
+	
 	
 	//게시글 수정 
 	@GetMapping("updateForm")
-	public String updateForm(Model model, @RequestParam(value = "post_id", defaultValue = "15") int post_id) {
+	public String updateForm(Model model, @RequestParam(value = "post_id", defaultValue = "13") int post_id) {
 		//post_id = 30;
 		
 		PostDto postDto = postService.modifyPostDetail(post_id); //
