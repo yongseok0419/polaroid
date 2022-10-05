@@ -204,12 +204,17 @@
                    </span>
                  </a>
                </li> -->
-               <li>
-                 <a class="dropdown-item" th:href=@{updateProfileForm}>
-                   <i class="bx bx-cog me-2"></i>
-                   <span class="align-middle">설정</span>
-                 </a>
-               </li>
+             	
+	       <th:block th:if="${isProfile == 0}">
+               </th:block>
+               <th:block th:unless="${isProfile == 0}">
+                    <li>
+	                <a class="dropdown-item" th:href=@{updateProfileForm}>
+	                   <i class="bx bx-cog me-2"></i>
+	                   <span class="align-middle">설정</span>
+	                </a>
+	           </li>
+               </th:block>
                
                <li>
                  <div class="dropdown-divider"></div>
