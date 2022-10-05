@@ -25,18 +25,11 @@
 		    let replyContent = '';
 		    let modifyForm_reply_id = 0;
 		    let memberNick = /*[[${session.member.memberNick}]]*/ ;
+		    let memberId = /*[[${session.member.memberId}]]*/ ;
+		    let session = /*[[${session.member}]]*/ ;
 		   // let likeCount = [[${likeCount}]] ;
 	  
-		$(document).ready(function() {
-
-				$('#contents').on('click', '.btn btn-primary edit-btn', function() {
-					alert('call');
-					let post_id = $(this).data('id')
-					//console.log('post_id : ', post_id);
-				});
-
-
-			});
+		
 
   	
   		</script>
