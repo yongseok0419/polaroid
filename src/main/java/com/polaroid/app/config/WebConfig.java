@@ -27,12 +27,10 @@ public class WebConfig implements WebMvcConfigurer {
 	            .addResourceHandler("/vendor/**")
 	            .addResourceLocations("classpath:/static/vendor/");
 		
-	//업로드 파일처리
+        //업로드 파일처리
         registry
-        	.addResourceHandler("/upload/**")
-        	.addResourceLocations("file:///D:/project/upload/");
-        
-        
+        		.addResourceHandler("/upload/**")
+        		.addResourceLocations("file:///D:/project/upload/");
         
 	}
 }

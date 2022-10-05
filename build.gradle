@@ -9,6 +9,9 @@ group = 'com.polaroid.app'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+ext['thymeleaf.version']='3.0.15.RELEASE'
+ext['thymeleaf-layout-dialect.version']='2.1.1'
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
