@@ -75,4 +75,18 @@
 				WHERE member_pwd = #{memberPwd}
 		</update>
 		
+	  <!-- 회원 비밀번호 변경 -->
+      <update id="updatePwd" parameterType="MemberDto">
+         update member
+         set member_pwd = #{memberPwd}
+         where member_email = #{memberEmail}
+      </update>
+      
+      <!-- 비밀번호 변경시 회원 존재유무 판단 -->
+      <select id="selectMemberEmail" parameterType="string" resultType="int">
+         SELECT COUNT(member_email)
+         FROM member
+         WHERE member_email = #{memberEmail}
+      </select>
+		
 </mapper>

@@ -25,7 +25,7 @@ public class ExceptionAdviceController {
 				
 				log.error(model.toString());
 				
-				return "./error500";
+				return "error/500";
 			}
 			
 			//500 메세지는 Internal Server Error이므로 @ExceptionHandler를 이용해서 처리가 가능하지만,
@@ -33,6 +33,7 @@ public class ExceptionAdviceController {
 			@ResponseStatus(value = HttpStatus.NOT_FOUND)	//브라우저 개발자모드의 Network에 표시되는 Http상태코드를 보여줌
 			@ExceptionHandler(NoHandlerFoundException.class)
 			public String handle404(NoHandlerFoundException e) {
-				return "./error404";
+				log.error("Exception...................."+e.getMessage());
+				return "error/404";
 			}
 }

@@ -30,4 +30,10 @@ public interface MemberService {
 	//회원 탈퇴
 	public int modifyMember(MemberDto memberDto);
 	
+	//회원 비밀번호 변경
+	public int modifyPwd(MemberDto memberDto);
+	   
+	//비밀번호 변경 시 DB에 회원이 있는지 유무
+	public int retrieveMemberEmail(String toAddress);
+	
 }
