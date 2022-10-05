@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MemberReplyDto {
-	 private Integer replyId;
-	   private String replyContent;
-	   private LocalDateTime replyRegdate;
-	   private Integer postId;
-	   private Integer memberId;
-	   private String memberNick;
+	private Integer replyId;
+	private String replyContent;
+	private LocalDateTime replyRegdate;
+	private Integer postId;
+	private Integer memberId;
+	private String memberNick;
 }

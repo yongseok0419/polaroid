@@ -215,6 +215,10 @@ public class PostServiceImpl implements PostService {
 		return postMapper.updatePostDetail(post_id);
 	}
 
-
+	//게시글 검색
+		@Override
+		public List<PostDto> searchPostList(String keyword){
+			return postMapper.searchPostList(keyword);
+		}
 
 }

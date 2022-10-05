@@ -2,7 +2,7 @@
     /*<![CDATA[*/
 
 
-   
+  
  
       $(document).ready(function() {
 
@@ -17,6 +17,17 @@
 
         // });
 
+
+        $(document).ready(function() {
+
+          $('#contents').on('click', '.btn btn-primary edit-btn', function() {
+            alert('call');
+            let post_id = $(this).data('id')
+            //console.log('post_id : ', post_id);
+          });
+  
+  
+        });
 
 
         //게시글 
@@ -82,8 +93,10 @@
 
          })
        
-        //댓글 등록
-        $('#addComment').on("click", function () {
+       //댓글 등록
+       $('#addComment').on("click", function () {
+
+        if($('#replyContent').val() != ""){
 
           $.ajax({
             url: "/posts/" + post_id + "/replies",
@@ -102,29 +115,40 @@
               console.log("error: ", ex);
             }
           });
+        }
+        else{
+          alert("댓글 내용을 입력하세요.");
+        }
 
-        });
+      });
+
         //댓글 등록 엔터키 이벤트
         $('#replyContent').keydown(function(keynum){
           if(keynum.keyCode == 13){ //엔터키 이벤트 발생
             
-              $.ajax({
-                url: "/posts/" + post_id + "/replies",
-                type: 'POST',
-                contentType: 'application/json;charset=utf-8',
-                dataType: 'json',
-                data: JSON.stringify({
-                  replyContent: $('#replyContent').val()
-                }),
+              if($('#replyContent').val() != ""){
+            
+                $.ajax({
+                  url: "/posts/" + post_id + "/replies",
+                  type: 'POST',
+                  contentType: 'application/json;charset=utf-8',
+                  dataType: 'json',
+                  data: JSON.stringify({
+                    replyContent: $('#replyContent').val()
+                  }),
 
-                success: function (data) {
-                  $('#replyContent').val("");
-                  getCommentList(data);
-                },
-                fail: function (ex) {
-                  console.log("error: ", ex);
-                }
-            });
+                  success: function (data) {
+                    $('#replyContent').val("");
+                    getCommentList(data);
+                  },
+                  fail: function (ex) {
+                    console.log("error: ", ex);
+                  }
+              });
+            }
+            else{
+              alert("댓글 내용을 입력하세요.");
+            }
           }
         }); 
         
@@ -171,35 +195,8 @@
         //댓글 수정
         $('#modifyForm').on("click",'#ok', function(){
           let reply_id = modifyForm_reply_id;
-          
-          $.ajax({
-            url: "posts/" + post_id + "/replies/" + reply_id,
-            type: 'PUT',
-            contentType: 'application/json;charset=utf-8',
-            dataType: 'json',
-            data: JSON.stringify({
-              replyContent: $('#modContent').val()
-            }),
 
-            success: function(data){
-              $('#modContent').val("");
-              $('#modifyForm').hide();
-              $('#addForm').show();
-              getCommentList(data);
-            },
-            error: function(ex){
-              console.log(ex);
-            }
-            
-          });
-
-        });
-        //댓글 수정 엔터키 이벤트
-        $('#modContent').keydown(function(keynum){
-          let reply_id = modifyForm_reply_id;
-
-          if(keynum.keyCode == 13){ //엔터키 이벤트 발생
-            
+          if($('#modContent').val() != ""){
             $.ajax({
               url: "posts/" + post_id + "/replies/" + reply_id,
               type: 'PUT',
@@ -209,18 +206,118 @@
                 replyContent: $('#modContent').val()
               }),
 
-              success: function (data) {
+              success: function(data){
                 $('#modContent').val("");
                 $('#modifyForm').hide();
                 $('#addForm').show();
                 getCommentList(data);
               },
-              error: function (ex) {
+              error: function(ex){
                 console.log(ex);
               }
+              
             });
           }
+          else {
+            alert("댓글 내용을 입력하세요.");
+          }
+
+        });
+
+        //댓글 수정 엔터키 이벤트
+        $('#modContent').keydown(function(keynum){
+          let reply_id = modifyForm_reply_id;
+
+          if(keynum.keyCode == 13){ //엔터키 이벤트 발생
+            if($('#modContent').val() != ""){
+            
+              $.ajax({
+                url: "posts/" + post_id + "/replies/" + reply_id,
+                type: 'PUT',
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify({
+                  replyContent: $('#modContent').val()
+                }),
+
+                success: function (data) {
+                  $('#modContent').val("");
+                  $('#modifyForm').hide();
+                  $('#addForm').show();
+                  getCommentList(data);
+                },
+                error: function (ex) {
+                  console.log(ex);
+                }
+              });
+            }
+            else {
+              alert("댓글 내용을 입력하세요.");
+            }
+          }
         }); 
+
+           //게시글 검색
+        $('#keyword').keydown(function(keynum){
+          if(keynum.keyCode == 13) {
+            
+            if($('#keyword').val() != "") {  
+              $.ajax({
+                url: "/search",
+                type: 'POST',
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify({
+                  keyword: $('#keyword').val() //검색내용
+                }),
+
+                success: function (data) {
+                  $('#keyword').val();
+                  //기존에 있던 postList 없애기
+                  $('#contents').empty();
+                  getSearchPost(data);
+                  console.log("검색성공");
+                },
+                error: function (ex) {
+                  console.log("error", ex);
+                }
+              });  
+            }
+            else{
+              alert("검색할 게시글 제목을 입력하세요.");
+            }
+          }
+        });
+
+          //게시글 검색 조회
+          function getSearchPost(data){
+
+            let posts = data.searchPostList;
+
+            let htmlStr = "";
+
+            htmlStr += "<style>.contents-img:nth-child(2),.contents-img:nth-child(3) {display:none;}</style>";
+              
+            for(let i = 0; i < posts.length; i++){
+              htmlStr += "<div class='col-lg-4 col-md-4 col-4 mb-4'>";
+              htmlStr += "<div class='card'>";
+              htmlStr += "<a href='#' type='button' class='' data-id=" + posts[i].post_id + ">";
+              htmlStr += "<div class='card-body contents-card'>";           
+              for(let j = 0; j < posts[i].uploads.length; j++){                       
+                htmlStr += "<div class='contents-img' style=\"background:url('/upload/" + posts[i].uploads[j].upload_filepath + "/" + posts[i].uploads[j].upload_fileuuid + "_" + posts[i].uploads[j].upload_filename + "') no-repeat center; background-size: cover;\">";   
+                htmlStr += "<div class='hover-box'><i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;";
+                htmlStr += "<i class='bx bxs-chat'><span>123</span></i>";
+                htmlStr += "</div></div>";
+              }                
+              
+              htmlStr += "</div></a></div></div>";
+            }
+            $('#contents').html("");
+            $('#contents').append(htmlStr);
+          
+          }
+
+
 
             //게시글 제목 조회
               function getPostTitle(data) {
@@ -305,6 +402,8 @@
           let replyList = data.replyList;
           let htmlStr = "";
 
+          console.log("닉네임: ", memberNick);
+
           for (let i = 0; i < replyList.length; i++) {
             htmlStr += "<div class='admin_container' id=" + replyList[i].replyId + ">";
             htmlStr += "<div class= 'profile-img' style='background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;'></div>";
@@ -312,10 +411,17 @@
             htmlStr += "<span class='user_id'>" + replyList[i].memberNick + "</span>" + "<div>" + replyList[i].replyContent + "</div>";
             htmlStr += "<div class='time'>" + replyList[i].replyRegdate + "</div>";
             htmlStr += "<div class='time reply-btn' data-id=" + replyList[i].replyId + ">";
+            
+            console.log("memberId:", memberId);
+            console.log("replyList[" +i+ "].memberId", replyList[i].memberId);
+            console.log("replyList[" +i+ "].memberNick", replyList[i].memberNick);
+            //console.log("닉네임2: ", replyList[i].memberNick);
+            //console.log("닉네임2: ", memberNick);
             if (replyList[i].memberNick == memberNick) {
               htmlStr += "<a class='modComment'>수정</a>";
-              htmlStr += "<a class='subComment'>삭제</a></div>";
+              htmlStr += "<a class='subComment'>삭제</a>";
             }
+            htmlStr += "</div>";
             htmlStr += "<div class='reply_edit'><a href='#n'></a></div>";
             htmlStr += "<div class='reply_delete'><a href='#n'></a></div>";
             htmlStr += "<div class='reply_heart_btn'>";

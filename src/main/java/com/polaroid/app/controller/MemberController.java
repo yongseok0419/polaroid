@@ -74,7 +74,6 @@ public class MemberController {
 
            String memberEmail =  map.get("memberEmail");
            
-           
            //닉네임
            int cnt = memberService.retrieveMemberEmail(memberEmail);
 
@@ -91,6 +90,7 @@ public class MemberController {
               String result = sendMailHelper.getMailBody("html/email-inlineimage", map2);
               
               sendMailHelper.sendMail(fromAddress, toAddress, subject, result);
+
               return "1";
 
            } else {

@@ -32,4 +32,8 @@ public interface PostService {
 	
 	public boolean registerPost(PostDto postDto, List<MultipartFile> uploadFiles);//등록
 	
+	public List<PostDto> searchPostList(String keyword);	//게시글 검색
+	
+	
+	
 }
