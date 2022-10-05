@@ -18,7 +18,7 @@
         // });
 
 
-        $(document).ready(function() {
+   
 
           $('#contents').on('click', '.btn btn-primary edit-btn', function() {
             alert('call');
@@ -27,7 +27,7 @@
           });
   
   
-        });
+    
 
 
         //게시글 
