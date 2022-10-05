@@ -32,4 +32,6 @@ public interface PostMapper {
 	public boolean deletePost(int post_id);//삭제
 
 	public PostDto updatePostDetail(int post_id); //게시글 수정 페이지
+	
+	public List<PostDto> searchPostList(String keyword);	//게시글 검색
 }

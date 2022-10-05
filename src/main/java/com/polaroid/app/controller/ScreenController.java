@@ -142,6 +142,8 @@ public class ScreenController {
 	public String upload() {
 		return "upload";
 	}
+	
+	//게시글 상세조회
 	@GetMapping(value="/posts/{post_id}")
 	public @ResponseBody Map<String, Object> selectPostDetail(@PathVariable("post_id") int post_id) {
 		System.out.println("post_id" + post_id);
@@ -157,7 +159,7 @@ public class ScreenController {
 	
 	//게시글 수정 
 	@GetMapping("updateForm")
-	public String updateForm(Model model, @RequestParam(value = "post_id", defaultValue = "13") int post_id) {
+	public String updateForm(Model model, @RequestParam(value = "post_id", defaultValue = "2") int post_id) {
 		//post_id = 30;
 		
 		PostDto postDto = postService.modifyPostDetail(post_id); //

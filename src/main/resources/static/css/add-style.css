@@ -73,6 +73,13 @@
     border: 1px solid #85d4ff;
     line-height:17.5;
 }
+.profile-upload .profile-img {
+    width: 269px;
+    height: 267px;
+    border-radius: 6px;
+    border: 1px solid #85d4ff;
+    line-height:17.5;
+}
 
 .content-modal .profile-img {
     width: 32px;
@@ -418,7 +425,9 @@
 
 
 #modifyForm button{
-	background-color:#9294e3;
+	background-color: #ffffff;
+    color: #9294e3;
+    font-weight: bold;
 }
 /* pagination */
 

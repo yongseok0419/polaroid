@@ -15,18 +15,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.polaroid.app.command.MemberDto;
-import com.polaroid.app.command.PostDetailDto;
 import com.polaroid.app.command.PostDto;
-import com.polaroid.app.command.PostListDto;
-import com.polaroid.app.command.UploadDto;
 import com.polaroid.app.post.PostService;
 
 @Controller
@@ -102,17 +99,7 @@ public class PostController {
 
 	}
 
-	//게시글 상세조회
-//	@GetMapping(value="/posts/{post_id}")
-//	public @ResponseBody Map<String, Object> selectPostDetail(@PathVariable("post_id") int post_id) {
-//		System.out.println("post_id" + post_id);
-//		PostDetailDto post = postService.retrivePostDetail(post_id);
-//		//List<UploadDto> uploads = postService.retrivePostDetail(post_id);
-//		Map<String, Object> map = new HashMap<>();
-//		//model.addAttribute("post", post);
-//		map.put("post", post);
-//		return map;
-//	}
+
 	
 	
 	
@@ -192,5 +179,20 @@ public class PostController {
 
 		return "redirect:/index";
 	}
+	
+	
+	//게시글 검색
+		@PostMapping("/search")
+		public @ResponseBody Map<String, Object> searchPostList(@RequestBody HashMap<String, String> keyword){
+			
+			List<PostDto> searchPostList = postService.searchPostList(keyword.get("keyword"));
+			
+			Map<String, Object> map = new HashMap<>();
+			
+			map.put("searchPostList", searchPostList);
+			
+			return map;
+
+		}
 
 }
