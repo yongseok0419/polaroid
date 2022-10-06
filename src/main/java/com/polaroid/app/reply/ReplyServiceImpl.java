@@ -50,7 +50,12 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public void likeReply(int user_id, int reply_id) {
 		// TODO Auto-generated method stub
-		
+	}
+	//댓글 개수
+	@Override
+	public int retrieveReplyCount(int postId) {
+
+		return replyMapper.selectReplyCount(postId);
 	}
 	
 }

@@ -1,14 +1,19 @@
 package com.polaroid.app.command;
 
+import java.util.Collections;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.StringTemplateResolver;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,14 +27,15 @@ public class SendMailHelper {
 	// 메일을 송신한다.
 	public void sendMail(String fromAddress, String[] toAddress, String subect, String body) throws Exception {
 
-		SimpleMailMessage msg = new SimpleMailMessage();
+		final MimeMessage mimeMessage = this.javaMailSender.createMimeMessage();
+		final MimeMessageHelper msg = new MimeMessageHelper(mimeMessage, "UTF-8");
 		msg.setFrom(fromAddress);
 		msg.setTo(toAddress);
 		msg.setSubject(subect);
-		msg.setText(body);
+		msg.setText(body, true); //중요
 
 		try {
-			javaMailSender.send(msg);
+			javaMailSender.send(mimeMessage);
 		} catch (Exception ex) {
 			log.error("failed to send mail : {}", ex);
 			throw ex;
@@ -48,22 +54,28 @@ public class SendMailHelper {
 	public String getMailBody(String template, Map<String, Object> objects) {
 
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-		templateEngine.setTemplateResolver(templateResolver());
-
-		Context context = new Context();
-
+		templateEngine.addTemplateResolver(htmlTemplateResolver());
+		
+		Context ctx = new Context();
 		// Template에 전달할 데이터 설정
-		objects.forEach(context::setVariable);
-
-		return templateEngine.process(template, context);
+		//objects.forEach(context::setVariable);
+		ctx.setVariable("url", objects.get("url"));
+		//ctx.setVariable("nickName", objects.get("nickName"));
+		
+		//templateName : "html/email-inlineimage.html"
+		return templateEngine.process(template, ctx);
 
 	}
 
-	private StringTemplateResolver templateResolver() {
-		StringTemplateResolver resolver = new StringTemplateResolver();
-		resolver.setTemplateMode("TEXT");
-		resolver.setCacheable(false);
-		return resolver;
+	private ITemplateResolver htmlTemplateResolver() {
+		final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();      
+        templateResolver.setResolvablePatterns(Collections.singleton("html/*"));
+        templateResolver.setPrefix("/mail/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        //templateResolver.setCharacterEncoding(EMAIL_TEMPLATE_ENCODING);
+        templateResolver.setCacheable(false);
+        return templateResolver;
 	}
 
 }

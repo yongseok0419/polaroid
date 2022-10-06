@@ -23,25 +23,22 @@
 		    let modifyForm_reply_id = 0;
 		    let memberNick = /*[[${session.member.memberNick}]]*/ ;
 		    let memberId = /*[[${session.member.memberId}]]*/ ;
-		   // let likeCount = [[${likeCount}]] ;
-   
 
 
-
-  </script>
+    </script>
           
             <!-- Content -->
             <div class=" container-xxl flex-grow-1 container-p-y">
               <div class="row">
-          
-          
                 <div class="row contents-list" id="contents">
 
                   <!-- contents-item  start-->
                   <th:block th:each="post: ${posts}"  >
                   <div class="col-lg-4 col-md-4 col-4 mb-4">
                     <div class="card">
-                      <a href="#" type="button" class="" th:attr="data-id=${post.post_id}">
+                      <a href="#" type="button" class="" data-bs-toggle="modal"
+                      data-bs-target="#modalScrollable" th:attr="data-id=${post.post_id}">
+
                         <div class="card-body contents-card">    
                         <!-- <span th:style="'background-image:url('+ @{/images/sample-visual01.jpg} +');'"></span> -->
                           <th:block th:each="upload : ${post.uploads}">
@@ -119,10 +116,8 @@
 	                    </header>
 	                    <div class="user-control" >
 							
-	                      <button type="button" class="btn btn-primary edit-btn modifyPost"><a th:href=@{updateForm} style="color:white">수정</a></button>                     
-	                      
-	                       
-	                      <button type="button" class="btn btn-primary delete-btn deletePost"><a th:href=@{deletePost} style="color:white">삭제</a></button>	                     
+	                      <button id="modifyBtn" type="button" class="btn btn-primary edit-btn modifyPost"><a style="color:white">수정</a></button>                     
+	                      <button id="removeBtn" type="button" class="btn btn-primary delete-btn deletePost"><a style="color:white">삭제</a></button>	                     
 	                                         
 	                    </div>
 	                    
@@ -130,12 +125,12 @@
 	                      <div class="left_icons">
 	                        <div class="heart_btn" id="postLikeBtn">
 	                           <a href="#">
-	                            <i class='bx bx-heart'></i>
+                              <i id="heart" class="bx bx-heart"></i> 
 	                          </a> 
 	                        </div>
-	                          <span class="count_likes" id="postLikeCount">
+	                          <span class="count_likes">
 	                              좋아요 
-	                            <span class="count">2,351</span>개 
+                                <span id="postLikeCount">0</span>개 
 	                         
 	                          </span>
 	                          
@@ -151,7 +146,7 @@
 	
 	                  
 
-						<!-- 댓글 리스트 -->
+						          <!-- 댓글 리스트 -->
 	                    <section class="scroll_section"  id="commentList">
 	                     
 			

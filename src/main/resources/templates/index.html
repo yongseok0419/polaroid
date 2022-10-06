@@ -27,8 +27,7 @@
 		    let memberNick = /*[[${session.member.memberNick}]]*/ ;
 		    let memberId = /*[[${session.member.memberId}]]*/ ;
 		    let session = /*[[${session.member}]]*/ ;
-		   // let likeCount = [[${likeCount}]] ;
-	  
+		    let likeStatus = 0;
 		
 
   	
@@ -147,24 +146,18 @@
                     <div class="col-lg-4 col-md-4 col-4 mb-4">
                       <div class="card">
 
-                        <a href="#" type="button"
-                        class=" "
-                        data-bs-toggle="modal"
+                        <a href="#" type="button" class=" " data-bs-toggle="modal"
                         data-bs-target="#modalScrollable" th:attr="data-id=${post.post_id}">
 
-                          <div class="card-body contents-card">    
-                          <!-- <span th:style="'background-image:url('+ @{/images/sample-visual01.jpg} +');'"></span> -->
+                          <div class="card-body contents-card">
                             <th:block th:each="upload : ${post.uploads}">
                               <div class="contents-img" th:style="'background:url('+ @{'/upload/'+ ${upload.upload_filepath} + '/' + ${upload.upload_fileuuid} + '_' + ${upload.upload_filename}} +')no-repeat center; background-size: cover;'" >
 
-                            
-                        
-                             <!--  <img th:src="'/upload/'+ ${upload.upload_filepath} + '/' + ${upload.upload_fileuuid} + '_' + ${upload.upload_filename}" > -->
-                              <!-- img th:src="'/upload/main_' + ${file.uuid} + '_' + ${file.filename}" -->
-                             <!--  th:src="@{../display(r_path=${dto2.r_path}, r_image=${dto2.r_image})}" -->
                                 <div class="hover-box">
                                   <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;
                                   <i class='bx bxs-chat'><span>123</span></i>
+                                  <!-- <i class='bx bxs-heart'><span id="postLikeCount2"></span></i>&nbsp;&nbsp;
+                                  <i class='bx bxs-chat'><span id="replyCount"></span></i> -->
                                 </div>
 								
                               </div>
@@ -211,6 +204,7 @@
 	                    <div class="carousel-inner" id="postPhoto">           
 	                     
 	                    </div>
+
 	                    <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
 	                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
 	                      <span class="visually-hidden">Previous</span>
@@ -230,41 +224,35 @@
 	                    <header class="top" id="postAccount">     
 	
 	                    </header>
+
 	                    <div class="user-control" >
-							
-	                      <button type="button" class="btn btn-primary edit-btn modifyPost"><a th:href=@{updateForm} style="color:white">수정</a></button>                     
-	                      
-	                       
-	                      <button type="button" class="btn btn-primary delete-btn deletePost"><a th:href=@{deletePost} style="color:white">삭제</a></button>	                     
-	                                         
+                        <button id="modifyBtn" type="button" class="btn btn-primary edit-btn modifyPost"><a style="color:white">수정</a></button>
+                        <button id="removeBtn" type="button" class="btn btn-primary delete-btn deletePost"><a style="color:white">삭제</a></button>                   
 	                    </div>
 	                    
 	                    <div class="bottom_icons content-modal">
-	                      <div class="left_icons">
-	                        <div class="heart_btn" id="postLikeBtn">
-	                           <a href="#">
-	                            <i class='bx bx-heart'></i>
-	                          </a> 
-	                        </div>
-	                          <span class="count_likes" id="postLikeCount">
-	                              좋아요 
-	                            <span class="count">2,351</span>개 
-	                         
-	                          </span>
-	                          
-	                          <div>
-	                              <div class="sprite_share_icon" data-name="share"></div>
-	                          </div>
-	                      </div>
-	
-	                      <div class="right_icon">
-	                          <div class="sprite_bookmark_outline" data-name="book-mark"></div>
-	                      </div>
-	                    </div>
+                        <div class="left_icons">
+                          <div class="heart_btn" id="postLikeBtn" >
+                             <a href="#">
+                              <i id="heart" class="bx bx-heart"></i>                      
+                              </a> 
+                          </div>
+                            <span class="count_likes">
+                                좋아요 <span id="postLikeCount">0</span>개                            
+                            </span>                             
+                            <div>
+                                <div class="sprite_share_icon" data-name="share"></div>
+                            </div>
+                        </div>
+  
+                        <div class="right_icon">
+                            <div class="sprite_bookmark_outline" data-name="book-mark"></div>
+                        </div>
+                      </div>
 	
 	                  
 
-						<!-- 댓글 리스트 -->
+						          <!-- 댓글 리스트 -->
 	                    <section class="scroll_section"  id="commentList">
 	                     
 			

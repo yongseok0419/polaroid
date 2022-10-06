@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.polaroid.app.command.PostDetailDto;
 import com.polaroid.app.command.PostDto;
+import com.polaroid.app.command.PostLikeDto;
 import com.polaroid.app.command.UploadDto;
 import com.polaroid.app.upload.UploadMapper;
 
@@ -51,9 +52,6 @@ public class PostServiceImpl implements PostService {
 		postMapper.registerPost(postDto);
 		
 		System.out.println("post_id" + postDto.getPost_id());
-		
-		// 1. 폼데이터 인서트
-		// uploadMapper.registerUploadFile( uploadFiles);
 
 		// 2. 파일업로드
 		for (MultipartFile file : uploadFiles) {
@@ -99,11 +97,11 @@ public class PostServiceImpl implements PostService {
 	
 	
 	// 전체 게시글 보기
-		@Override
-		public List<PostDto> retrievePostList() {
+	@Override
+	public List<PostDto> retrievePostList() {
 
-			return postMapper.selectPostList();
-		}
+		return postMapper.selectPostList();
+	}
 	
 	// 내 게시글 리스트
 	@Transactional
@@ -119,8 +117,7 @@ public class PostServiceImpl implements PostService {
 	public int selectPostCount(int member_id) { 
 		
 		return postMapper.selectPostCount(member_id); 
-	}
-	
+	}	
 
 	// 게시글 상세보기
 	@Transactional
@@ -128,16 +125,7 @@ public class PostServiceImpl implements PostService {
 	public PostDetailDto retrivePostDetail(int post_id) {
 		
 		return postMapper.selectPostDetail(post_id);
-	}	
-	
-//	//게시글 좋아요 리스트 조회
-//	@Transactional
-//	@Override
-//	public List<PostListDto> retrieveLikePostList() {
-//
-//		return postMapper.selectLikePostList();
-//	}
-	 
+	}	 
 	
 	//게시글 수정
 	@Transactional
@@ -197,9 +185,8 @@ public class PostServiceImpl implements PostService {
 				
 			}
 			return true;
-		}
+	}
 	
-
 	//게시글 삭제
 	@Override
 	public boolean removePost(int post_id) {
@@ -216,9 +203,38 @@ public class PostServiceImpl implements PostService {
 	}
 
 	//게시글 검색
-		@Override
-		public List<PostDto> searchPostList(String keyword){
-			return postMapper.searchPostList(keyword);
-		}
+	@Override
+	public List<PostDto> searchPostList(String keyword){
+		return postMapper.searchPostList(keyword);
+	}
+	
+	// 게시글 좋아요 누르기
+	@Override
+	public int postLike(PostLikeDto postLike) {
+
+		return postMapper.postLike(postLike);
+
+	}
+
+	// 좋아요 눌렀는지 안눌렀는지
+	@Override
+	public int postFindLike(PostLikeDto postLike) {
+
+		return postMapper.postFindLike(postLike);
+	}
+
+	// 게시글 좋아요 갯수 불러오기
+	@Override
+	public int postLikeCount(int post_id) {
+
+		return postMapper.postLikeCount(post_id);
+	}
+
+	// 전체 리스트에서 게시글 좋아요 취소
+	@Override
+	public int postRemoveLike(PostLikeDto deletePostLike) {
+
+		return postMapper.postDeleteLike(deletePostLike);
+	}
 
 }

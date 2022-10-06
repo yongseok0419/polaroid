@@ -74,15 +74,23 @@ public class MemberController {
 
            String memberEmail =  map.get("memberEmail");
            
+           //닉네임
            int cnt = memberService.retrieveMemberEmail(memberEmail);
 
            if (cnt == 1) {
-
-              String body = "<a href='http://localhost:8282/modifyPwdForm?memberEmail=" + memberEmail + "'>비밀번호 변경 링크</a>";
+        	          	   
+              
               String[] toAddress = { memberEmail };
               String subject = "더욱 간편하게 polaroid에 다시 로그인해보세요";
+              
+              Map<String, Object> map2 = new HashMap<>();
+              String url = "http://localhost:8282/modifyPwdForm?memberEmail=" + memberEmail;
+              map2.put("url", url);
+              //map2.put("nickName", ?);
+              String result = sendMailHelper.getMailBody("html/email-inlineimage", map2);
+              
+              sendMailHelper.sendMail(fromAddress, toAddress, subject, result);
 
-              sendMailHelper.sendMail(fromAddress, toAddress, subject, body);
               return "1";
 
            } else {
@@ -167,6 +175,9 @@ public class MemberController {
 		@PostMapping("/joinForm")
 		public String joinForm(MemberDto memberDto) throws Exception {
 			
+			//500 Error 내기(시연)
+			//memberService = null;
+			
 			memberService.registerMember(memberDto);
 			
 			return "redirect:/login";
@@ -175,7 +186,7 @@ public class MemberController {
 		//로그인
 		@ResponseBody
 		@PostMapping("/loginForm")
-		public String loginForm(@RequestBody MemberDto memberDto, HttpSession session) {
+		public String loginForm(@RequestBody MemberDto memberDto, HttpSession session) throws Exception {
 
 			MemberDto login = memberService.findMember(memberDto);
 			
@@ -197,7 +208,7 @@ public class MemberController {
 		
 		//로그아웃
 		@GetMapping("/logoutForm")
-		public String logoutForm(HttpSession session) {
+		public String logoutForm(HttpSession session) throws Exception {
 			
 			session.invalidate();
 			
@@ -207,7 +218,7 @@ public class MemberController {
 		//회원탈퇴
 		@ResponseBody
 		@PostMapping("/withdrawalForm")
-		public String withdrawal(@RequestBody MemberDto memberDto) {
+		public String withdrawal(@RequestBody MemberDto memberDto) throws Exception {
 			
 			//비밀번호 체크해서 맞으면 회원탈퇴
 			int cnt = memberService.modifyMember(memberDto);
