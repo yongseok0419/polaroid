@@ -22,6 +22,7 @@ import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.MemberProfileDto;
 import com.polaroid.app.command.PostDetailDto;
 import com.polaroid.app.command.PostDto;
+import com.polaroid.app.command.PostLikeDto;
 import com.polaroid.app.post.PostService;
 import com.polaroid.app.profile.ProfileService;
 
@@ -144,16 +145,25 @@ public class ScreenController {
 	}
 	
 	//게시글 상세조회
-	@GetMapping(value="/posts/{post_id}")
-	public @ResponseBody Map<String, Object> selectPostDetail(@PathVariable("post_id") int post_id) {
-		System.out.println("post_id" + post_id);
-		PostDetailDto post = postService.retrivePostDetail(post_id);
-		//List<UploadDto> uploads = postService.retrivePostDetail(post_id);
-		Map<String, Object> map = new HashMap<>();
-		//model.addAttribute("post", post);
-		map.put("post", post);
-		return map;
-	}
+	   @GetMapping(value="/posts/{post_id}")
+	   public @ResponseBody Map<String, Object> selectPostDetail(@PathVariable("post_id") int post_id, HttpSession session) {
+
+	      PostLikeDto postLike = new PostLikeDto();
+	      int memberId = ((MemberDto)session.getAttribute("member")).getMemberId();
+	      postLike.setPost_id(post_id);
+	      postLike.setMember_id(memberId);
+	      
+	      int ispostLike = postService.postFindLike(postLike);
+	      int postLikeCount = postService.postLikeCount(post_id);
+	            
+	      PostDetailDto post = postService.retrivePostDetail(post_id);      
+	      Map<String, Object> map = new HashMap<>();
+	      map.put("post", post);
+	      map.put("ispostLike", ispostLike);
+	      map.put("postLikeCount", postLikeCount);
+	      return map;
+	   }
+
 	
 	
 	

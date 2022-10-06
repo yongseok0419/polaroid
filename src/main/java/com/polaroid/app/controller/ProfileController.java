@@ -60,13 +60,6 @@ public class ProfileController {
 									 @RequestParam("upload") MultipartFile upload,
 									 Model model, HttpSession session){
 		System.out.println("--------------------------------------------------------");
-//		//이미지 파일 검증
-//			if(upload.getContentType().contains("image") == false) {		//이미지가 아닌경우
-//				//다시 등록화면으로
-//				model.addAttribute("profileDto", profileDto);
-//				model.addAttribute("valid_files", "이미지형식만 등록가능합니다.");
-//				return "/registProfile";
-//			}
 		
 		System.out.println("파일의 갯수 : " + upload.getSize());
 		

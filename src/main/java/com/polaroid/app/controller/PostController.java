@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.polaroid.app.command.MemberDto;
 import com.polaroid.app.command.PostDto;
+import com.polaroid.app.command.PostLikeDto;
 import com.polaroid.app.post.PostService;
 
 @Controller
@@ -33,24 +35,13 @@ public class PostController {
 	@Qualifier("postService")
 	PostService postService;
 
-
-	
 	// 전체 게시글 조회
-	   @GetMapping("postListAll")
-	   public String postListAll() {
-	      return "/listAll";
-	   }
-	
-//	@GetMapping("postLikeList")
-//	public String postLikeList(Model model) {
-//		List<PostListDto> list = postService.retrieveLikePostList();
-//		model.addAttribute("list", list);
-//		return "/listLike";
-//
-//	}
+	@GetMapping("postListAll")
+	public String postListAll() {
+		return "/listAll";
+	}
 
 	@GetMapping("postUpload")
-	// @RequestMapping("/upload")
 	public String postUpload() {
 		return "/upload";
 	}
@@ -70,7 +61,6 @@ public class PostController {
 				}
 			}
 			model.addAttribute("postDto", postDto);
-			// model.addAttribute("uploadFiles", uploadFiles);
 			return "/upload";
 		}
 
@@ -93,16 +83,10 @@ public class PostController {
 
 		boolean result = postService.registerPost(postDto, uploadFiles); // 상품데이터, 이미지데이터
 
-		// model.addAttribute("vo", postDto);
-		// postService.registerPost(postDto,uploadFiles);
 		return "redirect:/index";
 
 	}
 
-
-	
-	
-	
 	//게시글 수정
 	@PostMapping("/updatePost")
 	public String updatePost(@Valid PostDto postDto, Errors errors, Model model,
@@ -117,20 +101,14 @@ public class PostController {
 					model.addAttribute("valid_" + err.getField(), err.getDefaultMessage());
 				}
 			}
-			model.addAttribute("postDto", postDto);
-			// model.addAttribute("uploadFiles", uploadFiles);
-			
-			
-			
+			model.addAttribute("postDto", postDto);			
+
 			return "/update";
 		}
-		
-		//System.out.println("uploadFiles size1 : " + uploadFiles.size());
-		//System.out.println("uploadFiles empty : " + uploadFiles.get(0).isEmpty());
-		
+
 		// 공백데이터 제거
 		uploadFiles = uploadFiles.stream().filter((f) -> !f.isEmpty()).collect(Collectors.toList());
-		
+
 		if (uploadFiles.size() != 0) {
 			//기존 업로드 이미지 제거
 			//새로운 업로드 이미지 
@@ -138,30 +116,8 @@ public class PostController {
 			int member_id = member.getMemberId();
 			postDto.setMember_id(member_id);
 			boolean result = postService.updatePost(postDto, uploadFiles); // 게시글 데이터, 이미지데이터
-			
-		} 
-		
-		
-		// 이미지 파일검증
-//		for (MultipartFile f : uploadFiles) {
-//			if (f.getContentType().contains("image") == false) { // 이미지가 아닌경우
-//				// 다시 등록화면으로
-//				model.addAttribute("vo", postDto);
-//				model.addAttribute("valid_files", "이미지형식만 등록가능합니다");
-//				return "/update";
-//			}
-//		}
 
-//		//메시지처리(리다이렉트 시 1회성 메시지를 보내는 방법)
-//				if(result) {
-//					RA.addFlashAttribute("msg", "정상 수정 되었습니다");
-//				} else {
-//					RA.addFlashAttribute("msg", "정보 수정에 실패했습니다");
-//				}
-//				
-
-		
-		
+		} 	
 
 		return "redirect:/index";
 	}
@@ -179,20 +135,77 @@ public class PostController {
 
 		return "redirect:/index";
 	}
-	
-	
-	//게시글 검색
-		@PostMapping("/search")
-		public @ResponseBody Map<String, Object> searchPostList(@RequestBody HashMap<String, String> keyword){
-			
-			List<PostDto> searchPostList = postService.searchPostList(keyword.get("keyword"));
-			
-			Map<String, Object> map = new HashMap<>();
-			
-			map.put("searchPostList", searchPostList);
-			
-			return map;
 
+
+	//게시글 검색
+	@PostMapping("/search")
+	public @ResponseBody Map<String, Object> searchPostList(@RequestBody HashMap<String, String> keyword){
+
+		List<PostDto> searchPostList = postService.searchPostList(keyword.get("keyword"));
+
+		Map<String, Object> map = new HashMap<>();
+
+		map.put("searchPostList", searchPostList);
+
+		return map;
+
+	}
+
+	// 게시글 좋아요
+	@GetMapping("/postLike/{post_id}")
+	public @ResponseBody Map<String, Integer> postLike(@PathVariable int post_id, HttpSession session) {
+
+		MemberDto member = (MemberDto) session.getAttribute("member");
+		int member_id = member.getMemberId();
+
+		PostLikeDto postLikeDto = new PostLikeDto();
+		postLikeDto.setMember_id(member_id);
+		postLikeDto.setPost_id(post_id);
+
+
+		Map<String, Integer> map = new HashMap<String, Integer>();
+
+		// int postLike = postService.postLike(post_id);
+		int postFindLike = postService.postFindLike(postLikeDto); // 좋아요 눌렀으면 1, 안눌렀으면 0
+		System.out.println("postFindLike : " + postFindLike);
+
+		if (postFindLike == 0) { // 좋아요 안 누른 상태
+			int postLike = postService.postLike(postLikeDto);// 좋아요 누르기
+			int postLikeCount = postService.postLikeCount(post_id); // 좋아요 개수
+
+			map.put("postLike", postLike);
+			map.put("postLikeCount", postLikeCount);
+			map.put("postFindLike", postFindLike);
 		}
+
+		return map;
+
+	}
+
+	//게시글 좋아요 취소
+	@GetMapping("/deleteLike/{post_id}")
+	public @ResponseBody Map<String, Integer> deleteLike(@PathVariable int post_id, HttpSession session) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+
+		MemberDto member = (MemberDto) session.getAttribute("member");
+		int member_id = member.getMemberId();
+
+		PostLikeDto postLikeDto = new PostLikeDto();
+		postLikeDto.setMember_id(member_id);
+		postLikeDto.setPost_id(post_id);
+
+		int postFindLike = postService.postFindLike(postLikeDto);
+
+		if (postFindLike == 1) {
+			int deletePostLike = postService.postRemoveLike(postLikeDto); // 좋아요 삭제
+			int postLikeCount = postService.postLikeCount(post_id); // 좋아요 개수
+
+			map.put("deletePostLike", deletePostLike);
+			map.put("postLikeCount", postLikeCount);
+		}
+
+		return map;
+	}
+
 
 }

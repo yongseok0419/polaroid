@@ -21,5 +21,8 @@ public interface ReplyService {
 	
 	//댓글 좋아요
 	public void likeReply(int user_id, int reply_id);
+
+	//댓글 개수
+	public int retrieveReplyCount(int postId);
 	
 }
