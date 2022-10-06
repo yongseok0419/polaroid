@@ -170,7 +170,7 @@
 		     	<div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;"></div>
                      </div>
                  </th:block>    
-                 <th:block th:unless="${isProfile == 0}">
+                 <th:block th:if="${isProfile == 1}">
                  		
                  	<div class="flex-shrink-0 me-3">
                  		<div class="avatar avatar-online">
@@ -192,8 +192,8 @@
                          		<div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;"></div>
                        			</div>
                    		</div>
-                 	</th:block>    
-                 	<th:block th:unless="${isProfile == 0}">
+                 	  </th:block>    
+                 	<th:block th:if="${isProfile == 1}">
                  		
                  		<div class="flex-shrink-0 me-3">
                        			<div class="avatar avatar-online">
