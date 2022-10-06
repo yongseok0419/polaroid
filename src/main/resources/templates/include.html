@@ -163,22 +163,45 @@
           
            <!-- User -->
            <li class="nav-item navbar-dropdown dropdown-user dropdown">
-             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-               <div class="avatar avatar-online">
-                 <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-                 </div>
-               </div>
-             </a>
+             <span class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+               	 <th:block th:if="${isProfile == 0}">
+                 
+                     <div class="avatar avatar-online">
+		     	<div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;"></div>
+                     </div>
+                 </th:block>    
+                 <th:block th:unless="${isProfile == 0}">
+                 		
+                 	<div class="flex-shrink-0 me-3">
+                 		<div class="avatar avatar-online">
+                         		<img class="profile-img" th:src="'/upload/'+ ${mpd.profileFilePath} + '/' + ${mpd.profileFileUuid} + '_' + ${mpd.profileFileName}" style="width:100%;">
+                        	</div>
+                    	</div>
+                 </th:block>
+             </span>
+		   
              <ul class="dropdown-menu dropdown-menu-end">
                <li>
                  <a class="dropdown-item" href="#">
                    <div class="d-flex">
-                     <div class="flex-shrink-0 me-3">
-                       <div class="avatar avatar-online">
-                         <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-                         </div>
-                       </div>
-                     </div>
+			   
+                   	<th:block th:if="${isProfile == 0}">
+                 
+                   		<div class="flex-shrink-0 me-3">
+                       			<div class="avatar avatar-online">
+                         		<div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;"></div>
+                       			</div>
+                   		</div>
+                 	</th:block>    
+                 	<th:block th:unless="${isProfile == 0}">
+                 		
+                 		<div class="flex-shrink-0 me-3">
+                       			<div class="avatar avatar-online">
+                         		<img class="profile-img" th:src="'/upload/'+ ${mpd.profileFilePath} + '/' + ${mpd.profileFileUuid} + '_' + ${mpd.profileFileName}" style="width:100%;">
+                       			</div>
+                    		</div>
+	                </th:block>
+			   
                      <div class="flex-grow-1">
                        <span class="fw-semibold d-block">[[${session.member.memberNick}]]</span>
                        <small class="text-muted">[[${session.member.memberName}]]</small>
