@@ -4,9 +4,10 @@
   
  
       $(document).ready(function() {
-       
-        // 모달 띄우기 
-    	  $('#contents').on('click', 'a', function(e) {
+
+      //모달 띄우기 
+    	 $('#contents').on('click', 'a', function(e) {
+
               e.preventDefault();
 
               $('#modifyForm').hide();

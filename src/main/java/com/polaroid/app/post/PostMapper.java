@@ -10,8 +10,10 @@ import com.polaroid.app.command.PostDto;
 import com.polaroid.app.command.PostLikeDto;
 
 
+
 @Mapper
 public interface PostMapper {
+
 	public int registerPost(PostDto postDto); //등록
 	public boolean updatePost(PostDto postDto);//수정
 	public boolean updatePost(PostDto postDto, List <MultipartFile> uploadFiles);//수정
@@ -32,3 +34,5 @@ public interface PostMapper {
 	public int postLikeCount(int post_id); //좋아요 수	
 	
 }
+
+
