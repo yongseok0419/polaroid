@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.polaroid.app.post.PostMapper">
+   
+   <resultMap type="postDto" id="selectPostListMap">
+      <id property="post_id" column="post_id" />
+      <result property="post_title" column="post_title" />
+      <result property="post_content" column="post_content" />
+
+      <collection property="uploads" ofType="UploadDto">
+         <id property="upload_id" column="upload_id" />
+         <result property="upload_filename" column="upload_filename" />
+         <result property="upload_fileuuid" column="upload_fileuuid" />
+         <result property="upload_filepath" column="upload_filepath" />
+         <result property="upload_type" column="upload_type" />
+      </collection>
+   </resultMap>
+   
+      <resultMap type="postDto" id="selectMyPostListMap">
+      <id property="post_id" column="post_id" />
+      <result property="post_title" column="post_title" />
+      <result property="post_content" column="post_content" />
+
+      <collection property="uploads" ofType="UploadDto">
+         <id property="upload_id" column="upload_id" />
+         <result property="upload_filename" column="upload_filename" />
+         <result property="upload_fileuuid" column="upload_fileuuid" />
+         <result property="upload_filepath" column="upload_filepath" />
+         <result property="upload_type" column="upload_type" />
+      </collection>
+   </resultMap>
+   
+   <resultMap type="postDetailDto" id="selectPostDetailMap">
+      <id property="post_id" column="post_id" />
+      <result property="post_id" column="post_id" />
+      <result property="post_title" column="post_title" />
+      <result property="post_content" column="post_content" />
+      <result property="member_id" column="member_id" />
+      <result property="upload_id" column="upload_id" />
+      <result property="member_nick" column="member_nick" />
+
+      <collection property="uploads" ofType="UploadDto">
+         <id property="upload_id" column="upload_id" />
+         <result property="upload_filename" column="upload_filename" />
+         <result property="upload_fileuuid" column="upload_fileuuid" />
+         <result property="upload_filepath" column="upload_filepath" />
+         <result property="upload_type" column="upload_type" />
+      </collection>
+   </resultMap>
+   
+   
+   
+   
+
+   <insert id="registerPost" parameterType="PostDto">
+      <selectKey resultType="int" keyProperty="post_id"
+         order="AFTER">
+         select max(post_id) as post_id
+         from post
+      </selectKey>
+      insert into post(post_title,
+      post_content,
+      post_regdate,
+      member_id)
+      values(#{post_title},
+      #{post_content},
+      now(),
+      #{member_id})
+
+   </insert>
+
+
+      <!-- 내 게시물 리스트 -->
+   <select id="selectMyPostList" resultMap="selectPostListMap" parameterType="int">
+      select p.post_id, p.post_title, p.post_content, u.upload_id,
+      u.upload_filename, u.upload_fileuuid, u.upload_filepath, u.upload_type
+      from post as p LEFT JOIN upload as u on p.post_id = u.post_id
+      where member_id = #{member_id} 
+      order by p.post_id desc
+   </select>
+   
+   <!-- 모든 게시물 리스트 -->
+   <select id="selectPostList" resultMap="selectPostListMap">
+      select p.post_id, p.post_title, p.post_content, u.upload_id,
+      u.upload_filename, u.upload_fileuuid, u.upload_filepath, u.upload_type
+      from post as p LEFT JOIN upload as u on p.post_id = u.post_id
+      order by p.post_id desc
+   </select>
+   
+   <!-- 내 게시물 개수 -->
+   <select id="selectPostCount" resultType="int">
+      select count(post_id)
+      from post
+      where member_id = #{member_id}
+   </select>
+
+   <!-- 게시물 상세 -->
+   <select id="selectPostDetail" resultMap="selectPostDetailMap" parameterType="int">
+      select p.post_id, p.post_title, p.post_content, u.upload_id,
+            u.upload_filename, u.upload_fileuuid, u.upload_filepath, u.upload_type, m.member_nick
+      from post as p INNER JOIN upload as u INNER JOIN member as m
+      on (p.post_id = u.post_id AND p.member_id = m.member_id)
+      where p.post_id = #{post_id}
+   </select>
+
+
+
+	<!-- 게시글 검색 -->
+	<select id="searchPostList" resultMap="selectPostListMap" parameterType="String">
+		select  p.post_id, p.post_title, p.post_content, u.upload_id,
+		u.upload_filename, u.upload_fileuuid, u.upload_filepath, u.upload_type
+		from post AS p LEFT JOIN upload AS u on p.post_id = u.post_id		
+		where post_title LIKE CONCAT('%',#{keyword},'%')
+		order by p.post_id desc
+	</select>
+ 
+
+   
+   <select id="updatePostDetail" resultMap="selectMyPostListMap" parameterType="int">
+      select p.post_id, p.post_title, p.post_content, u.upload_id,
+      u.upload_filename, u.upload_fileuuid, u.upload_filepath, u.upload_type
+      from post as p LEFT JOIN upload as u 
+      on p.post_id = u.post_id
+      where p.post_id  = #{post_id} 
+
+   </select>
+
+
+
+
+   <update id="updatePost" parameterType="PostDto">
+      update post
+      set post_title = #{post_title},
+      post_content = #{post_content},
+      post_regdate = now()
+      where post_id = #{post_id}
+   </update>
+
+
+   <delete id="deletePost" parameterType="int" >
+      delete from post where post_id = #{post_id}
+   </delete>
+
+
+
+</mapper>
