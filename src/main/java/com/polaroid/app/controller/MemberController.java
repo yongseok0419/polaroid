@@ -239,14 +239,4 @@ public class MemberController {
 			return String.valueOf(cnt);
 		}
 		
-		//관리자페이지에 모든 회원 조회
-		@PostMapping("adminRetrieveMemberForm")
-		public String adminRetrieveMemberForm(Model model) {
-			
-			MemberProfileDto pmd = memberService.adminRetrieveMemberAll();
-			model.addAttribute("pmd", pmd);
-			
-			return "adminIndex";
-		}
-		
 }
