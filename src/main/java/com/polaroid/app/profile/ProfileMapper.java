@@ -31,6 +31,6 @@ public interface ProfileMapper {
 	public void updateProfileExcludeImage(ProfileDto profileDto);
 	
 	//메인 화면 회원 정보 조회
-	public MemberProfileDto selectMemberList(MemberProfileDto memberDto);
+	public MemberProfileDto selectMemberList(int memberId);
 
 }
