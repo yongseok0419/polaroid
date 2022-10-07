@@ -24,6 +24,6 @@ public interface ProfileService {
 	public void modifyProfileExcludeImage(ProfileDto profileDto, MemberDto memberDto);
 	
 	//메인 화면 회원 정보 조회
-	public MemberProfileDto retrieveMemberList(MemberProfileDto memberProfileDto);
+	public MemberProfileDto retrieveMemberList(int memberId);
 	
 }

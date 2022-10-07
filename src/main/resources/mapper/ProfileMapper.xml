@@ -88,7 +88,7 @@
  	   </select>
  	   
  	   <!-- 메인화면 회원 정보 조회 -->
- 	   <select id="selectMemberList" parameterType="MemberProfileDto" resultType="MemberProfileDto">
+ 	   <select id="selectMemberList" parameterType="int" resultType="MemberProfileDto">
  	   			SELECT m.member_nick AS memberNick,
  	   						p.profile_filename AS profileFileName,
  	   						p.profile_filepath AS profileFilePath,

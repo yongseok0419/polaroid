@@ -325,8 +325,8 @@
                       console.log("data : ", data);
                       if(data == "0") {
                          $(".withdrawalFailure").css("display", "inline-block");
-                      } else if(data == "1"){
-                    	  event()
+                      } else {
+                    	  event();
                       }
                    },
                    error: function(error){
@@ -345,7 +345,7 @@
           
          //탈퇴 재질문
          function event(){
-			if (confirm("정말 탈퇴 하시겠습니까?") == true){//확인
+			if (confirm("회원탈퇴 시 중복된 이메일로 재가입할 수 없습니다.\n정말 탈퇴 하시겠습니까?") == true){//확인
 				alert("탈퇴가 완료되었습니다.");
 				location.href="/login";
 			}else{//취소

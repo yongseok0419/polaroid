@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polaroid.app.command.MemberDto;
+import com.polaroid.app.command.MemberProfileDto;
 import com.polaroid.app.command.SendMailHelper;
 import com.polaroid.app.member.MemberService;
+import com.polaroid.app.profile.ProfileService;
 
 @Controller
 public class MemberController {
@@ -27,6 +30,9 @@ public class MemberController {
 		@Autowired
 		@Qualifier("memberService")
 		MemberService memberService;
+		
+		@Autowired
+		ProfileService profileService;
 		
 		@Autowired
 		SendMailHelper sendMailHelper;
@@ -199,8 +205,14 @@ public class MemberController {
 		    	session.setMaxInactiveInterval(30*60);
 				return "3";
 		    } else {
+		    		    					
+				MemberProfileDto mpd = profileService.retrieveMemberList(login.getMemberId());
+				int cnt = profileService.isProfile(login.getMemberId());		
+				session.setAttribute("isProfile", cnt);
+				session.setAttribute("mpd", mpd);					
 				session.setAttribute("member", login);
 				session.setMaxInactiveInterval(30*60);
+				
 				return "1";
 			}
 			

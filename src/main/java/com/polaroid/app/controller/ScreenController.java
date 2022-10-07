@@ -64,30 +64,16 @@ public class ScreenController {
 	// 메인 화면
 	@GetMapping("/index")
 	public String index(Model model, HttpSession session, MemberProfileDto memberProfileDto) {
-
-		// 메인 화면 회원 정보 조회
-		MemberDto member = (MemberDto) session.getAttribute("member");
-
-		memberProfileDto.setMemberId(member.getMemberId());
-
-		MemberProfileDto mpd = profileService.retrieveMemberList(memberProfileDto);
-
-		model.addAttribute("mpd", mpd);
-
-		// 내 게시글 조회
-
-		List<PostDto> list = postService.retrieveMyPostList(member.getMemberId());
-
+		
+		//내 게시글 조회
+		MemberDto member = (MemberDto)session.getAttribute("member");
+		List <PostDto> list = postService.retrieveMyPostList(member.getMemberId());
+		
 		int postCount = postService.selectPostCount(member.getMemberId());
 
 		model.addAttribute("posts", list);
 		model.addAttribute("postCount", postCount);
-
-		// 프로필 존재 유무
-		int cnt = profileService.isProfile(member.getMemberId());
-
-		model.addAttribute("isProfile", cnt);
-
+		
 		return "/index";
 	}
 
@@ -99,10 +85,24 @@ public class ScreenController {
 
 	// 게시글 전체 조회
 	@GetMapping("listAll")
-	public String listAll(Model model) {
-		List<PostDto> list = postService.retrievePostList();
-		model.addAttribute("posts", list);
-		return "/listAll";
+  public String listAll(Model model, HttpSession session) {
+	    List <PostDto> list = postService.retrievePostList();
+	    model.addAttribute("posts", list);
+	    
+	    MemberDto member = (MemberDto)session.getAttribute("member");
+	      
+	   //프로필 존재 유무
+		int cnt = profileService.isProfile(member.getMemberId());
+			
+		model.addAttribute("isProfile", cnt);
+	      return "/listAll";
+	   }
+	
+	//팔로우 게시글 화면
+	@GetMapping("listFollow")
+	public String listFollow() {
+		return "listFollow";
+
 	}
 
 	// 좋아요 게시글 조회
