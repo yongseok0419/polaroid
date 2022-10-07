@@ -17,9 +17,13 @@ public interface PostService {
 	public List<PostDto> retrieveMyPostList(int member_id); //내 게시글 조회 
 	public int selectPostCount(int member_id); //내 게시글 수
 
+	public List<PostDto> retrieveLikePostList(int member_id);  //좋아요 게시글 조회
+	
 	public PostDetailDto retrivePostDetail(int post_id);// 상세조회
 	
 	public boolean updatePost(PostDto postDto, List<MultipartFile> uploadFiles);//수정
+	
+	public boolean updatePost(PostDto postDto);// 게시글 내용, 제목만 수정
 	
 	public boolean removePost(int post_id);// 게시글 전체 삭제 
 	

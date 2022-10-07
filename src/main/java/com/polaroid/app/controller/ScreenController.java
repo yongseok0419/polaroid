@@ -26,156 +26,158 @@ import com.polaroid.app.command.PostLikeDto;
 import com.polaroid.app.post.PostService;
 import com.polaroid.app.profile.ProfileService;
 
-
 @Controller
 public class ScreenController {
 
 	@Autowired
 	@Qualifier("postService")
 	PostService postService;
-	
+
 	@Autowired
 	@Qualifier("profileService")
 	ProfileService profileService;
-	
-	//관리자 메인화면
+
+	// 관리자 메인화면
 	@GetMapping("adminIndex")
 	public String adminIndex() {
 		return "adminIndex";
 	}
-	
-	//관리자 정지화면
+
+	// 관리자 정지화면
 	@GetMapping("adminStop")
 	public String adminStop() {
 		return "adminStop";
 	}
-	
-	//팔로우/팔로워 리스트 화면
+
+	// 팔로우/팔로워 리스트 화면
 	@GetMapping("follow")
 	public String follow() {
 		return "follow";
-	}	
-	
-	//비밀번호 찾기 화면
+	}
+
+	// 비밀번호 찾기 화면
 	@GetMapping("forgotPwd")
 	public String forgotPwd() {
 		return "forgotPwd";
 	}
-	
-	//메인 화면
+
+	// 메인 화면
 	@GetMapping("/index")
 	public String index(Model model, HttpSession session, MemberProfileDto memberProfileDto) {
-		
-		//메인 화면 회원 정보 조회
-		MemberDto member = (MemberDto)session.getAttribute("member");
-		
+
+		// 메인 화면 회원 정보 조회
+		MemberDto member = (MemberDto) session.getAttribute("member");
 
 		memberProfileDto.setMemberId(member.getMemberId());
-				
-		MemberProfileDto mpd = profileService.retrieveMemberList(memberProfileDto);
-				
-		model.addAttribute("mpd", mpd);
-		
-		//내 게시글 조회
 
-		List <PostDto> list = postService.retrieveMyPostList(member.getMemberId());
-		
+		MemberProfileDto mpd = profileService.retrieveMemberList(memberProfileDto);
+
+		model.addAttribute("mpd", mpd);
+
+		// 내 게시글 조회
+
+		List<PostDto> list = postService.retrieveMyPostList(member.getMemberId());
+
 		int postCount = postService.selectPostCount(member.getMemberId());
-		
+
 		model.addAttribute("posts", list);
 		model.addAttribute("postCount", postCount);
-		
-		//프로필 존재 유무
+
+		// 프로필 존재 유무
 		int cnt = profileService.isProfile(member.getMemberId());
-		
+
 		model.addAttribute("isProfile", cnt);
-		
+
 		return "/index";
 	}
-	
 
-	
-	//회원가입 화면
+	// 회원가입 화면
 	@GetMapping("join")
 	public String Join() {
 		return "join";
 	}
-	
+
+	// 게시글 전체 조회
 	@GetMapping("listAll")
-	   public String listAll(Model model) {
-	      List <PostDto> list = postService.retrievePostList();
-	      model.addAttribute("posts", list);
-	      return "/listAll";
-	   }
-	
-	//팔로우 게시글 화면
+	public String listAll(Model model) {
+		List<PostDto> list = postService.retrievePostList();
+		model.addAttribute("posts", list);
+		return "/listAll";
+	}
+
+	// 좋아요 게시글 조회
+	@GetMapping("listLike")
+	public String listLike(Model model, HttpSession session) {
+
+		int member_id = ((MemberDto) session.getAttribute("member")).getMemberId();
+		PostLikeDto postLike = new PostLikeDto();
+		postLike.setMember_id(member_id);
+
+		List<PostDto> list = postService.retrieveLikePostList(member_id);
+		model.addAttribute("likeLists", list);
+		return "listLike";
+	}
+
+	// 팔로우 게시글 화면
 	@GetMapping("listFollow")
 	public String listFollow() {
 		return "listFollow";
 	}
-	
-	//좋아요 게시글 화면
-	@GetMapping("listLike")
-	public String listLike() {
-		return "listLike";
-	}
-	
-	//로그인 화면
+
+	// 로그인 화면
 	@GetMapping("login")
 	public String Login() {
 		return "login";
 	}
-	
-	//비밀번호 수정 화면
+
+	// 비밀번호 수정 화면
 	@GetMapping("modifyPwd")
 	public String modifyPwd() {
 		return "modifyPwd";
 	}
-	
-	//프로필 등록 화면
+
+	// 프로필 등록 화면
 	@GetMapping("registProfile")
 	public String registProfile() {
 		return "registProfile";
 	}
-	
-	//업로드 화면
+
+	// 업로드 화면
 	@GetMapping("upload")
 	public String upload() {
 		return "upload";
 	}
-	
-	//게시글 상세조회
-	   @GetMapping(value="/posts/{post_id}")
-	   public @ResponseBody Map<String, Object> selectPostDetail(@PathVariable("post_id") int post_id, HttpSession session) {
 
-	      PostLikeDto postLike = new PostLikeDto();
-	      int memberId = ((MemberDto)session.getAttribute("member")).getMemberId();
-	      postLike.setPost_id(post_id);
-	      postLike.setMember_id(memberId);
-	      
-	      int ispostLike = postService.postFindLike(postLike);
-	      int postLikeCount = postService.postLikeCount(post_id);
-	            
-	      PostDetailDto post = postService.retrivePostDetail(post_id);      
-	      Map<String, Object> map = new HashMap<>();
-	      map.put("post", post);
-	      map.put("ispostLike", ispostLike);
-	      map.put("postLikeCount", postLikeCount);
-	      return map;
-	   }
+	// 게시글 상세조회
+	@GetMapping(value = "/posts/{post_id}")
+	public @ResponseBody Map<String, Object> selectPostDetail(@PathVariable("post_id") int post_id,
+			HttpSession session) {
 
-	
-	
-	
-	//게시글 수정 
+		PostLikeDto postLike = new PostLikeDto();
+		int memberId = ((MemberDto) session.getAttribute("member")).getMemberId();
+		postLike.setPost_id(post_id);
+		postLike.setMember_id(memberId);
+
+		int ispostLike = postService.postFindLike(postLike);
+		int postLikeCount = postService.postLikeCount(post_id);
+
+		PostDetailDto post = postService.retrivePostDetail(post_id);
+		Map<String, Object> map = new HashMap<>();
+		map.put("post", post);
+		map.put("ispostLike", ispostLike);
+		map.put("postLikeCount", postLikeCount);
+		return map;
+	}
+
+	// 게시글 수정
 	@GetMapping("updateForm")
 	public String updateForm(Model model, @RequestParam(value = "post_id", defaultValue = "2") int post_id) {
-		//post_id = 30;
-		
+		// post_id = 30;
+
 		PostDto postDto = postService.modifyPostDetail(post_id); //
 
 		model.addAttribute("postDto", postDto);
-		
+
 		return "update";
 	}
 }
