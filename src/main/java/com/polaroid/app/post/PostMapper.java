@@ -17,11 +17,14 @@ public interface PostMapper {
 	public int registerPost(PostDto postDto); //등록
 	public boolean updatePost(PostDto postDto);//수정
 	public boolean updatePost(PostDto postDto, List <MultipartFile> uploadFiles);//수정
+	public boolean updatePostTitleContent(PostDto postDto);//게시글 제목, 내용만 수정
 	public PostDto updatePostDetail(int post_id); //게시글 수정 페이지
 	public boolean deletePost(int post_id);//삭제
 	
 	public List<PostDto> selectPostList(); //전체 게시글 조회
 	public PostDetailDto selectPostDetail(int post_id);// 상세조회
+	
+	public List<PostDto> selectLikePostList(int member_id); //좋아요 게시글 조회
 	
 	public List<PostDto> selectMyPostList(int member_id); //내 게시글 조회
 	public int selectPostCount(int member_id); //내 게시글 수
