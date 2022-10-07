@@ -52,13 +52,13 @@
                       <div class="d-flex align-items-start align-items-sm-center gap-5 ">
                       
 
-		                  <th:block th:if="${isProfile == 0}">
+		                  <th:block th:if="${session.isProfile == 0}">
                         	<div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
 							          </div>
                       </th:block>    
-                      <th:block th:unless="${isProfile == 0}">
+                      <th:block th:unless="${session.isProfile == 0}">
                         	<div class="profile-img">
-	                        <img class="profile-img" th:src="'/upload/'+ ${mpd.profileFilePath} + '/' + ${mpd.profileFileUuid} + '_' + ${mpd.profileFileName}" 
+	                        <img class="profile-img" th:src="'/upload/'+ ${session.mpd.profileFilePath} + '/' + ${session.mpd.profileFileUuid} + '_' + ${session.mpd.profileFileName}" 
 	                      			style="width:100%;">
 						</div>
                       </th:block>
@@ -66,39 +66,39 @@
                        
                         <div class="button-wrapper profile-btn">    
 
-                        <th:block th:if="${isProfile == 0}">
+                        <th:block th:if="${session.isProfile == 0}">
                         	<p>[[${session.member.memberNick}]]</p>
                         </th:block>    
-                        <th:block th:unless="${isProfile == 0}">
-                        	<p>[[${mpd.memberNick}]]</p>
+                        <th:block th:unless="${session.isProfile == 0}">
+                        	<p>[[${session.mpd.memberNick}]]</p>
                         </th:block>
 
 
                           <button type="button" class="btn btn-outline-primary">팔로우</button>
                           
                           
-                          <th:block th:if="${isProfile == 0}">
+                         <th:block th:if="${session.isProfile == 0}">
                           		<a type="button" class="btn btn-outline-secondary" th:href=@{registProfile}>프로필 등록</a>
                           </th:block>
-                          <th:block th:unless="${isProfile == 0}">
+                          <th:block th:unless="${session.isProfile == 0}">
                           		<a type="button" class="btn btn-outline-secondary" th:href=@{updateProfileForm}>프로필 편집</a>
                           </th:block>
                           
                           <br>
                           
                           
-                          <th:block th:if="${isProfile == 0}">
+                          <th:block th:if="${session.isProfile == 0}">
                           		<p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
                           </th:block>
-                          <th:block th:unless="${isProfile == 0}">
-								<p class="text-muted mb-0">[[${mpd.profileAboutMe}]]</p>
+                          <th:block th:unless="${session.isProfile == 0}">
+								<p class="text-muted mb-0">[[${session.mpd.profileAboutMe}]]</p>
                           </th:block>
                           
-                          <th:block th:if="${isProfile == 0}">
+                          <th:block th:if="${session.isProfile == 0}">
 		                        <a href="https://www.naver.com/">https://www.naver.com/</a>
                           </th:block>
-                          <th:block th:unless="${isProfile == 0}">
-		                        <a th:href=@{${mpd.profileWebsite}}>[[${mpd.profileWebsite}]]</a>
+                          <th:block th:unless="${session.isProfile == 0}">
+		                        <a th:href=@{${session.mpd.profileWebsite}}>[[${session.mpd.profileWebsite}]]</a>
                           </th:block>
                           
                         </div>
@@ -109,13 +109,13 @@
                             <h4 class="card-title mb-2">[[${postCount}]]</h4>
                           </div>
                           <div class="count-item">
-                            <a href="follow.html" class="link-color">
+                            <a th:href=@{follow} class="link-color">
                               <span class="fw-semibold d-block mb-1">팔로워</span>
                               <h3 class="card-title mb-2">12</h3>
                             </a>
                           </div>
                           <div class="count-item" type="button">
-                            <a href="follow.html" class="link-color">
+                            <a th:href=@{follow} class="link-color">
                               <span class="fw-semibold d-block mb-1">팔로우</span>
                               <h3 class="card-title mb-2">12</h3>
                             </a>
