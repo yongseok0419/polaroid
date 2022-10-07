@@ -98,12 +98,6 @@ public class ScreenController {
 	      return "/listAll";
 	   }
 	
-	//팔로우 게시글 화면
-	@GetMapping("listFollow")
-	public String listFollow() {
-		return "listFollow";
-
-	}
 
 	// 좋아요 게시글 조회
 	@GetMapping("listLike")
