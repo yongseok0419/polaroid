@@ -52,6 +52,13 @@ public class ProfileController {
 			//프로필 등록
 			profileService.registerProfile(profileDto, memberDto, upload);
 		}	
+		
+		int memberId = ((MemberDto)session.getAttribute("member")).getMemberId();
+		MemberProfileDto mpd = profileService.retrieveMemberList(memberId);
+		int count = profileService.isProfile(memberId);		
+		session.setAttribute("isProfile", count);
+		session.setAttribute("mpd", mpd);
+		
 		return "redirect:/index";
 	}
 	
@@ -60,6 +67,14 @@ public class ProfileController {
 									 @RequestParam("upload") MultipartFile upload,
 									 Model model, HttpSession session){
 		System.out.println("--------------------------------------------------------");
+		
+//		//이미지 파일 검증
+//			if(upload.getContentType().contains("image") == false) {		//이미지가 아닌경우
+//				//다시 등록화면으로
+//				model.addAttribute("profileDto", profileDto);
+//				model.addAttribute("valid_files", "이미지형식만 등록가능합니다.");
+//				return "/registProfile";
+//			}
 		
 		System.out.println("파일의 갯수 : " + upload.getSize());
 		
@@ -82,8 +97,14 @@ public class ProfileController {
 				//회원정보가 있는 경우 증 프로필 화면에서 이미지를 선택한 경우
 				profileService.modifyProfile(profileDto, memberDto, upload);
 			}
-			
 		}
+		
+		int memberId = ((MemberDto)session.getAttribute("member")).getMemberId();
+		MemberProfileDto mpd = profileService.retrieveMemberList(memberId);
+		int count = profileService.isProfile(memberId);		
+		session.setAttribute("isProfile", count);
+		session.setAttribute("mpd", mpd);					
+		
 		return "redirect:/index";
 	}
 	
