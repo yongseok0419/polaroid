@@ -280,7 +280,7 @@
                 for(let i = 0; i < posts.length; i++){
                   htmlStr += "<div class='col-lg-4 col-md-4 col-4 mb-4'>";
                   htmlStr += "<div class='card'>";
-                  htmlStr += "<a href='#' type='button' class='' data-id=" + posts[i].post_id + ">";
+                   htmlStr += "<a href='#' type='button' class=''  data-bs-toggle= 'modal' data-bs-target='#modalScrollable' data-id=" + posts[i].post_id + ">";
                   htmlStr += "<div class='card-body contents-card'>";           
                   for(let j = 0; j < posts[i].uploads.length; j++){                       
                     htmlStr += "<div class='contents-img' style=\"background:url('/upload/" + posts[i].uploads[j].upload_filepath + "/" + posts[i].uploads[j].upload_fileuuid + "_" + posts[i].uploads[j].upload_filename + "') no-repeat center; background-size: cover;\">";   
