@@ -87,7 +87,7 @@ public class ScreenController {
 	}
 	
 	@GetMapping("listAll")
-	   public String listAll(Model model) {
+	   public String listAll(Model model, HttpSession session) {
 	      List <PostDto> list = postService.retrievePostList();
 	      model.addAttribute("posts", list);
 	    
