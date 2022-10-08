@@ -4,6 +4,70 @@
   
  
       $(document).ready(function() {
+      
+      
+      
+      
+      
+      //게시글 hover 출력 
+	$(function() {
+			
+			$(".contents-card").on("mouseenter", function(e) {
+				e.preventDefault();
+								        
+        		let post_id = $(this).closest('a').data('id');				
+								 
+				let result = $(this);
+				
+				result.find('.hover-box').css('display','block');
+				
+				
+				$.ajax({
+                 url: "/posts/" + post_id,
+                 
+                 type: 'GET',
+                 contentType: 'application/json;charset=utf-8',
+                 dataType: 'json',
+                 success: function (data) {  
+					
+					result.find('#postLikeCount2').html(data.postLikeCount);			       	                   
+                },
+                fail: function(ex){
+                  console.log("error: ", ex);
+                }
+             });
+             
+             $.ajax({
+                  url: "/posts/" + post_id + "/replies",
+                  type: 'GET',
+                  contentType: 'application/json;charset=utf-8',
+                  dataType: 'json',
+                  success: function (data) {
+                   let replyList = data.replyList;
+					 //console.log("replyList.length: ", replyList.length);
+					result.find('#replyCount').html(data.replyList.length);
+                  },
+                  fail: function (ex) {
+                    console.log("error : ", ex);
+                  }
+              });
+				
+				
+				
+			});
+			
+			$(".contents-card").on("mouseleave", function() {
+				
+				
+				$(this).find('.hover-box').css('display','none');
+			});
+		});
+      
+      
+      
+      
+      
+      
 
       //모달 띄우기 
     	 $('#contents').on('click', 'a', function(e) {
@@ -284,8 +348,8 @@
                   htmlStr += "<div class='card-body contents-card'>";           
                   for(let j = 0; j < posts[i].uploads.length; j++){                       
                     htmlStr += "<div class='contents-img' style=\"background:url('/upload/" + posts[i].uploads[j].upload_filepath + "/" + posts[i].uploads[j].upload_fileuuid + "_" + posts[i].uploads[j].upload_filename + "') no-repeat center; background-size: cover;\">";   
-                    htmlStr += "<div class='hover-box'><i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;";
-                    htmlStr += "<i class='bx bxs-chat'><span>123</span></i>";
+                    htmlStr += "<div class='hover-box'><i class='bx bxs-heart'><span id='postLikeCount2'></span></i>&nbsp;&nbsp;";
+                    htmlStr += "<i class='bx bxs-chat'><span id='replyCount'></span></i>";
                     htmlStr += "</div></div>";
                   }                
                   
