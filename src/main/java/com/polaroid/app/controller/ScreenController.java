@@ -38,18 +38,6 @@ public class ScreenController {
 	@Qualifier("profileService")
 	ProfileService profileService;
 	
-	//관리자 메인화면
-	@GetMapping("adminIndex")
-	public String adminIndex() {
-		return "adminIndex";
-	}
-	
-	//관리자 정지화면
-	@GetMapping("adminStop")
-	public String adminStop() {
-		return "adminStop";
-	}
-	
 	//팔로우/팔로워 리스트 화면
 	@GetMapping("follow")
 	public String follow() {
@@ -86,6 +74,7 @@ public class ScreenController {
 		return "join";
 	}
 	
+	//게시글 전체 조회
 	@GetMapping("listAll")
 	   public String listAll(Model model, HttpSession session) {
 	      List <PostDto> list = postService.retrievePostList();

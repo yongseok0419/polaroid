@@ -336,10 +336,14 @@
                 let post = data.post;
 
                 let htmlStr = "";
+				
+				  if (isProfile == 0) {
+		              alert("" + htmlStr);
+		                  htmlStr += "<div class='profile-img' style='background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;'></div>";
+		          } else {
+		            	  htmlStr += "<div class='profile-img' style=\"background:url('/upload/" + mpd.profileFilePath + "/" + mpd.profileFileUuid + "_" + mpd.profileFileName + "') no-repeat center; background-size: cover;\"></div>";     
+		          }
 
-
-
-                htmlStr += "<div class='profile-img' style='background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;'></div>";
                 htmlStr += "<div class='user_container'>";
                 htmlStr += "<div class='user_name'>";
                 htmlStr += "<div class='nick_name'>" + post.member_nick + "</div>";
