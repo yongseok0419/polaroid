@@ -16,13 +16,6 @@
 
 		<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
- 		
-		
-		
-		
-		
-
- 	
             <!-- Content -->
 			 <form action="retrieveMypostList" method="GET" enctype="multipart/form-data"> 
             <div class=" container-xxl flex-grow-1 container-p-y">
@@ -268,7 +261,6 @@
                           
                   </div>
                   
-                  
                   <div class="modal-footer content-modal" id="modifyForm" style="display: none;">
                     <!-- 수정폼 -->
                    <div class="commit_field">
@@ -293,9 +285,20 @@
           </div>
 
 
-		  
-
-
+  <script  th:inline="javascript" >
+            let post_id = 0;
+            //let isModified = false;
+            let reply_id = 0;
+            let replyContent = '';
+            let modifyForm_reply_id = 0;
+    
+            let memberNick = /*[[${session.member.memberNick}]]*/ ;
+            let memberId = /*[[${session.member.memberId}]]*/ ;
+            let session = /*[[${session.member}]]*/ ;         
+            let isProfile = /*[[${isProfile}]]*/ ;         
+            let mpd = /*[[${mpd}]]*/ ;         
+                
+          </script>
 
           <!-- modals2 end ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
             
