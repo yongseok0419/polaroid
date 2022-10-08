@@ -19,27 +19,38 @@
               <div class="row" >
                
                 
-                  <div class="row contents-list">
+                  <div class="row contents-list" id="contents">
 
                     <!-- contents-item  start-->
-                    <div class="col-lg-4 col-md-4 col-4 mb-4">
-                      <div class="card">
-                        <a href="#" type="button"
-                        class=" "
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalScrollable">
-                          <div class="card-body contents-card">    
-                              <div class="contents-img" style="background: url(/img/elements/13.jpg) no-repeat center; background-size: cover;">
-                                <div class="hover-box">
-                                  <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;
-                                  <i class='bx bxs-chat'><span>123</span></i>
+                    <th:block th:each="post: ${likeLists}">
+                      <div class="col-lg-4 col-md-4 col-4 mb-4">
+                        <div class="card">
+                          <a href="#" type="button" class="" data-bs-toggle="modal" 
+                          data-bs-target="#modalScrollable" th:attr="data-id=${post.post_id}">
+                    
+                            <div class="card-body contents-card">
+                              <!-- <span th:style="'background-image:url('+ @{/images/sample-visual01.jpg} +');'"></span> -->
+                              <th:block th:each="upload : ${post.uploads}">
+                                <div class="contents-img"
+                                  th:style="'background:url('+ @{'/upload/'+ ${upload.upload_filepath} + '/' + ${upload.upload_fileuuid} + '_' + ${upload.upload_filename}} +')no-repeat center; background-size: cover;'">
+                    
+                    
+                    
+                                  <!--  <img th:src="'/upload/'+ ${upload.upload_filepath} + '/' + ${upload.upload_fileuuid} + '_' + ${upload.upload_filename}" > -->
+                                  <!-- img th:src="'/upload/main_' + ${file.uuid} + '_' + ${file.filename}" -->
+                                  <!--  th:src="@{../display(r_path=${dto2.r_path}, r_image=${dto2.r_image})}" -->
+                                  <div class="hover-box">
+                                    <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;
+                                    <i class='bx bxs-chat'><span>123</span></i>
+                                  </div>
+                    
                                 </div>
-
-                              </div>
-                          </div>
-                        </a>
+                              </th:block>
+                            </div>
+                          </a>
+                        </div>
                       </div>
-                    </div>
+                    </th:block>
                     <!-- contents-item  end-->
 
                      <!-- contents-item  start-->

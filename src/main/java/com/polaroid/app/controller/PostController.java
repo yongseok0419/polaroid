@@ -41,12 +41,18 @@ public class PostController {
 		return "/listAll";
 	}
 
+	// 좋아요 게시글 조회
+	@GetMapping("postLikeList")
+	public String postLikeList() {
+		return "/listLike";
+	}
+
 	@GetMapping("postUpload")
 	public String postUpload() {
 		return "/upload";
 	}
 
-	//게시글 등록
+	// 게시글 등록
 	@PostMapping("/registerPost")
 	public String registerPost(@Valid PostDto postDto, Errors errors, Model model,
 			@RequestParam("file") List<MultipartFile> uploadFiles, HttpSession session) {
@@ -87,7 +93,7 @@ public class PostController {
 
 	}
 
-	//게시글 수정
+	// 게시글 수정
 	@PostMapping("/updatePost")
 	public String updatePost(@Valid PostDto postDto, Errors errors, Model model,
 			@RequestParam("file") List<MultipartFile> uploadFiles, HttpSession session) {
@@ -101,7 +107,7 @@ public class PostController {
 					model.addAttribute("valid_" + err.getField(), err.getDefaultMessage());
 				}
 			}
-			model.addAttribute("postDto", postDto);			
+			model.addAttribute("postDto", postDto);
 
 			return "/update";
 		}
@@ -110,14 +116,19 @@ public class PostController {
 		uploadFiles = uploadFiles.stream().filter((f) -> !f.isEmpty()).collect(Collectors.toList());
 
 		if (uploadFiles.size() != 0) {
-			//기존 업로드 이미지 제거
-			//새로운 업로드 이미지 
+			// 기존 업로드 이미지 제거
+			// 새로운 업로드 이미지
 			MemberDto member = (MemberDto) session.getAttribute("member");
 			int member_id = member.getMemberId();
 			postDto.setMember_id(member_id);
 			boolean result = postService.updatePost(postDto, uploadFiles); // 게시글 데이터, 이미지데이터
 
-		} 	
+		} else {
+			MemberDto member = (MemberDto) session.getAttribute("member");
+			int member_id = member.getMemberId();
+			postDto.setMember_id(member_id);
+			boolean result = postService.updatePost(postDto); // 게시글 데이터, 이미지데이터
+		}
 
 		return "redirect:/index";
 	}
@@ -136,10 +147,9 @@ public class PostController {
 		return "redirect:/index";
 	}
 
-
-	//게시글 검색
+	// 게시글 검색
 	@PostMapping("/search")
-	public @ResponseBody Map<String, Object> searchPostList(@RequestBody HashMap<String, String> keyword){
+	public @ResponseBody Map<String, Object> searchPostList(@RequestBody HashMap<String, String> keyword) {
 
 		List<PostDto> searchPostList = postService.searchPostList(keyword.get("keyword"));
 
@@ -162,7 +172,6 @@ public class PostController {
 		postLikeDto.setMember_id(member_id);
 		postLikeDto.setPost_id(post_id);
 
-
 		Map<String, Integer> map = new HashMap<String, Integer>();
 
 		// int postLike = postService.postLike(post_id);
@@ -182,7 +191,7 @@ public class PostController {
 
 	}
 
-	//게시글 좋아요 취소
+	// 게시글 좋아요 취소
 	@GetMapping("/deleteLike/{post_id}")
 	public @ResponseBody Map<String, Integer> deleteLike(@PathVariable int post_id, HttpSession session) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
@@ -206,6 +215,5 @@ public class PostController {
 
 		return map;
 	}
-
 
 }

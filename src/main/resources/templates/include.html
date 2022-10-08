@@ -166,14 +166,14 @@
              <span class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                	 <th:block th:if="${session.isProfile == 0}">
                  
-                     <div class="avatar avatar-online">
+                     <div class="avatar">
 		     	<div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;"></div>
                      </div>
                  </th:block>    
                  <th:block th:if="${session.isProfile == 1}">
                  		
                  	<div class="flex-shrink-0 me-3">
-                 		<div class="avatar avatar-online">
+                 		<div class="avatar">
                          		<img class="profile-img" th:src="'/upload/'+ ${session.mpd.profileFilePath} + '/' + ${session.mpd.profileFileUuid} + '_' + ${session.mpd.profileFileName}" style="width:100%;">
                         	</div>
                     	</div>
@@ -188,7 +188,7 @@
                    	<th:block th:if="${session.isProfile == 0}">
                  
                    		<div class="flex-shrink-0 me-3">
-                       			<div class="avatar avatar-online">
+                       			<div class="avatar">
                          		<div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;"></div>
                        			</div>
                    		</div>
@@ -196,7 +196,7 @@
                  	<th:block th:if="${session.isProfile == 1}">
                  		
                  		<div class="flex-shrink-0 me-3">
-                       			<div class="avatar avatar-online">
+                       			<div class="avatar">
                          		<img class="profile-img" th:src="'/upload/'+ ${session.mpd.profileFilePath} + '/' + ${session.mpd.profileFileUuid} + '_' + ${session.mpd.profileFileName}" style="width:100%;">
                        			</div>
                     		</div>
@@ -313,6 +313,20 @@
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   
-  
+	<script  th:inline="javascript" >
+            let post_id = 0;
+            //let isModified = false;
+            let reply_id = 0;
+            let replyContent = '';
+            let modifyForm_reply_id = 0;
+    
+            let memberNick = /*[[${session.member.memberNick}]]*/ ;
+            let memberId = /*[[${session.member.memberId}]]*/ ;
+            let session = /*[[${session.member}]]*/ ;         
+            let isProfile = /*[[${isProfile}]]*/ ;         
+            let mpd = /*[[${mpd}]]*/ ;         
+                
+          </script>
+	  
 </body>
 </html>      

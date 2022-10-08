@@ -42,15 +42,15 @@ public class PostServiceImpl implements PostService {
 		}
 		return path; // 경로
 	}
-	
-	//게시글 등록
+
+	// 게시글 등록
 	@Transactional
 	@Override
 	public boolean registerPost(PostDto postDto, List<MultipartFile> uploadFiles) {
 
 		// 1. 폼데이터 인서트
 		postMapper.registerPost(postDto);
-		
+
 		System.out.println("post_id" + postDto.getPost_id());
 
 		// 2. 파일업로드
@@ -90,12 +90,11 @@ public class PostServiceImpl implements PostService {
 			// 3. 파일의경로를 DB인서트
 			uploadMapper.registerUploadFile(UploadDto.builder().post_id(postDto.getPost_id()).upload_filename(filename)
 					.upload_filepath(path).upload_fileuuid(uuid).build());
-			
+
 		}
 		return true;
 	}
-	
-	
+
 	// 전체 게시글 보기
 	@Override
 	public List<PostDto> retrievePostList() {
@@ -103,6 +102,11 @@ public class PostServiceImpl implements PostService {
 		return postMapper.selectPostList();
 	}
 	
+	// 좋아요 게시글 조회
+	public List<PostDto> retrieveLikePostList(int member_id) {
+		return postMapper.selectLikePostList(member_id);
+	}
+
 	// 내 게시글 리스트
 	@Transactional
 	@Override
@@ -110,104 +114,110 @@ public class PostServiceImpl implements PostService {
 
 		return postMapper.selectMyPostList(member_id);
 	}
-	
+
 	// 내 게시글 갯수
 	@Transactional
 	@Override
-	public int selectPostCount(int member_id) { 
-		
-		return postMapper.selectPostCount(member_id); 
-	}	
+	public int selectPostCount(int member_id) {
+
+		return postMapper.selectPostCount(member_id);
+	}
 
 	// 게시글 상세보기
 	@Transactional
 	@Override
 	public PostDetailDto retrivePostDetail(int post_id) {
-		
+
 		return postMapper.selectPostDetail(post_id);
-	}	 
-	
-	//게시글 수정
+	}
+
+	// 게시글 수정
 	@Transactional
 	@Override
 	public boolean updatePost(PostDto postDto, List<MultipartFile> uploadFiles) {
-		
-			//기존 업로드 이미지 제거
-			//새로운 업로드 이미지 
 
-			// 1. 폼데이터 인서트
-			uploadMapper.deleteUploadFile(postDto.getPost_id());
-			
-			System.out.println(postDto.getPost_id());
-			
-			postMapper.updatePost(postDto);
-			
-			
+		// 기존 업로드 이미지 제거
+		// 새로운 업로드 이미지
 
-			// 2. 파일업로드
-			for (MultipartFile file : uploadFiles) {
-				// 실제파일명 (브라우저별로 조금씩 다를수가있음)
-				String origin = file.getOriginalFilename();
-				// 저장할파일명(경로가 \\가 들어오는 경우 잘라서 처리)
-				String filename = origin.substring(origin.lastIndexOf("\\") + 1);
-				// 파일사이즈
-				long size = file.getSize();
-				// 랜덤이름
-				String uuid = UUID.randomUUID().toString();
-				// 날짜경로
-				String path = makeFolder();
-				// 업로드경로
-				String saveName = upload_filepath + "\\" + path + "\\" + uuid + "_" + filename;
-				// 썸네일경로
-				String thumbnailName = upload_filepath + "\\" + path + "\\thumb_" + uuid + "_" + filename;
+		// 1. 폼데이터 인서트
+		uploadMapper.deleteUploadFile(postDto.getPost_id());
 
-				System.out.println(filename);
-				System.out.println(size);
-				System.out.println(saveName);
+		System.out.println(postDto.getPost_id());
 
-				try {
-					File saveFile = new File(saveName);
-					file.transferTo(saveFile); // 파일업로드
-					// 썸네일 생성 업로드
-					Thumbnailator.createThumbnail(saveFile, new File(thumbnailName), 500, 500);
+		postMapper.updatePost(postDto);
 
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.out.println("업로드중 에러 발생");
-				}
+		// 2. 파일업로드
+		for (MultipartFile file : uploadFiles) {
+			// 실제파일명 (브라우저별로 조금씩 다를수가있음)
+			String origin = file.getOriginalFilename();
+			// 저장할파일명(경로가 \\가 들어오는 경우 잘라서 처리)
+			String filename = origin.substring(origin.lastIndexOf("\\") + 1);
+			// 파일사이즈
+			long size = file.getSize();
+			// 랜덤이름
+			String uuid = UUID.randomUUID().toString();
+			// 날짜경로
+			String path = makeFolder();
+			// 업로드경로
+			String saveName = upload_filepath + "\\" + path + "\\" + uuid + "_" + filename;
+			// 썸네일경로
+			String thumbnailName = upload_filepath + "\\" + path + "\\thumb_" + uuid + "_" + filename;
 
-				// selectKey키방식
+			System.out.println(filename);
+			System.out.println(size);
+			System.out.println(saveName);
 
-				// 3. 파일의경로를 삭제하고 DB인서트
-				
-				uploadMapper.registerUploadFile(UploadDto.builder().post_id(postDto.getPost_id()).upload_filename(filename)
-						.upload_filepath(path).upload_fileuuid(uuid).build());
-				
+			try {
+				File saveFile = new File(saveName);
+				file.transferTo(saveFile); // 파일업로드
+				// 썸네일 생성 업로드
+				Thumbnailator.createThumbnail(saveFile, new File(thumbnailName), 500, 500);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("업로드중 에러 발생");
 			}
-			return true;
+
+			// selectKey키방식
+
+			// 3. 파일의경로를 삭제하고 DB인서트
+
+			uploadMapper.registerUploadFile(UploadDto.builder().post_id(postDto.getPost_id()).upload_filename(filename)
+					.upload_filepath(path).upload_fileuuid(uuid).build());
+
+		}
+		return true;
 	}
 	
-	//게시글 삭제
+	//게시글 내용, 제목만 수정
+	@Transactional
+	@Override
+	public boolean updatePost(PostDto postDto) {
+		
+		return postMapper.updatePostTitleContent(postDto);
+	}
+
+	// 게시글 삭제
 	@Override
 	public boolean removePost(int post_id) {
 
 		return postMapper.deletePost(post_id);
 	}
 
-	//수정할 때 등록된 데이터 불러오기
+	// 수정할 때 등록된 데이터 불러오기
 	@Transactional
 	@Override
 	public PostDto modifyPostDetail(int post_id) {
-		
+
 		return postMapper.updatePostDetail(post_id);
 	}
 
-	//게시글 검색
+	// 게시글 검색
 	@Override
-	public List<PostDto> searchPostList(String keyword){
+	public List<PostDto> searchPostList(String keyword) {
 		return postMapper.searchPostList(keyword);
 	}
-	
+
 	// 게시글 좋아요 누르기
 	@Override
 	public int postLike(PostLikeDto postLike) {
