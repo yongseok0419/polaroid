@@ -43,9 +43,15 @@
                         <div class="profile-img"> 
                           <label class="upload-display" for="upload">
                             <span class="upload-thumb-wrap">
-                                <!-- <img class="upload-thumb" src="/img/add_button.png" style="width:100%"> -->
-                                <img class="profile-img upload-thumb" th:src="'/upload/'+ ${mpd.profileFilePath} + '/' + ${mpd.profileFileUuid} + '_' + ${mpd.profileFileName}" 
-                            style="width:100%;">
+                            <th:block th:if="${session.mpd.profileFileName == null}">
+                      			<img class="upload-thumb" src="/img/add_button.png" style="width:100%">
+                      		</th:block>
+                      		<th:block th:unless="${session.mpd.profileFileName == null}">
+                      			<div class="profile-img">
+	                      		  <img class="profile-img upload-thumb" th:src="'/upload/'+ ${mpd.profileFilePath} + '/' + ${mpd.profileFileUuid} + '_' + ${mpd.profileFileName}" 
+                           			 style="width:100%;">
+								</div>
+                      		</th:block>
                             </span>
                           </label>
                           <!-- <input class="upload-name" value="파일선택" disabled="disabled"> -->
