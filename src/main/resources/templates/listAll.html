@@ -13,7 +13,8 @@
  
     <div class="wrap">
 
-    
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+  	
           
             <!-- Content -->
             <div class=" container-xxl flex-grow-1 container-p-y">
@@ -38,8 +39,8 @@
                             <!-- img th:src="'/upload/main_' + ${file.uuid} + '_' + ${file.filename}" -->
                            <!--  th:src="@{../display(r_path=${dto2.r_path}, r_image=${dto2.r_image})}" -->
                               <div class="hover-box">
-                                <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;
-                                <i class='bx bxs-chat'><span>123</span></i>
+                                <i class='bx bxs-heart' ><span id="postLikeCount2"></span></i>&nbsp;&nbsp;
+                                 <i class='bx bxs-chat'><span id="replyCount"></span></i>
                               </div>
               
                             </div>
@@ -112,7 +113,7 @@
 	                    <div class="bottom_icons content-modal">
 	                      <div class="left_icons">
 	                        <div class="heart_btn" id="postLikeBtn">
-	                           <a href="#">
+	                           <a href="#n">
                               <i id="heart" class="bx bx-heart"></i> 
 	                          </a> 
 	                        </div>
@@ -187,20 +188,7 @@
 
 		  
 
-    <script  th:inline="javascript" >
-            let post_id = 0;
-            //let isModified = false;
-            let reply_id = 0;
-            let replyContent = '';
-            let modifyForm_reply_id = 0;
-    
-            let memberNick = /*[[${session.member.memberNick}]]*/ ;
-            let memberId = /*[[${session.member.memberId}]]*/ ;
-            let session = /*[[${session.member}]]*/ ;         
-            let isProfile = /*[[${isProfile}]]*/ ;         
-            let mpd = /*[[${mpd}]]*/ ;         
-                
-          </script>
+  
         
   
 
