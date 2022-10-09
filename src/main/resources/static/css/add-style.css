@@ -130,9 +130,9 @@
     padding-bottom: 100px;
 }
 
-.contents-card:hover .hover-box {
+/* .contents-card:hover .hover-box {
     display: block;
-}
+} */
 
 .count-box {
     display: flex;

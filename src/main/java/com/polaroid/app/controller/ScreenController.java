@@ -162,6 +162,8 @@ public class ScreenController {
 		map.put("postLikeCount", postLikeCount);
 		return map;
 	}
+	
+	
 
 	// 게시글 수정
 	@GetMapping("updateForm")

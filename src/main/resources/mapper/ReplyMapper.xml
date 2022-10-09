@@ -14,12 +14,13 @@
       <result column="member_nick" property="memberNick"/>
    </resultMap>
    
-   <!-- 게시글 댓글 조회 -->
+   
+     <!-- 게시글 댓글 조회 -->
    <select id="selectReplyList" parameterType="int" resultMap="MemberReplyInfo">
-      select reply_id, reply_content, reply_regdate, member_nick
+     select reply_id, reply_content, reply_regdate, member_nick ,member_id
       from reply NATURAL JOIN member
       where post_id = #{postId}
-      order by reply_regdate desc
+      order by reply_regdate desc;
    </select>
 
    <!-- 게시글 댓글 등록 -->
