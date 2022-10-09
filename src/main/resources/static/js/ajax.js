@@ -4,39 +4,38 @@
   
  
       $(document).ready(function() {
-      
-      
-      
-      
-      
+
+	
+
       //게시글 hover 출력 
 	$(function() {
-			
+
 			$(".contents-card").on("mouseenter", function(e) {
 				e.preventDefault();
-								        
+
         		let post_id = $(this).closest('a').data('id');				
-								 
+
 				let result = $(this);
-				
+
 				result.find('.hover-box').css('display','block');
-				
-				
+
+
 				$.ajax({
                  url: "/posts/" + post_id,
-                 
+
+
                  type: 'GET',
                  contentType: 'application/json;charset=utf-8',
                  dataType: 'json',
                  success: function (data) {  
-					
+
 					result.find('#postLikeCount2').html(data.postLikeCount);			       	                   
                 },
                 fail: function(ex){
                   console.log("error: ", ex);
                 }
              });
-             
+
              $.ajax({
                   url: "/posts/" + post_id + "/replies",
                   type: 'GET',
@@ -51,23 +50,25 @@
                     console.log("error : ", ex);
                   }
               });
-				
-				
-				
+
+
+
+
 			});
-			
+
 			$(".contents-card").on("mouseleave", function() {
-				
-				
+
+
 				$(this).find('.hover-box').css('display','none');
 			});
 		});
-      
-      
-      
-      
-      
-      
+
+	
+	
+
+	
+	
+
 
       //모달 띄우기 
     	 $('#contents').on('click', 'a', function(e) {
@@ -106,6 +107,18 @@
                   console.log("error: ", ex);
                 }
              });
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
               
               //댓글 조회
               $.ajax({
@@ -334,17 +347,25 @@
 
               //게시글 검색 조회
               function getSearchPost(data){
-
+				let post = data.post;
                 let posts = data.searchPostList;
-
+                //let likeCount = post.likeCount;
+                console.log("post :" + post );
+                
+				
                 let htmlStr = "";
+                let result = $(this);
+				
+				result.find('.hover-box').css('display','block');
 
                 htmlStr += "<style>.contents-img:nth-child(2),.contents-img:nth-child(3) {display:none;}</style>";
                   
                 for(let i = 0; i < posts.length; i++){
                   htmlStr += "<div class='col-lg-4 col-md-4 col-4 mb-4'>";
                   htmlStr += "<div class='card'>";
-                   htmlStr += "<a href='#' type='button' class=''  data-bs-toggle= 'modal' data-bs-target='#modalScrollable' data-id=" + posts[i].post_id + ">";
+
+                  htmlStr += "<a href='#' type='button' class=''  data-bs-toggle= 'modal' data-bs-target='#modalScrollable' data-id=" + posts[i].post_id + ">";
+
                   htmlStr += "<div class='card-body contents-card'>";           
                   for(let j = 0; j < posts[i].uploads.length; j++){                       
                     htmlStr += "<div class='contents-img' style=\"background:url('/upload/" + posts[i].uploads[j].upload_filepath + "/" + posts[i].uploads[j].upload_fileuuid + "_" + posts[i].uploads[j].upload_filename + "') no-repeat center; background-size: cover;\">";   
@@ -357,6 +378,42 @@
                 }
                 $('#contents').html("");
                 $('#contents').append(htmlStr);
+                
+                
+                $(".contents-card").on("mouseenter", function(e) {
+				e.preventDefault();
+								        
+        		let post_id = $(this).closest('a').data('id');				
+								 
+				let result = $(this);
+				
+				result.find('.hover-box').css('display','block');
+				
+				$.ajax({
+                 url: "/posts/" + post_id,
+                 type: 'GET',
+                 contentType: 'application/json;charset=utf-8',
+                 dataType: 'json',
+                 success: function (data) {  
+					//alert('postLkieCount : ' + data.postLikeCount);
+					//result.find('.hover-box').css('display','block');
+					result.find('#postLikeCount2').html(data.postLikeCount);			       	                   
+                },
+                fail: function(ex){
+                  console.log("error: ", ex);
+                }
+             });
+				
+				
+				
+			});
+			
+			$(".contents-card").on("mouseleave", function() {
+				
+				
+				$(this).find('.hover-box').css('display','none');
+			});
+                
               
               }
 
@@ -364,6 +421,7 @@
               //게시글 제목 조회
               function getPostTitle(data) {
                   let post = data.post;
+                   console.log("post :" + post );
             
                   let htmlStr = "";
 
@@ -446,6 +504,7 @@
                 let htmlStr = "";
 
                 //console.log("닉네임: ", memberNick);
+                console.log("replyList.length: ", replyList.length);
 
                 for (let i = 0; i < replyList.length; i++) {
                   htmlStr += "<div class='admin_container' id=" + replyList[i].replyId + ">";

@@ -16,6 +16,7 @@
 
 		<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
+
             <!-- Content -->
 			 <form action="retrieveMypostList" method="GET" enctype="multipart/form-data"></form> 
             <div class=" container-xxl flex-grow-1 container-p-y">
@@ -138,7 +139,7 @@
                     <div class="col-lg-4 col-md-4 col-4 mb-4">
                       <div class="card">
 
-                        <a href="#" type="button" class=" " data-bs-toggle="modal"
+                        <a href="#" type="button" class="a" data-bs-toggle="modal"
                         data-bs-target="#modalScrollable" th:attr="data-id=${post.post_id}">
 
                           <div class="card-body contents-card">
@@ -146,13 +147,15 @@
                               <div class="contents-img" th:style="'background:url('+ @{'/upload/'+ ${upload.upload_filepath} + '/' + ${upload.upload_fileuuid} + '_' + ${upload.upload_filename}} +')no-repeat center; background-size: cover;'" >
 
                                 <div class="hover-box">
+
                                    <!-- <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp; -->
                                   <i class='bx bxs-heart' ><span id="postLikeCount2"></span></i>&nbsp;&nbsp;
                                   <i class='bx bxs-chat'><span id="replyCount"></span></i>
                                   <!-- <i class='bx bxs-heart'><span id="postLikeCount2"></span></i>&nbsp;&nbsp;
                                   <i class='bx bxs-chat'><span id="replyCount"></span></i> -->
+
                                 </div>
-								
+							
                               </div>
                               </th:block>
                           </div>
@@ -226,7 +229,7 @@
 	                    <div class="bottom_icons content-modal">
                         <div class="left_icons">
                           <div class="heart_btn" id="postLikeBtn" >
-                             <a href="#">
+                             <a href="#n">
                               <i id="heart" class="bx bx-heart"></i>                      
                               </a> 
                           </div>
