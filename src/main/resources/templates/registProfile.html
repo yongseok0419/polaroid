@@ -43,8 +43,6 @@
                             <label class="upload-display" for="upload">
                               <span class="upload-thumb-wrap">
                                   <img class="upload-thumb" src="/img/add_button.png" style="width:100%">
-                                  <!-- <img class="profile-img upload-thumb" th:src="'/upload/'+ ${mpd.profileFilePath} + '/' + ${mpd.profileFileUuid} + '_' + ${mpd.profileFileName}" 
-                              style="width:100%;"> -->
                               </span>
                             </label>
                             <!-- <input class="upload-name" value="파일선택" disabled="disabled"> -->
@@ -141,7 +139,7 @@
                               id="memberPhone"
                               name="memberPhone"
                               maxlength="11"
-                              placeholder="01012345678"
+                              th:value="${session.member.memberPhone}"
                               autofocus
                             />
                           </div>

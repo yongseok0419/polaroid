@@ -17,7 +17,7 @@ public class MemberDto {
 	private String memberName;				//이름
 	private String memberPhone;			//전화번호
 	private String memberPwd;				//비밀번호
-	private String memberStatusCode;		//상태코드
+	private int memberStatusCode;		//상태코드
 	
 	
 	private String memberPwdCheck;		//프로필 비밀번호 변경에 필요한 필드명
