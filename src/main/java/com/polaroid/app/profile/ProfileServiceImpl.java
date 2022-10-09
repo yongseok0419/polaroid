@@ -93,6 +93,22 @@ public class ProfileServiceImpl implements ProfileService {
 			
 		return true;
 	}
+	
+	//프로필 등록(이미지를 선택하지 않은 경우)
+		@Transactional
+		@Override
+		public void registProfileExcludeImage(ProfileDto profileDto, MemberDto memberDto) {
+			//1. 닉네임만 변경
+			profileMapper.updateMemberNick(memberDto);
+			
+			//2. 프로필 등록
+			profileMapper.insertProfileFile(profileDto.builder()
+								.profileAccount(profileDto.getProfileAccount())
+								.profileWebsite(profileDto.getProfileWebsite())
+								.profileAboutMe(profileDto.getProfileAboutMe())
+								.memberId(profileDto.getMemberId())
+								.build());
+		}
 
 	//프로필 조회
 	@Override
@@ -182,5 +198,5 @@ public class ProfileServiceImpl implements ProfileService {
 	public MemberProfileDto retrieveMemberList(int memberId ) {
 		return profileMapper.selectMemberList(memberId);
 	}
-	
+
 }
