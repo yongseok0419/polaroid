@@ -17,6 +17,7 @@ public class MemberProfileDto {
 	private String memberName;				//이름
 	private String memberPhone;			//전화번호
 	private String memberPwd;				//비밀번호
+	private String memberStopPeriod;		//정지기간
 	
 	private String profileFileName;	//프로필 파일명
 	private String profileFilePath;	//프로필 파일경로

@@ -8,8 +8,11 @@ import com.polaroid.app.command.ProfileDto;
 
 public interface ProfileService {
 	
-	//프로필 등록
+	//프로필 등록(이미지를 선택한 경우)
 	public boolean registerProfile(ProfileDto profileDto, MemberDto memberDto, MultipartFile upload);
+	
+	//프로필 등록(이미지를 선택하지 않은 경우)
+	public void registProfileExcludeImage(ProfileDto profileDto, MemberDto memberDto);
 	
 	//프로필 조회
 	public MemberProfileDto retrieveProfileDetail(int memberId);

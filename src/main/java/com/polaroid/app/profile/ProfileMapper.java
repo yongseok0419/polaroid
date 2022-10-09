@@ -18,6 +18,9 @@ public interface ProfileMapper {
 	//프로필 등록
 	public void insertProfileFile(ProfileDto profileDto);
 	
+	//프로필 등록(이미지를 선택하지 않은 경우)
+	public void insertProfileExcludeImage(ProfileDto profileDto);
+	
 	//프로필 상세화면 조회
 	public MemberProfileDto selectProfileDetail(int memberId);
 	

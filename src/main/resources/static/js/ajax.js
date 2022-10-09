@@ -4,6 +4,7 @@
   
  
       $(document).ready(function() {
+
 	
 
       //게시글 hover 출력 
@@ -21,6 +22,7 @@
 
 				$.ajax({
                  url: "/posts/" + post_id,
+
 
                  type: 'GET',
                  contentType: 'application/json;charset=utf-8',
@@ -51,6 +53,7 @@
 
 
 
+
 			});
 
 			$(".contents-card").on("mouseleave", function() {
@@ -65,6 +68,7 @@
 
 	
 	
+
 
       //모달 띄우기 
     	 $('#contents').on('click', 'a', function(e) {
@@ -359,7 +363,9 @@
                 for(let i = 0; i < posts.length; i++){
                   htmlStr += "<div class='col-lg-4 col-md-4 col-4 mb-4'>";
                   htmlStr += "<div class='card'>";
+
                   htmlStr += "<a href='#' type='button' class=''  data-bs-toggle= 'modal' data-bs-target='#modalScrollable' data-id=" + posts[i].post_id + ">";
+
                   htmlStr += "<div class='card-body contents-card'>";           
                   for(let j = 0; j < posts[i].uploads.length; j++){                       
                     htmlStr += "<div class='contents-img' style=\"background:url('/upload/" + posts[i].uploads[j].upload_filepath + "/" + posts[i].uploads[j].upload_fileuuid + "_" + posts[i].uploads[j].upload_filename + "') no-repeat center; background-size: cover;\">";   
@@ -452,10 +458,14 @@
                 let post = data.post;
 
                 let htmlStr = "";
+				
+				  if (isProfile == 0) {
+		              alert("" + htmlStr);
+		                  htmlStr += "<div class='profile-img' style='background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;'></div>";
+		          } else {
+		            	  htmlStr += "<div class='profile-img' style=\"background:url('/upload/" + mpd.profileFilePath + "/" + mpd.profileFileUuid + "_" + mpd.profileFileName + "') no-repeat center; background-size: cover;\"></div>";     
+		          }
 
-
-
-                htmlStr += "<div class='profile-img' style='background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;'></div>";
                 htmlStr += "<div class='user_container'>";
                 htmlStr += "<div class='user_name'>";
                 htmlStr += "<div class='nick_name'>" + post.member_nick + "</div>";

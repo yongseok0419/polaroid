@@ -49,61 +49,27 @@
                            
 
                             <!-- follow-item start -->
-                            <div class="bs-toast toast fade show user-item "role="alert" aria-live="assertive" aria-atomic="true">                             
+                            <div th:each="smpd : ${smpdList}" class="bs-toast toast fade show user-item "role="alert" aria-live="assertive" aria-atomic="true">                             
+                              <form action="memberStopRecovery" method="get">
+                              <input type="hidden" name="memberNick" th:value="${smpd.memberNick}">
+                              <input type="hidden" name="memberStopPeriod" th:value="${smpd.memberStopPeriod}">
                               <div class="toast-header">
-                                <a href="index.html">
-                                  <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-                                  </div>
-                                </a>
-                                <div class="me-auto fw-semibold"><a href="index.html">이길동</a></div>
-                                <div class="me-auto fw-semibold info-text"><a href="#">7일 정지 상태</a></div>
+                              
+                                <a th:href="index.html">
+                                  <div class="profile-img">
+			                        <img class="profile-img" th:src="'/upload/'+ ${smpd.profileFilePath} + '/' + ${smpd.profileFileUuid} + '_' + ${smpd.profileFileName}" 
+			                      			style="width:100%;">
+								</div>
+                                <div class="me-auto fw-semibold"><a href="index.html">[[${smpd.memberNick}]]</a></div>
+                                <div class="me-auto fw-semibold info-text"><a href="#">[[${smpd.memberStopPeriod}]] 정지</a></div>
 
                                 
-                                <button type="button" class="follow-close" data-bs-dismiss="toast" aria-label="Close">취소</button>
-                              </div>                       
+                                <button type="submit" class="follow-close" data-bs-dismiss="toast" aria-label="Close">취소</button>
+                              </div>
+                              </form>                    
                           </div>
                             <!-- follow-item end -->
 
-                            <!-- follow-item start -->
-                            <div class="bs-toast toast fade show user-item "role="alert" aria-live="assertive" aria-atomic="true">                             
-                              <div class="toast-header">
-                                <a href="index.html">
-                                  <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-                                  </div>
-                                </a>
-                                <div class="me-auto fw-semibold"><a href="index.html">이길동</a></div>
-                                <div class="me-auto fw-semibold info-text"><a href="#">영구 정지 상태</a></div>
-
-                                
-                                <button type="button" class="follow-close" data-bs-dismiss="toast" aria-label="Close">취소</button>
-                              </div>                       
-                          </div>
-                            <!-- follow-item end -->
-
-                             <!-- follow-item start -->
-                             <div class="bs-toast toast fade show user-item "role="alert" aria-live="assertive" aria-atomic="true">                             
-                              <div class="toast-header">
-                                <a href="index.html">
-                                  <div class="profile-img" style="background: url(/img/avatars/1.jpg) no-repeat center; background-size: cover;">
-                                  </div>
-                                </a>
-                                <div class="me-auto fw-semibold"><a href="index.html">이길동</a></div>
-                                <div class="me-auto fw-semibold info-text"><a href="#">30일 정지 상태</a></div>
-
-                                
-                                <button type="button" class="follow-close" data-bs-dismiss="toast" aria-label="Close">취소</button>
-                              </div>                       
-                          </div>
-                            <!-- follow-item end -->
-
-                             
-                            
-
-                           
-                           
-
-                            
-                            
                             
                             
                           </div>

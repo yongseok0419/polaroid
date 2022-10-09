@@ -20,6 +20,15 @@
 				WHERE member_id = #{memberId}
 		</update>
 		
+		<!-- 프로필 수정(이미지를 선택하지 않은 경우) -->
+		<update id="insertProfileExcludeImage" parameterType="ProfileDto">
+				UPDATE profile
+				SET profile_account = #{profileAccount},
+					  profile_website = #{profileWebsite},
+					  profile_aboutme = #{profileAboutMe}
+				WHERE member_id = #{memberId}
+		</update>
+		
 		<!-- 프로필 존재 유무 -->
 		<select id="isProfile" parameterType="int" resultType="int">
 				SELECT COUNT(*)

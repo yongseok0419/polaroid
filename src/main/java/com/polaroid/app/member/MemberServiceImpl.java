@@ -1,5 +1,6 @@
 package com.polaroid.app.member;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.polaroid.app.command.MemberDto;
+import com.polaroid.app.command.MemberProfileDto;
 
 @Transactional(readOnly = true)
 @Service("memberService")
@@ -80,4 +82,44 @@ public class MemberServiceImpl implements MemberService {
 	        return memberMapper.updatePwd(memberDto);
 	    }
 	    
+	    //관리자페이지에 모든 회원 조회
+		@Override
+		public List<MemberProfileDto> adminRetrieveMemberAll() {
+			return memberMapper.adminSelectMemberAll();
+		}
+
+		//관리자가 한 명의 회원에게 임의로 정지를 시킬 수 있다.(7일, 30일, 영구)
+		@Transactional
+		@Override
+		public int modifyMemberStop(MemberProfileDto memberProfileDto) {
+			return memberMapper.updateMemberStop(memberProfileDto);
+		}
+		
+		//정지기간이 7일, 30일, 영구에 따라 상태코드 변경
+		@Transactional
+		@Override
+		public int modifyStatusCode(MemberProfileDto memberProfileDto) {
+			return memberMapper.updateStatusCode(memberProfileDto);
+		}
+
+		//정지된 회원의 리스트 조회
+		@Override
+		public List<MemberProfileDto> stopRetrieveMemberList() {
+			return memberMapper.stopSelectMemberList();
+		}
+
+		//관리자가 정지된 회원을 다시 미정지 상태로 수정
+		@Transactional
+		@Override
+		public int modifyMemberStopRecovery(MemberProfileDto memberProfileDto) {
+			return memberMapper.updateMemberStopRecovery(memberProfileDto);
+		}
+		
+		//관리자가 정지된 회원을 다시 미정지 상태로 수정할 때 최초정지일 null로 수정
+		@Transactional
+		@Override
+		public int modifyFirstStopDate(MemberProfileDto memberProfileDto) {
+			return memberMapper.updateFirstStopDate(memberProfileDto);
+		}
+
 }

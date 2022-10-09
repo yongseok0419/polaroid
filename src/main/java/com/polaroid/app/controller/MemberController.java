@@ -2,6 +2,7 @@ package com.polaroid.app.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -193,26 +194,29 @@ public class MemberController {
 		@ResponseBody
 		@PostMapping("/loginForm")
 		public String loginForm(@RequestBody MemberDto memberDto, HttpSession session) throws Exception {
-
+			
 			MemberDto login = memberService.findMember(memberDto);
 			
 			if(login == null) {
 				return "0";
-			} else if(login.getMemberStatusCode().equals("1")) {	//탈퇴한 회원인 경우
+			} else if(login.getMemberStatusCode() == 1 || login.getMemberStatusCode() == 2 ||
+					      login.getMemberStatusCode() == 3 || login.getMemberStatusCode() == 4) {	//정지된 회원이거나 탈퇴한 회원인 경우
 				return "2";
-		    } else if(memberDto.getMemberEmail().startsWith("admin")){
+		    } else if(memberDto.getMemberEmail().startsWith("admin")){ //관리자인 경우
+		    	MemberProfileDto mpd = profileService.retrieveMemberList(login.getMemberId());
+				int cnt = profileService.isProfile(login.getMemberId());		
+				session.setAttribute("isProfile", cnt);
+				session.setAttribute("mpd", mpd);	
 		    	session.setAttribute("member", login);
 		    	session.setMaxInactiveInterval(30*60);
 				return "3";
-		    } else {
-		    		    					
+		    } else { //일반 회원인 경우
 				MemberProfileDto mpd = profileService.retrieveMemberList(login.getMemberId());
 				int cnt = profileService.isProfile(login.getMemberId());		
 				session.setAttribute("isProfile", cnt);
 				session.setAttribute("mpd", mpd);					
 				session.setAttribute("member", login);
 				session.setMaxInactiveInterval(30*60);
-				
 				return "1";
 			}
 			
@@ -237,6 +241,52 @@ public class MemberController {
 			System.out.println("cnt : " + cnt);
 			
 			return String.valueOf(cnt);
+		}
+		
+		//관리자페이지에 모든 회원 조회
+		@GetMapping("adminIndex")
+		public String adminIndex(Model model) {
+					
+		List<MemberProfileDto> mpdList = memberService.adminRetrieveMemberAll();
+		model.addAttribute("mpdList", mpdList);
+					
+		return "adminIndex";
+		}
+		
+		//관리자가 한 명의 회원에게 임의로 정지를 시킬 수 있다.(7일, 30일, 영구)
+		@GetMapping("updateMemberStopperiod")
+		public String modifyMemberStopperiod(MemberProfileDto memberProfileDto) {
+			
+			//관리자가 한 명의 회원에게 임의로 정지를 시킬 수 있다.(7일, 30일, 영구)
+			int cnt = memberService.modifyMemberStop(memberProfileDto);
+			//정지기간이 7일, 30일, 영구에 따라 상태코드 변경
+			int cnt1 = memberService.modifyStatusCode(memberProfileDto);
+			
+			return "redirect:/adminIndex";
+		}
+		
+		//정지된 회원의 리스트 조회
+		@GetMapping("adminStop")
+		public String adminStop(Model model) {
+			
+			List<MemberProfileDto> smpdList = memberService.stopRetrieveMemberList();
+			model.addAttribute("smpdList", smpdList); //정지된 MemberProfileDto 리스트
+			
+			return "adminStop";
+		}
+		
+		//관리자가 정지된 회원을 다시 미정지 상태로 수정
+		@GetMapping("memberStopRecovery")
+		public String memberStopRecovery(MemberProfileDto memberProfileDto) {
+			
+			//관리자가 정지된 회원을 다시 미정지 상태로 수정
+			int cnt = memberService.modifyMemberStopRecovery(memberProfileDto);
+			//정지기간이 7일, 30일, 영구에 따라 상태코드 변경
+			int cnt1 = memberService.modifyStatusCode(memberProfileDto);
+			//관리자가 정지된 회원을 다시 미정지 상태로 수정할 때 최초정지일 null로 수정
+			int cnt2 = memberService.modifyFirstStopDate(memberProfileDto);
+			
+			return "redirect:/adminStop";
 		}
 		
 }
