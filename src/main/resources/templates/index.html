@@ -137,8 +137,9 @@
                               <div class="contents-img" th:style="'background:url('+ @{'/upload/'+ ${upload.upload_filepath} + '/' + ${upload.upload_fileuuid} + '_' + ${upload.upload_filename}} +')no-repeat center; background-size: cover;'" >
 
                                 <div class="hover-box">
-                                  <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp;
-                                  <i class='bx bxs-chat'><span>123</span></i>
+                                   <!-- <i class='bx bxs-heart'><span>123</span></i>&nbsp;&nbsp; -->
+                                  <i class='bx bxs-heart' ><span id="postLikeCount2"></span></i>&nbsp;&nbsp;
+                                  <i class='bx bxs-chat'><span id="replyCount"></span></i>
                                   <!-- <i class='bx bxs-heart'><span id="postLikeCount2"></span></i>&nbsp;&nbsp;
                                   <i class='bx bxs-chat'><span id="replyCount"></span></i> -->
                                 </div>
@@ -285,20 +286,7 @@
           </div>
 
 
-  <script  th:inline="javascript" >
-            let post_id = 0;
-            //let isModified = false;
-            let reply_id = 0;
-            let replyContent = '';
-            let modifyForm_reply_id = 0;
-    
-            let memberNick = /*[[${session.member.memberNick}]]*/ ;
-            let memberId = /*[[${session.member.memberId}]]*/ ;
-            let session = /*[[${session.member}]]*/ ;         
-            let isProfile = /*[[${isProfile}]]*/ ;         
-            let mpd = /*[[${mpd}]]*/ ;         
-                
-          </script>
+  
 
           <!-- modals2 end ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
             
