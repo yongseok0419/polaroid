@@ -1,9 +1,10 @@
-   
-    /*<![CDATA[*/
 
-  
- 
-      $(document).ready(function() {
+
+/*<![CDATA[*/
+
+
+
+$(document).ready(function() {
 
 	
 
@@ -61,13 +62,65 @@
 
 				$(this).find('.hover-box').css('display','none');
 			});
+
+	});
+
+	//댓글 등록 엔터키 이벤트
+	$('#replyContent').keydown(function(keynum) {
+		if (keynum.keyCode == 13) { //엔터키 이벤트 발생
+
+			if ($('#replyContent').val() != "") {
+
+				$.ajax({
+					url: "/posts/" + post_id + "/replies",
+					type: 'POST',
+					contentType: 'application/json;charset=utf-8',
+					dataType: 'json',
+					data: JSON.stringify({
+						replyContent: $('#replyContent').val()
+					}),
+
+					success: function(data) {
+						$('#replyContent').val("");
+						getCommentList(data);
+					},
+					fail: function(ex) {
+						console.log("error: ", ex);
+					}
+				});
+			}
+			else {
+				alert("댓글 내용을 입력하세요.");
+			}
+		}
+	});
+
+
+	//댓글 삭제
+	$('#commentList').on("click", ".subComment", function() {
+
+		let reply_id = $(this).closest("div").data("id");
+
+		//console.log("postid: ", post_id);
+		//console.log("replyid: ", reply_id);
+
+		$.ajax({
+			url: "/posts/" + post_id + "/replies/" + reply_id,
+			type: 'DELETE',
+			contentType: 'application/json;charset=utf-8',
+			dataType: 'json',
+
+			success: function(data) {
+				getCommentList(data);
+			},
+
+			fail: function(ex) {
+				console.log("error: ", ex);
+			}
+
 		});
 
-	
-	
-
-	
-	
+	});
 
 
       //모달 띄우기 
@@ -107,19 +160,7 @@
                   console.log("error: ", ex);
                 }
              });
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-              
+                      
               //댓글 조회
               $.ajax({
                   url: "/posts/" + post_id + "/replies",
@@ -136,15 +177,34 @@
               });
         });
 
-        //게시글 수정
-        $('#modifyBtn').on("click", function () {
-          location.href = "/updateForm?post_id=" + post_id;
-        });
+        //게시글 수정,삭제 조건
+   function getBtn(data) {
+      let post = data.post;
+      console.log("dkdkdk", post.member_nick);
+      console.log("asdf", memberNick);
+      let htmlStr = "";
 
-        //게시글 삭제
-        $('#removeBtn').on("click", function () {
-          location.href = "/deletePost?post_id=" + post_id;          
-        });
+      htmlStr += "<div class='user-control'>";
+      if (post.member_nick == memberNick) {
+         htmlStr += "<button id='modifyBtn' type='button' class='btn btn-primary edit-btn modifyPost'>";
+         htmlStr += "<a style='color:white'>수정</a>";
+         htmlStr += "</button>";
+         htmlStr += "<button id='removeBtn' type='button' class='btn btn-primary delete-btn deletePost'><a style='color:white'>삭제</a></button>";
+      }
+      htmlStr += "</div>";
+
+      $('#btnCondition').html("");
+      $('#btnCondition').append(htmlStr);
+      //게시글 수정
+      $('#modifyBtn').on("click", function() {
+         location.href = "/updateForm?post_id=" + post_id;
+      });
+
+      //게시글 삭제
+      $('#removeBtn').on("click", function() {
+         location.href = "/deletePost?post_id=" + post_id;
+      });
+   }
 
         
 
@@ -589,3 +649,4 @@
 
     
       /*]]>*/
+
